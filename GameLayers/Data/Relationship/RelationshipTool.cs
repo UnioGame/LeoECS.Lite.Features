@@ -3,6 +3,7 @@ namespace Game.Code.GameLayers.Relationship
     using System.Runtime.CompilerServices;
     using Layer;
     using Unity.Collections;
+    
 #if ENABLE_IL2CPP
     using System.Runtime.CompilerServices;
     using Layer;
@@ -15,18 +16,18 @@ namespace Game.Code.GameLayers.Relationship
 #endif
     public static class RelationshipTool
     {
-        private static NativeHashMap<RelationLayerData, LayerId> _layerMaskCache;
-        private static LayerId[] layerIds;
-        private static RelationshipId[,] relationshipMatrix;
-        private static RelationshipId selfRelationship;
+        public static NativeHashMap<RelationLayerData, LayerId> layerMaskCache;
+        public static LayerId[] layerIds;
+        public static RelationshipId[,] relationshipMatrix;
+        public static RelationshipId selfRelationship;
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Initialize(LayerId[] layers, RelationshipId[,] matrix,RelationshipId selfId)
         {
-            if (_layerMaskCache.IsCreated)
-                _layerMaskCache.Dispose();
+            if (layerMaskCache.IsCreated)
+                layerMaskCache.Dispose();
             
-            _layerMaskCache = new NativeHashMap<RelationLayerData, LayerId>(
+            layerMaskCache = new NativeHashMap<RelationLayerData, LayerId>(
                 matrix.Length, 
                 Allocator.Persistent);
             
@@ -37,7 +38,7 @@ namespace Game.Code.GameLayers.Relationship
 
         public static void Destroy()
         {
-            _layerMaskCache.Dispose();
+            layerMaskCache.Dispose();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -53,11 +54,11 @@ namespace Game.Code.GameLayers.Relationship
                 return self;
             
             var data = new RelationLayerData(self, relationship);
-            if(_layerMaskCache.ContainsKey(data)) 
-                return _layerMaskCache[data];
+            if(layerMaskCache.ContainsKey(data)) 
+                return layerMaskCache[data];
             
             var layer = GetFilterMaskCached(self, relationship);
-            _layerMaskCache[data] = layer;
+            layerMaskCache[data] = layer;
             return layer;
         }
 
