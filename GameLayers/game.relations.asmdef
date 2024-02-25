@@ -1,0 +1,20 @@
+{
+    "name": "game.relations",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:e0cd26848372d4e5c891c569017e11f1",
+        "GUID:4f5c0c83dfd6a0743834baba2b4de79e",
+        "GUID:2665a8d13d1b3f18800f46e256720795",
+        "GUID:d8b63aba1907145bea998dd612889d6b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
