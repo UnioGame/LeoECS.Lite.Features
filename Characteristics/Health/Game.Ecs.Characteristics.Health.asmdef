@@ -1,0 +1,31 @@
+{
+    "name": "Game.Ecs.Characteristics.Health",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:966f01aff3301cb449a4595679577a3a",
+        "GUID:22739db349910324da2132e2519719b1",
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:e06a58708b83247ca9dc984644f5b40b",
+        "GUID:c1d53fc1b1b71c647b00626be502b7b1",
+        "GUID:4185675af2c91ce438157b41079cd107",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:593a5b492d29ac6448b1ebf7f035ef33",
+        "GUID:b10aac27e5bc3d74f9892b100a74487f",
+        "GUID:2dd89a35f4c106640878e9b4c7be043b",
+        "GUID:069f260d730447a39a1afd811a2be520",
+        "GUID:3f2263c9f77f49d46bc817cbc2ba44f6",
+        "GUID:eba2faf03b2217843b1d862cf6af57fb",
+        "GUID:5425374c3d8fb1b45b1a3879382ddd3e",
+        "GUID:01e60100cc223354398b5d665bfefefb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

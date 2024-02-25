@@ -1,0 +1,26 @@
+{
+  "name": "com.unigame.ecs.game.features",
+  "author": "UniGame",
+  "displayName": "UniGame Ecs Game Features",
+  "description": "Collection game related ecs features",
+  "unity": "2022.1",
+  "version": "2023.0.0",
+  "keywords": [
+    "UniGame",
+    "Modules",
+    "Tools",
+    "ECS"
+  ],
+  "homepage": "https://github.com/UniGameTeam/UniModules#readme",
+  "dependencies": {
+    "com.unity.addressables": "1.21.17",
+    "com.unity.editorcoroutines": "1.0.0",
+    "com.unity.burst": "1.8.9",
+    "com.unity.ugui": "1.0.0",
+    "com.unity.textmeshpro": "2.1.6",
+    "com.unity.timeline": "1.8.6",
+    "com.unity.localization": "1.4.5",
+    "com.unity.2d.psdimporter": "8.0.3",
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  }
+}

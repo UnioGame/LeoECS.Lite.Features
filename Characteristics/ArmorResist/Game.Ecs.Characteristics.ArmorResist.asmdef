@@ -1,0 +1,24 @@
+{
+    "name": "Game.Ecs.Characteristics.ArmorResist",
+    "rootNamespace": "",
+    "references": [
+        "GUID:069f260d730447a39a1afd811a2be520",
+        "GUID:b10aac27e5bc3d74f9892b100a74487f",
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:e06a58708b83247ca9dc984644f5b40b",
+        "GUID:2dd89a35f4c106640878e9b4c7be043b",
+        "GUID:c1d53fc1b1b71c647b00626be502b7b1",
+        "GUID:4185675af2c91ce438157b41079cd107"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
