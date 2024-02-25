@@ -3,6 +3,7 @@
     using System;
     using Sirenix.OdinInspector;
     using UnityEngine;
+    using UnityEngine.Serialization;
 
     [Serializable]
     public struct EffectRootValue

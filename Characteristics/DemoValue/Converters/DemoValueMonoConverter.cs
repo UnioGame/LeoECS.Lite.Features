@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
     using Base.Modification;
     using Components;
     using Game.Ecs.Characteristics.Base.Components;

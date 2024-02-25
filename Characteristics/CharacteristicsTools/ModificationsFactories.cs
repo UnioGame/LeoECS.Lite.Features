@@ -1,7 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics
 {
     using System;
-    using AbilityPower;
     using Base.Modification;
     using Cooldown;
     using Duration;

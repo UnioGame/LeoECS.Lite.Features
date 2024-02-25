@@ -8,6 +8,7 @@
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Converter.Runtime;
     using UniGame.LeoEcs.Shared.Extensions;
+    using Unity.IL2CPP.CompilerServices;
     using UnityEngine;
     using UnityEngine.Serialization;
 

@@ -1,6 +1,7 @@
 ﻿namespace Game.Ecs.Effects.Data
 {
     using System;
+    using Sirenix.OdinInspector;
     using UnityEngine;
 
     [Serializable]

@@ -5,8 +5,8 @@
     using Components;
     using Core.Components;
     using Leopotam.EcsLite;
-    using UniGame.LeoEcs.Bootstrap.Runtime.Abstract;
     using UniGame.LeoEcs.Shared.Components;
+    using UniGame.LeoEcs.Bootstrap.Runtime.Abstract;
 
     [Serializable]
     public class EffectAspect : EcsAspect
@@ -18,6 +18,10 @@
         public EcsPool<EffectViewDataComponent> ViewData;
         public EcsPool<EffectDurationComponent> Duration;
         public EcsPool<EffectParentComponent> Parent;
+        public EcsPool<EffectPeriodicityComponent> Periodicity;
+        public EcsPool<DelayedEffectComponent> Delayed;
+        public EcsPool<CompletedDelayedEffectComponent> CompletedDelayed;
+        
         
         //optional
         public EcsPool<EffectViewComponent> View;
@@ -25,9 +29,17 @@
         public EcsPool<EntityAvatarComponent> Avatar;
         public EcsPool<EffectRootIdComponent> EffectRootId;
         public EcsPool<EffectShowCompleteComponent> ShowComplete;
+        public EcsPool<TransformPositionComponent> Position;
         public EcsPool<TransformComponent> Transform;
         
+        //Events
+        public EcsPool<EffectAppliedSelfEvent> EffectAppliedSelfEvent;
+
         //requests
         public EcsPool<CreateEffectSelfRequest> Create;
+        public EcsPool<DestroyEffectViewSelfRequest> DestroyView;
+        public EcsPool<DestroyEffectSelfRequest> DestroyEffect;
+        public EcsPool<ApplyEffectSelfRequest> Apply;
+        
     }
 }

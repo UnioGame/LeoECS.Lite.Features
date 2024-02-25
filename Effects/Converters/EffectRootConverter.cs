@@ -12,6 +12,8 @@
     using UnityEngine;
 
 #if UNITY_EDITOR
+    using UniModules.Editor;
+    using UnityEditor;
 #endif
     
     /// <summary>

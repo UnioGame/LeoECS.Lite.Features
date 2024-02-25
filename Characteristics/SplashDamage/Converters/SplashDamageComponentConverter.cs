@@ -1,7 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.SplashDamage.Converters
 {
 	using System;
-	using System.Threading;
 	using Base.Components.Requests;
 	using Components;
 	using Leopotam.EcsLite;

@@ -38,6 +38,7 @@
                 .End();
         }
         
+        //Todo: System is empty 
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _filter)

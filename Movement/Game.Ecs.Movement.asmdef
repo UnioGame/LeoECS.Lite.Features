@@ -1,0 +1,31 @@
+{
+    "name": "Game.Ecs.Movement",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:e06a58708b83247ca9dc984644f5b40b",
+        "GUID:b10aac27e5bc3d74f9892b100a74487f",
+        "GUID:c1d53fc1b1b71c647b00626be502b7b1",
+        "GUID:966f01aff3301cb449a4595679577a3a",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:4185675af2c91ce438157b41079cd107",
+        "GUID:4de5df4bccc4b524ca52a4caf8116fec",
+        "GUID:069f260d730447a39a1afd811a2be520",
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:2665a8d13d1b3f18800f46e256720795",
+        "GUID:e0cd26848372d4e5c891c569017e11f1",
+        "GUID:4f5c0c83dfd6a0743834baba2b4de79e",
+        "GUID:abf7d84646632f74e9b4bafcbf794755",
+        "GUID:c7e2fd4c62ed6024d88f9eee85026bf6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

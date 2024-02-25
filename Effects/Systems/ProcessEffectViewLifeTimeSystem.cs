@@ -1,6 +1,7 @@
 ﻿namespace Game.Ecs.Effects.Systems
 {
     using System;
+    using Aspects;
     using Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
@@ -24,9 +25,8 @@
         private EcsFilter _filter;
         private EcsWorld _world;
 
-        private EcsPool<EffectViewComponent> _viewPool;
-        private EcsPool<DestroyEffectViewSelfRequest> _destroyRequestPool;
-
+        private EffectAspect _effectAspect;
+        
         public void Init(IEcsSystems systems)
         {
             _world = systems.GetWorld();
@@ -37,11 +37,11 @@
         {
             foreach (var entity in _filter)
             {
-                ref var view = ref _viewPool.Get(entity);
+                ref var view = ref _effectAspect.View.Get(entity);
                 if(view.DeadTime > Time.time && !Mathf.Approximately(view.DeadTime, Time.time))
                     continue;
 
-                _destroyRequestPool.TryAdd(entity);
+                _effectAspect.DestroyView.TryAdd(entity);
             }
         }
     }

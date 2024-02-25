@@ -53,7 +53,7 @@
                 if(!effect.Destination.Unpack(_world, out var destinationEntity))
                     continue;
                 
-                if(!_effectAspect.Transform.Has(destinationEntity))
+                if(!_effectAspect.Position.Has(destinationEntity))
                     continue;
                 
                 ref var idComponent = ref _effectAspect.EffectRootId.Get(entity);

@@ -1,7 +1,6 @@
 namespace Game.Ecs.Characteristics.Speed.Converters
 {
     using System;
-    using System.Threading;
     using Game.Ecs.Characteristics.Base.Components.Requests;
     using Game.Ecs.Characteristics.Speed.Components;
     using Leopotam.EcsLite;

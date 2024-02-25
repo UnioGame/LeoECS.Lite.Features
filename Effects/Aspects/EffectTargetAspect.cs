@@ -3,6 +3,7 @@
     using System;
     using Components;
     using Leopotam.EcsLite;
+    using UniGame.LeoEcs.Shared.Components;
     using UniGame.LeoEcs.Bootstrap.Runtime.Abstract;
 
     [Serializable]

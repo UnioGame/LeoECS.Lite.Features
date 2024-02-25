@@ -1,9 +1,21 @@
 ﻿namespace Game.Ecs.Characteristics.Cooldown.Systems
 {
+    using System;
     using Base.Modification;
     using Components;
     using Leopotam.EcsLite;
+    using UniGame.LeoEcs.Timer.Components;
+    using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
 
+#if ENABLE_IL2CPP
+    using Unity.IL2CPP.CompilerServices;
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+#endif
+    [ECSDI]
+    [Serializable]
     public sealed class RecalculateCooldownSystem : IEcsRunSystem,IEcsInitSystem
     {
         private EcsFilter _filter;
@@ -20,9 +32,6 @@
                 .Inc<BaseCooldownComponent>()
                 .Inc<CooldownComponent>()
                 .End();
-            
-            baseCooldownPool = _world.GetPool<BaseCooldownComponent>();
-            cooldownPool = _world.GetPool<CooldownComponent>();
         }
         
         public void Run(IEcsSystems systems)

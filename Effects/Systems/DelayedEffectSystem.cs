@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Effects.Systems
 {
+	using Aspects;
 	using Components;
 	using Leopotam.EcsLite;
 	using Time.Service;
@@ -21,13 +22,14 @@
 	{
 		private EcsWorld _world;
 		private EcsFilter _filter;
-		private EcsPool<DelayedEffectComponent> _delayedEffectsPool;
-		private EcsPool<CompletedDelayedEffectComponent> _completedDelayedEffectsPool;
+
+		private EffectAspect _effectAspect;
 
 		public void Init(IEcsSystems systems)
 		{
 			_world = systems.GetWorld();
-			_filter = _world.Filter<DelayedEffectComponent>()
+			_filter = _world
+				.Filter<DelayedEffectComponent>()
 				.Exc<EffectDurationComponent>()
 				.Exc<EffectPeriodicityComponent>()
 				.Exc<CompletedDelayedEffectComponent>()
@@ -38,12 +40,12 @@
 		{
 			foreach (var entity in _filter)
 			{
-				ref var delayedEffect = ref _delayedEffectsPool.Get(entity);
+				ref var delayedEffect = ref _effectAspect.Delayed.Get(entity);
 				var nextApplyingTime = delayedEffect.LastApplyingTime + delayedEffect.Delay;
 				if(GameTime.Time < nextApplyingTime && !Mathf.Approximately(nextApplyingTime, GameTime.Time))
 					continue;
 				delayedEffect.Configuration.ComposeEntity(_world, entity);
-				_completedDelayedEffectsPool.Add(entity);
+				_effectAspect.CompletedDelayed.Add(entity);
 			}
 		}
 	}

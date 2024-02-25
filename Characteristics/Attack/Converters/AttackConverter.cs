@@ -1,14 +1,11 @@
 ﻿namespace Game.Ecs.Characteristics.Attack.Converters
 {
     using System;
-    using System.Threading;
     using Base.Components.Requests;
     using Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Converter.Runtime;
-    using UniGame.LeoEcs.Converter.Runtime.Abstract;
     using UniGame.LeoEcs.Shared.Extensions;
-    using UniModules.UniCore.GizmosTools.Shapes;
     using UnityEngine;
 
     [Serializable]

@@ -1,0 +1,24 @@
+{
+    "name": "Game.Animation.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2dd89a35f4c106640878e9b4c7be043b",
+        "GUID:674f28becdc3a6149ac5dc62df1a95e5",
+        "GUID:f06555f75b070af458a003d92f9efb00",
+        "GUID:479101ab42675254185bc92a2699743d",
+        "GUID:5425374c3d8fb1b45b1a3879382ddd3e",
+        "GUID:e39f87cbc46743bf944e5396a4a148a3",
+        "GUID:2796129a6c23eb84a8181f62bf7332f1"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

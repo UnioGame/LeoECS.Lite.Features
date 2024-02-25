@@ -24,6 +24,8 @@
     [CreateAssetMenu(menuName = "Game/Feature/Effects/Effects Feature",fileName = "Effects Feature")]
     public sealed class EffectsFeature : BaseLeoEcsFeature
     {
+        public int maxEffectsCount = EcsEffectsConfiguration.MAX_EFFECTS_COUNT;
+        
         [SerializeReference]
         [Searchable(FilterOptions = SearchFilterOptions.ISearchFilterableInterface)]
         public List<EffectFeatureAsset> effectFeatures = new List<EffectFeatureAsset>();
@@ -32,6 +34,8 @@
         
         public override async UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
         {
+            EcsEffectsConfiguration.MAX_EFFECTS_COUNT = maxEffectsCount;
+            
             var world = ecsSystems.GetWorld();
             var worldLifeTime = world.GetWorldLifeTime();
             var configuration = await effectsRootValue.reference
@@ -99,5 +103,11 @@
             this.MarkDirty();
 #endif
         }
+    }
+
+    
+    public class EcsEffectsConfiguration
+    {
+        public static int MAX_EFFECTS_COUNT = 200;
     }
 }

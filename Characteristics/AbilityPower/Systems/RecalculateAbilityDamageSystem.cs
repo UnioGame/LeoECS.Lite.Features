@@ -1,9 +1,7 @@
 ﻿namespace Game.Ecs.Characteristics.AbilityPower.Systems
 {
-    using Attack.Components;
     using Base.Components;
     using Components;
-    using Components.Requests;
     using Leopotam.EcsLite;
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;

@@ -88,16 +88,13 @@
             var periodicityPool = world.GetPool<EffectPeriodicityComponent>();
             ref var periodicityComponent = ref periodicityPool.Add(effectEntity);
             periodicityComponent.Periodicity = this.periodicity;
-            var worldLifeTime = world.GetWorldLifeTime();
-            
-            var effectView = view != null && view.RuntimeKeyIsValid()
-                ? view.LoadAssetForCompletion(worldLifeTime)
-                : viewPrefab != null ? viewPrefab : null;
-            
-            if (effectView!=null)
+            var isValidEffectView = view != null && view.RuntimeKeyIsValid() || viewPrefab!=null;
+ 
+            if (isValidEffectView)
             {
                 ref var effectViewComponent = ref world.AddComponent<EffectViewDataComponent>(effectEntity);
-                effectViewComponent.View = effectView;
+                effectViewComponent.View = view;
+                effectViewComponent.ViewPrefab = viewPrefab;
                 effectViewComponent.LifeTime = viewLifeTime;
                 effectViewComponent.ViewInstanceType = viewInstanceType;
                 effectViewComponent.AttachToSource = attachToSource;

@@ -1,7 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.AbilityPower.Components
 {
 	using System;
-	using UnityEngine.Serialization;
 
 #if ENABLE_IL2CPP
 	using Unity.IL2CPP.CompilerServices;
