@@ -1,0 +1,29 @@
+{
+    "name": "Game.Ecs.Gameplay.CriticalAttackChance",
+    "rootNamespace": "",
+    "references": [
+        "GUID:966f01aff3301cb449a4595679577a3a",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:b10aac27e5bc3d74f9892b100a74487f",
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:069f260d730447a39a1afd811a2be520",
+        "GUID:4de5df4bccc4b524ca52a4caf8116fec",
+        "GUID:c1d53fc1b1b71c647b00626be502b7b1",
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:e06a58708b83247ca9dc984644f5b40b",
+        "GUID:84738503fc4349878b8d522144fa0cf6",
+        "GUID:638b9e43626d4137a8482ffa90614976",
+        "GUID:205ad3931e2e4b838261990767e41fdb",
+        "GUID:4bbb54063e9848e8959a045db41c4c81",
+        "GUID:728a4ceae5634396894497a2a867d104"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,28 @@
+{
+    "name": "Game.Ecs.Ability.ApplyAbility",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b235fd5fa3fc81048b5e704144248b58",
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:e06a58708b83247ca9dc984644f5b40b",
+        "GUID:5425374c3d8fb1b45b1a3879382ddd3e",
+        "GUID:2dd89a35f4c106640878e9b4c7be043b",
+        "GUID:b10aac27e5bc3d74f9892b100a74487f",
+        "GUID:966f01aff3301cb449a4595679577a3a",
+        "GUID:c1d53fc1b1b71c647b00626be502b7b1",
+        "GUID:728a4ceae5634396894497a2a867d104",
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:45b2ccf18e4040deb3a49d868e0c3798",
+        "GUID:5a6c2170ae714be28a9d40711e112b6c",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
