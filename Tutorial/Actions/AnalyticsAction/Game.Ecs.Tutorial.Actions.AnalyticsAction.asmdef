@@ -1,0 +1,28 @@
+{
+    "name": "Game.Ecs.Tutorial.Actions.AnalyticsAction",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:c6d2374f387649dd8c2702b76cee8e30",
+        "GUID:b10aac27e5bc3d74f9892b100a74487f",
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:e06a58708b83247ca9dc984644f5b40b",
+        "GUID:a410a9cdca444d8387c4d1fe0baddd1c",
+        "GUID:c1d53fc1b1b71c647b00626be502b7b1",
+        "GUID:452490be073e0f943a7a60f3a5042e0e",
+        "GUID:1c5a81befa27419fb889ccaa807ada8d",
+        "GUID:a0b431bd9232ee0439a3722ec36414ed",
+        "GUID:9f8e6b2872ac2ca4683e584b9ba21f29",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
