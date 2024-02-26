@@ -1,15 +1,11 @@
 ﻿namespace Game.Ecs.Gameplay.FreezingTime.Systems
 {
 	using System;
-	using System.Linq;
 	using Aspects;
 	using Components;
-	using DG.Tweening;
 	using Leopotam.EcsLite;
-	using Time.Service;
-	using UniCore.Runtime.ProfilerTools;
+	using PrimeTween;
 	using UnityEngine;
-	using UnityEngine.Pool;
 	using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
 
 	/// <summary>
@@ -29,7 +25,8 @@
 		private EcsWorld _world;
 		private FreezingTimeAspect _aspect;
 		private EcsFilter _freezingTimeRequestFilter;
-		private Tweener _tweener;
+		private Tween _tween;
+		private bool _newTimeScale;
 
 		public void Init(IEcsSystems systems)
 		{
@@ -41,6 +38,14 @@
 
 		public void Run(IEcsSystems systems)
 		{
+			if (_newTimeScale)
+			{
+				var entityEvent = _world.NewEntity();
+				ref var freezingTimeEvent = ref _aspect.freezingTimeCompletedEvent.Add(entityEvent);
+				freezingTimeEvent.TimeScale = Time.timeScale;
+				_newTimeScale = false;
+			}
+			
 			foreach (var requestEntity in _freezingTimeRequestFilter)
 			{
 				ref var request = ref _aspect.freezingTimeRequest.Get(requestEntity);
@@ -49,18 +54,10 @@
 				newScale = Mathf.Clamp(newScale, 0f, 1f);
 				var duration = request.Duration;
 
-				_tweener?.Kill(true);
-				_tweener = DOVirtual.Float(oldScale, newScale, duration, value =>
-					{
-						Time.timeScale = value;
-					})
-					.SetUpdate(true)
-					.OnComplete(() =>
-					{
-						var entityEvent = _world.NewEntity();
-						ref var freezingTimeEvent = ref _aspect.freezingTimeCompletedEvent.Add(entityEvent);
-						freezingTimeEvent.TimeScale = Time.timeScale;
-					});
+				if(_tween.isAlive) _tween.Stop();
+				
+				_tween = Tween.GlobalTimeScale(newScale, duration)
+					.OnComplete(this,x => x._newTimeScale = true);
 			}
 		}
 	}

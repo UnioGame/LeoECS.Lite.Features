@@ -2,15 +2,11 @@
 {
 	using Aspects;
 	using Components;
-	using Core.Components;
 	using DG.Tweening;
 	using Effects.Components;
 	using Leopotam.EcsLite;
-	using UniCore.Runtime.ProfilerTools;
 	using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
-	using UniGame.LeoEcs.Shared.Components;
 	using Unity.IL2CPP.CompilerServices;
-	using UnityEngine;
 
 	/// <summary>
 	/// Rise up object to up

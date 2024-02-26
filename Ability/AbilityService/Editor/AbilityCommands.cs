@@ -1,10 +1,10 @@
 ﻿namespace Game.Code.Services.Ability.Editor
 {
+    using System.IO;
     using AbilityLoadout.Data;
     using Animations;
     using Configuration.Runtime.Ability;
     using Cysharp.Text;
-    using DG.DemiEditor;
     using UniGame.AddressableTools.Runtime.AssetReferencies;
     using UniModules.Editor;
     using UniModules.UniGame.AddressableExtensions.Editor;
@@ -99,9 +99,10 @@
         {
             var selection = Selection.activeObject;
             var path = AssetDatabase.GetAssetPath(selection);
+            
             var name = string.IsNullOrEmpty(path)
                 ? DefaultAbilityName
-                : ZString.Format(DefaultAbilityNameTemplate,path.FileOrDirectoryName());
+                : ZString.Format(DefaultAbilityNameTemplate,Path.GetFileNameWithoutExtension(path));
                 
             CreateAbility(name);
         }
