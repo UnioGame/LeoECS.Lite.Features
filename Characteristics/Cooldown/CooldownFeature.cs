@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.Cooldown
 {
+    using System;
     using Systems;
     using Components;
     using Cysharp.Threading.Tasks;
@@ -9,9 +10,14 @@
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Cooldown Feature")]
-    public sealed class CooldownFeature : CharacteristicFeature
+    public sealed class CooldownFeature : CharacteristicFeature<CooldownEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class CooldownEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             ecsSystems.Add(new RecalculateCooldownSystem());
             ecsSystems.DelHere<RecalculateCooldownSelfRequest>();

@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.AbilityPower
 {
+    using System;
     using Base;
     using Components;
     using Cysharp.Threading.Tasks;
@@ -13,9 +14,14 @@
     /// allows you to change the strength of abilities by AbilityPowerComponent
     /// </summary>
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/AbilityPower Feature")]
-    public sealed class AbilityPowerFeature : CharacteristicFeature
+    public sealed class AbilityPowerFeature : CharacteristicFeature<AbilityPowerEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class AbilityPowerEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             ecsSystems.AddCharacteristic<AbilityPowerComponent>();
             // update ability power value

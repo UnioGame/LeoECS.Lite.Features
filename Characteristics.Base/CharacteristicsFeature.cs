@@ -13,21 +13,23 @@ namespace Game.Ecs.Characteristics.Base
     using Sirenix.OdinInspector;
     using UniCore.Runtime.ProfilerTools;
     using UniGame.LeoEcs.Bootstrap.Runtime;
-    using UniGame.LeoEcs.Bootstrap.Runtime.Config;
+    using System.Linq;
     using UnityEngine;
     using UnityEngine.Serialization;
 
 #if UNITY_EDITOR
-    using UniModules.Editor;
+    using System;
+    using UnityEditor;
 #endif
     
-    [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Characteristics Feature",fileName = "Characteristics Feature")]
+    [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Characteristics Feature",
+        fileName = "Characteristics Feature")]
     public class CharacteristicsFeature : BaseLeoEcsFeature
     {
         [FormerlySerializedAs("effectFeatures")]
         [SerializeReference]
         [Searchable(FilterOptions = SearchFilterOptions.ISearchFilterableInterface)]
-        public List<CharacteristicFeature> characteristicFeatures = new List<CharacteristicFeature>();
+        public List<CharacteristicEcsFeature> characteristicFeatures = new List<CharacteristicEcsFeature>();
         
         public override async UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
         {
@@ -110,12 +112,18 @@ namespace Game.Ecs.Characteristics.Base
         public void FillCharacteristics()
         {
 #if UNITY_EDITOR
-            var characteristics = AssetEditorTools.GetAssets<CharacteristicFeature>();
-            foreach (var characteristic in characteristics)
+            characteristicFeatures.RemoveAll(x => x == null);
+            
+            var instances = TypeCache.GetTypesDerivedFrom<CharacteristicEcsFeature>();
+            foreach (var characteristic in instances)
             {
-                var contains = characteristicFeatures.Contains(characteristic);
+                var firstOrDefault = characteristicFeatures
+                    .FirstOrDefault(x => x.GetType() == characteristic);
+                var contains = firstOrDefault != null;
                 if(contains) continue;
-                characteristicFeatures.Add(characteristic);
+                var instance = Activator.CreateInstance(characteristic) as CharacteristicEcsFeature;
+                if(instance == null) continue;
+                characteristicFeatures.Add(instance);
             }
 #endif
         }

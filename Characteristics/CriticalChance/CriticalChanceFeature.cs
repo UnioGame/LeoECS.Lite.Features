@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.CriticalChance
 {
+    using System;
     using Base;
     using Components;
     using Cysharp.Threading.Tasks;
@@ -12,9 +13,14 @@
     /// - recalculate attack speed characteristic
     /// </summary>
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Critical Chance Feature",fileName = "Critical Chance")]
-    public sealed class CriticalChanceFeature : CharacteristicFeature
+    public sealed class CriticalChanceFeature : CharacteristicFeature<CriticalChanceEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class CriticalChanceEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             //register health characteristic
             ecsSystems.AddCharacteristic<CriticalChanceComponent>();

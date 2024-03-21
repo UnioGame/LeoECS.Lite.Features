@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.SplashDamage
 {
+    using System;
     using Base;
     using Components;
     using Cysharp.Threading.Tasks;
@@ -13,9 +14,14 @@
     /// the characteristic increases the damage that opponents receive near the main target
     /// </summary>
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/SplashDamage Feature")]
-    public sealed class SplashDamageFeature : CharacteristicFeature
+    public sealed class SplashDamageFeature : CharacteristicFeature<SplashDamageEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class SplashDamageEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             ecsSystems.AddCharacteristic<SplashDamageComponent>();
             // update Splash Damage value

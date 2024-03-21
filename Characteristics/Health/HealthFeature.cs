@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.Health
 {
+    using System;
     using Base;
     using Components;
     using Cysharp.Threading.Tasks;
@@ -14,14 +15,25 @@
     /// - update helath value by request
     /// </summary>
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Health Feature")]
-    public sealed class HealthFeature : CharacteristicFeature
+    public sealed class HealthFeature : CharacteristicFeature<HealthEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    /// <summary>
+    /// - recalculate health characteristic
+    /// - check ready to death status if health <= 0
+    /// - update helath value by request
+    /// </summary>
+    [Serializable]
+    public sealed class HealthEcsFeature : CharacteristicEcsFeature
+    {
+        protected sealed override  UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             //register health characteristic
             ecsSystems.AddCharacteristic<HealthComponent>();
             //update health by request
             ecsSystems.Add(new ProcessHealthChangedSystem());
+            
             return UniTask.CompletedTask;
         }
     }

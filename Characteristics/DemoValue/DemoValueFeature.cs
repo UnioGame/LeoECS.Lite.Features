@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.DemoValue
 {
+    using System;
     using Components;
     using Cysharp.Threading.Tasks;
     using Game.Ecs.Characteristics.Base;
@@ -13,9 +14,14 @@
     /// - update helath value by request
     /// </summary>
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Demo Value Feature")]
-    public sealed class DemoValueFeature : CharacteristicFeature
+    public sealed class DemoValueFeature : CharacteristicFeature<DemoValueEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class DemoValueEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             ecsSystems.AddCharacteristic<DemoValueComponent>();
             

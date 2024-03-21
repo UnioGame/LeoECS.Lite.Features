@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.AttackSpeed
 {
+    using System;
     using Components;
     using Cysharp.Threading.Tasks;
     using Game.Ecs.Characteristics.Base;
@@ -12,9 +13,14 @@
     /// - recalculate attack speed characteristic
     /// </summary>
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/AttackSpeed Feature")]
-    public sealed class AttackSpeedFeature : CharacteristicFeature
+    public sealed class AttackSpeedFeature : CharacteristicFeature<AttackSpeedEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class AttackSpeedEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             //register health characteristic
             ecsSystems.AddCharacteristic<AttackSpeedComponent>();

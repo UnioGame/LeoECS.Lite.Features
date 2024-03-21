@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.Radius
 {
+    using System;
     using Base;
     using Systems;
     using Component;
@@ -9,9 +10,14 @@
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Radius Feature")]
-    public sealed class RadiusFeature : CharacteristicFeature
+    public sealed class RadiusFeature : CharacteristicFeature<RadiusEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class RadiusEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             ecsSystems.AddCharacteristic<RadiusComponent>();
             ecsSystems.Add(new RecalculateRadiusSystem());

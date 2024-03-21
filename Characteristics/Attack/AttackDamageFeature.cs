@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.Attack
 {
+    using System;
     using Base;
     using Components;
     using Cysharp.Threading.Tasks;
@@ -9,9 +10,14 @@
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Attack Damage Feature")]
-    public sealed class AttackDamageFeature : CharacteristicFeature
+    public sealed class AttackDamageFeature : CharacteristicFeature<AttackDamageEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class AttackDamageEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             ecsSystems.AddCharacteristic<AttackDamageComponent>();
             ecsSystems.Add(new UpdateAttackDamageChangedSystem());

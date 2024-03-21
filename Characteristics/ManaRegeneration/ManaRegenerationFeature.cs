@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.ManaRegeneration
 {
+	using System;
 	using Base;
 	using Components;
 	using Cysharp.Threading.Tasks;
@@ -9,9 +10,14 @@
 	using UnityEngine;
 
 	[CreateAssetMenu(menuName = "Game/Feature/Characteristics/Mana Regeneration Feature")]
-	public sealed class ManaRegenerationFeature : CharacteristicFeature
+	public sealed class ManaRegenerationFeature : CharacteristicFeature<ManaRegenerationEcsFeature>
 	{
-		public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+	}
+	
+	[Serializable]
+	public sealed class ManaRegenerationEcsFeature : CharacteristicEcsFeature
+	{
+		protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
 		{
 			ecsSystems.AddCharacteristic<ManaRegenerationComponent>();
 			// Recalculate mana regeneration value. Use this request RecalculateManaRegenerationRequest when you want to recalculate mana regeneration value.

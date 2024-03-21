@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.Dodge
 {
+    using System;
     using Base;
     using Components;
     using Cysharp.Threading.Tasks;
@@ -10,9 +11,14 @@
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Dodge Feature")]
-    public sealed class DodgeFeature : CharacteristicFeature
+    public sealed class DodgeFeature : CharacteristicFeature<DodgeEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class DodgeEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             ecsSystems.AddCharacteristic<DodgeComponent>();
             ecsSystems.Add(new RecalculateDodgeSystem());

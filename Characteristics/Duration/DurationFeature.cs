@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.Duration
 {
+    using System;
     using Systems;
     using Components;
     using Cysharp.Threading.Tasks;
@@ -9,9 +10,14 @@
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Duration Feature")]
-    public sealed class DurationFeature : CharacteristicFeature
+    public sealed class DurationFeature : CharacteristicFeature<DurationEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class DurationEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             ecsSystems.Add(new RecalculateDurationSystem());
             ecsSystems.DelHere<RecalculateDurationRequest>();

@@ -1,9 +1,10 @@
 ﻿namespace Game.Ecs.Characteristics.CriticalMultiplier
 {
+    using System;
     using Components;
     using Cysharp.Threading.Tasks;
-    using Game.Ecs.Characteristics.Base;
-    using Game.Ecs.Characteristics.Feature;
+    using Base;
+    using Feature;
     using Leopotam.EcsLite;
     using Systems;
     using UnityEngine;
@@ -12,9 +13,14 @@
     /// - recalculate attack speed characteristic
     /// </summary>
     [CreateAssetMenu(menuName = "Game/Feature/Characteristics/Critical Multiplier Feature",fileName = "Critical Multiplier")]
-    public sealed class CriticalMultiplierFeature : CharacteristicFeature
+    public sealed class CriticalMultiplierFeature : CharacteristicFeature<CriticalMultiplierEcsFeature>
     {
-        public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
+    }
+    
+    [Serializable]
+    public sealed class CriticalMultiplierEcsFeature : CharacteristicEcsFeature
+    {
+        protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             //register health characteristic
             ecsSystems.AddCharacteristic<CriticalMultiplierComponent>();
