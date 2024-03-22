@@ -49,7 +49,8 @@
                 .Inc<KDTreeQueryComponent>()
                 .End();
         }
-
+                
+                
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int SelectEntitiesInArea(
             int[] resultContainer, 

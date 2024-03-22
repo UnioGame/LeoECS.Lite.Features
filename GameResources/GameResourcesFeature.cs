@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.GameResources
 {
+    using Code.DataBase.Runtime;
     using Code.DataBase.Runtime.Abstract;
     using Components;
     using Cysharp.Threading.Tasks;
