@@ -1,7 +1,6 @@
 ﻿namespace Game.Ecs.GameEffects.ShakeEffect.Converters
 {
     using System;
-    using System.Threading;
     using Components;
     using Leopotam.EcsLite;
     using Sirenix.OdinInspector;
