@@ -14,7 +14,6 @@
 	using UniGame.Core.Runtime;
 	using UniGame.LeoEcs.Bootstrap.Runtime;
 	using UniGame.LeoEcs.Shared.Extensions;
-	using UnityEngine;
 
 	[Serializable]
 	public class AbilityInventoryFeature : LeoEcsFeature
@@ -31,7 +30,8 @@
 
 			world.SetGlobal(inventoryTool);
 			world.SetGlobal(abilityLoadoutService);
-			world.SetGlobal(abilityCatalog);
+			//world.SetGlobal(abilityCatalog);
+			
 			ecsSystems.Add(inventoryTool);
 			//initialize player inventor ability data
 			ecsSystems.Add(new AbilityInventoryInitSystem());
