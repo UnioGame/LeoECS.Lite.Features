@@ -1,5 +1,6 @@
 ﻿namespace Game.Ecs.Characteristics.Feature
 {
+    using System;
     using Cysharp.Threading.Tasks;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Bootstrap.Runtime;
@@ -11,6 +12,7 @@
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
 #endif
+    [Serializable]
     public abstract class CharacteristicFeature<TFeature> : BaseLeoEcsFeature
         where TFeature : CharacteristicEcsFeature,new()
     {
@@ -27,6 +29,7 @@
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
 #endif
+    [Serializable]
     public abstract class CharacteristicEcsFeature : LeoEcsFeature
     {
         

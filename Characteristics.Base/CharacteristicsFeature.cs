@@ -16,9 +16,10 @@ namespace Game.Ecs.Characteristics.Base
     using System.Linq;
     using UnityEngine;
     using UnityEngine.Serialization;
-
-#if UNITY_EDITOR
     using System;
+    
+#if UNITY_EDITOR
+    using UniModules.Editor;
     using UnityEditor;
 #endif
     
@@ -125,6 +126,8 @@ namespace Game.Ecs.Characteristics.Base
                 if(instance == null) continue;
                 characteristicFeatures.Add(instance);
             }
+            
+            this.MarkDirty();
 #endif
         }
     }
