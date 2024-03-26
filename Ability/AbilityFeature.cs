@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using AbilityInventory;
     using Common.Components;
     using Common.Systems;
     using Components;
@@ -21,13 +22,14 @@
     using UniModules.Editor;
 #endif
     
-    [CreateAssetMenu(menuName = "Game/Feature/Ability/Ability Feature", 
-        fileName = "Ability Feature")]
+    [CreateAssetMenu(menuName = "Game/Feature/Ability/Ability Feature", fileName = "Ability Feature")]
     [Serializable]
     public sealed class AbilityFeature : BaseLeoEcsFeature
     {
         [InlineEditor]
         public List<AbilitySubFeature> subFeatures = new List<AbilitySubFeature>();
+        
+        public AbilityInventoryFeature inventoryFeature = new AbilityInventoryFeature();
         
         public override async UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
         {
@@ -142,6 +144,8 @@
             
             foreach (var feature in subFeatures)
                 await feature.OnLastAbilitySystems(ecsSystems);
+
+            await inventoryFeature.InitializeFeatureAsync(ecsSystems);
         }
 
         [Button]
