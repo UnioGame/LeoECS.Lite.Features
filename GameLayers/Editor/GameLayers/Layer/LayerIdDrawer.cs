@@ -19,7 +19,7 @@
 
             EditorGUI.BeginProperty(position, label, property);
 
-            var propertyValue = property.FindPropertyRelative("_value");
+            var propertyValue = property.FindPropertyRelative(nameof(LayerId.value));
             propertyValue.intValue = LayerField(position, label, propertyValue.intValue, EditorStyles.popup);
             property.serializedObject.ApplyModifiedProperties();
 
