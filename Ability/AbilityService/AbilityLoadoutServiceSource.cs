@@ -31,9 +31,9 @@
 				.LoadAssetInstanceTaskAsync(context.LifeTime, true,x => data.abilityRarityData = x);
 			
 			await UniTask.WhenAll(abilityDataBase, slotMap, rarityMap);
-			
-			var profileData = await context
-				.ReceiveFirstAsync<AbilityProfileData>(context.LifeTime);
+
+			var profileData = new AbilityProfileData();
+			context.Publish(profileData);
             
 			var service = new AbilityLoadoutService(profileData,data);
 			return service;
