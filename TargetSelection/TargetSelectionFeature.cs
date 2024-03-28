@@ -8,7 +8,7 @@
     using UniGame.LeoEcs.Shared.Extensions;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "Game/Feature/Target Selection Feature", fileName = "Target Selection Feature")]
+    [CreateAssetMenu(menuName = "Game/Feature/Target/Target Selection", fileName = "Target Selection Feature")]
     public class TargetSelectionFeature : BaseLeoEcsFeature
     {
         public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
