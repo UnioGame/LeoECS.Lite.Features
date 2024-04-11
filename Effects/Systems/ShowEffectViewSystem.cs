@@ -131,7 +131,7 @@
                 
                 owner.Value = targetPackEntity;
                 
-                var size = effectViewResult.Size;
+                var size = effectViewResult.Size <= 0 ? 1 : effectViewResult.Size;
                 var deathTime = Time.time + effectViewResult.Duration;
                 
                 var viewInstance = effectViewResult.View.Spawn(parentTransform);
