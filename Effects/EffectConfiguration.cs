@@ -19,6 +19,7 @@
     {
         private const string SpawnParentKey = "spawn parent";
         
+        [OnValueChanged("CheckViewLiveTime")]
         [FormerlySerializedAs("_duration")]
         [Min(-1.0f)]
         [SerializeField]
@@ -41,6 +42,15 @@
 
         public AssetReferenceGameObject view;
         
+        [OnValueChanged("CheckViewLiveTime")]
+        public bool trimToDuration;
+        private void CheckViewLiveTime()
+        {
+            if (!trimToDuration) return;
+            viewLifeTime = duration;
+        }
+        
+        [HideIf("trimToDuration")]
         [FormerlySerializedAs("_viewLifeTime")]
         [Min(-1.0f)]
         [SerializeField]
