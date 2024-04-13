@@ -10,6 +10,7 @@
     using Time.Service;
     using UniGame.AddressableTools.Runtime;
     using UniGame.LeoEcs.Shared.Extensions;
+    using UnityEditor.EditorTools;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.Serialization;
@@ -19,6 +20,7 @@
     {
         private const string SpawnParentKey = "spawn parent";
         
+        [OnValueChanged("CheckViewLiveTime", InvokeOnInitialize = true)]
         [FormerlySerializedAs("_duration")]
         [Min(-1.0f)]
         [SerializeField]
@@ -41,6 +43,15 @@
 
         public AssetReferenceGameObject view;
         
+        [OnValueChanged("CheckViewLiveTime")]
+        public bool trimToDuration;
+        private void CheckViewLiveTime()
+        {
+            if (!trimToDuration) return;
+            viewLifeTime = duration;
+        }
+        
+        [HideIf("trimToDuration")]
         [FormerlySerializedAs("_viewLifeTime")]
         [Min(-1.0f)]
         [SerializeField]
