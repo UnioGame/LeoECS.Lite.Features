@@ -3,8 +3,6 @@
 	using System;
 	using Components;
 	using Leopotam.EcsLite;
-	using Sirenix.OdinInspector;
-	using Time.Service;
 	using UnityEngine;
 
 	[Serializable]

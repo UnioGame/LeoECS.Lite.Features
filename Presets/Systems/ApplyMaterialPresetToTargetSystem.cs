@@ -1,17 +1,9 @@
 ﻿namespace Game.Ecs.Presets.Systems
 {
     using System;
-    using System.Linq;
     using Components;
     using Leopotam.EcsLite;
-    using Time.Service;
-    using UniGame.Core.Runtime.Extension;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
-    using UniGame.LeoEcs.Shared.Extensions;
-    using UniGame.Runtime.ObjectPool.Extensions;
-    using UniModules.UniCore.Runtime.Time;
-    using UnityEngine;
-    using UnityEngine.Pool;
 
     /// <summary>
     /// Apply material preset to target system.
