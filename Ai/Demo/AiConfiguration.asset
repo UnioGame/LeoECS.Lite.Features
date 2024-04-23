@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be8a085bcde597f41b8fa5333fc5b055, type: 3}
+  m_Name: AiConfiguration
+  m_EditorClassIdentifier: 
+  configuration:
+    aiActions:
+    - _name: MinionMoveToTarget
+      _planner:
+        rid: 990487765453897728
+      _action:
+        rid: 6443317416062094182
+    - _name: ActivateFirstAbility
+      _planner:
+        rid: 990487755211669506
+      _action:
+        rid: 990487755211669507
+  references:
+    version: 2
+    RefIds:
+    - rid: 990487755211669506
+      type: {class: ActivateAbilityPlannerSystem, ns: Game.Code.Ai.ActivateAbility,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+    - rid: 990487755211669507
+      type: {class: ActivateAbilityActionSystem, ns: Game.Code.Ai.ActivateAbility,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+    - rid: 990487765453897728
+      type: {class: MoveToTargetPlannerSystem, ns: Game.Ecs.GameAi.MoveToTarget.Systems,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+    - rid: 6443317416062094182
+      type: {class: MoveToTargetAiSystem, ns: Game.Ecs.GameAi.MoveToTarget.Systems,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        minSqrDistance: 6

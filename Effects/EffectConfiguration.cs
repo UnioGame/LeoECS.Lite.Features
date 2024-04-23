@@ -8,7 +8,6 @@
     using Leopotam.EcsLite;
     using Sirenix.OdinInspector;
     using Time.Service;
-    using UniGame.AddressableTools.Runtime;
     using UniGame.LeoEcs.Shared.Extensions;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
@@ -19,7 +18,7 @@
     {
         private const string SpawnParentKey = "spawn parent";
         
-        [OnValueChanged("CheckViewLiveTime")]
+        [OnValueChanged("CheckViewLiveTime", InvokeOnInitialize = true)]
         [FormerlySerializedAs("_duration")]
         [Min(-1.0f)]
         [SerializeField]
