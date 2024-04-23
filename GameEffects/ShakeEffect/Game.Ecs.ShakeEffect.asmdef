@@ -27,7 +27,8 @@
         "Game.Ecs.Camera",
         "unigame.leoecs.bootstrap.runtime",
         "unigame.leoecs.converter.runtime",
-        "unigame.laeoecs.shared.runtime"
+        "unigame.laeoecs.shared.runtime",
+        "UniGame.LeoEcs.Shared.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
