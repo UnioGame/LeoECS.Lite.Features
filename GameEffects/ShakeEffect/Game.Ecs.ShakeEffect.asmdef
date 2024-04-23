@@ -36,7 +36,8 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "LEO_ECS_ENABLED"
+        "LEO_ECS_ENABLED",
+        "ENABLE_DOTWEEN"
     ],
     "versionDefines": [
         {
