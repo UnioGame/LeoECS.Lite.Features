@@ -136,6 +136,14 @@ namespace Game.Ecs.Ability.Tools
             
             var abilityLink = abilityConfiguration.animationLink.reference;
 
+            ref var durationComponent = ref _duration.GetOrAddComponent(abilityEntity);
+            durationComponent.Value = abilityConfiguration.duration;
+            ref var milestonesComponent = ref _world.GetOrAddComponent<AbilityEffectMilestonesComponent>(abilityEntity);
+            milestonesComponent.Milestones = new[]
+            {
+                new EffectMilestone { Time = 0f }
+            };
+            
             if (abilityConfiguration.useAnimation)
             {
 #if UNITY_EDITOR
@@ -156,16 +164,6 @@ namespace Game.Ecs.Ability.Tools
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            else
-            {
-                ref var durationComponent = ref _duration.GetOrAddComponent(abilityEntity);
-                durationComponent.Value = abilityConfiguration.duration;
-                ref var milestonesComponent = ref _world.GetOrAddComponent<AbilityEffectMilestonesComponent>(abilityEntity);
-                milestonesComponent.Milestones = new[]
-                {
-                    new EffectMilestone { Time = 0f }
-                };
-            }
 
             foreach (var abilityBehaviour in abilityConfiguration.abilityBehaviours)
                 abilityBehaviour.Compose(_world, abilityEntity, buildData.IsDefault);
@@ -179,9 +177,6 @@ namespace Game.Ecs.Ability.Tools
             
             if(!ability.Unpack(world,out var abilityEntity)) return;
             
-            ref var activeAnimationComponent = ref _animation.GetOrAddComponent(abilityEntity);
-            ref var durationComponent = ref _duration.GetOrAddComponent(abilityEntity);
-
             if (clipId == string.Empty)
             {
 #if UNITY_EDITOR
@@ -192,8 +187,7 @@ namespace Game.Ecs.Ability.Tools
             ref var triggeredAnimationIdComponent = ref world.GetOrAddComponent<TriggeredAnimationIdComponent>(abilityEntity);
             triggeredAnimationIdComponent.animationId = (string)clipId;
             
-            //todo add milestones
-            // ComposeEffectMilestones(world, animationLink.milestones, animationLink.Duration, abilityEntity);
+            //todo add milestones and duration
         }
 
 #if ENABLE_IL2CPP

@@ -32,7 +32,6 @@
         public AbilitySpecification specification;
         
         public bool useAnimation = true;
-
         
         [TitleGroup("Animation")]
         [InlineProperty]
@@ -45,8 +44,7 @@
         [TitleGroup("Animation")]
         [InlineProperty]
         [HideLabel]
-        [ShowIf(nameof(useAnimation))]
-        [ShowIf("@animationType == AnimationType.Animator")]
+        [ShowIf("@useAnimation && animationType == AnimationType.Animator")]
         [SerializeField] public AnimationClipId animationClipId;
         
         [PropertySpace(8)]
@@ -54,7 +52,7 @@
         [InlineProperty]
         [HideLabel]
         [ShowIf(nameof(useAnimation))]
-        [ShowIf("@animationType == AnimationType.PlayableDirector")]
+        [ShowIf("@useAnimation && animationType == AnimationType.PlayableDirector")]
         public AddressableValue<AnimationLink> animationLink;
         
         [TitleGroup("Animation")]
