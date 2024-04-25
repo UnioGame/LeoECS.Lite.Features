@@ -28,6 +28,9 @@
             ecsSystems.Add(new AbilityActivateAnimationOptionsSystem());
             //reset all ability options when ability activated
             ecsSystems.Add(new AbilityResetAnimationOptionsSystem());
+            
+            //trigger animation trough animator component
+            ecsSystems.Add(new AbilityTriggerAnimatorSystem());
             return UniTask.FromResult(ecsSystems);
         }
         

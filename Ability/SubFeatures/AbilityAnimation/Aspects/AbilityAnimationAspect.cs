@@ -6,9 +6,11 @@
     using Characteristics.Duration.Components;
     using Components;
     using Core.Components;
+    using global::Ability.Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Timer.Components;
     using UniGame.LeoEcs.Bootstrap.Runtime.Abstract;
+    using UniGame.LeoEcs.Shared.Components;
 
     [Serializable]
     public class AbilityAnimationAspect : EcsAspect
@@ -20,5 +22,7 @@
         public EcsPool<DurationComponent> Duration;
         public EcsPool<CooldownComponent> Cooldown;
         public EcsPool<PlayableDirectorComponent> Director;
+        public EcsPool<TriggeredAnimationIdComponent> ClipId;
+        public EcsPool<AnimatorComponent> Animator;
     }
 }
