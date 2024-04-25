@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using Animations;
     using Description;
+    // using Ecs.Animation.Data;
     using Sirenix.OdinInspector;
     using UniGame.AddressableTools.Runtime.AssetReferencies;
     using UnityEngine;
@@ -25,6 +26,7 @@
         public AbilitySpecification specification;
         
         public bool useAnimation = true;
+        // [SerializeField] public AnimationClipId animationClipId;
 
         [PropertySpace(8)]
         [TitleGroup("Animation")]
