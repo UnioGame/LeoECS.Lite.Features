@@ -16,6 +16,7 @@
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Components;
     using Unity.Mathematics;
+    using UnityEngine;
 
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
@@ -140,7 +141,6 @@
                 var query = queryComponent.Value;
                 
                 query.Radius(tree,sourcePosition,radius,_queryResult);
-                
                 var amount = _queryResult.Count;
                 amount = math.min(TargetSelectionData.MaxTargets, amount);
                 
@@ -189,6 +189,50 @@
         public void Destroy(IEcsSystems systems)
         {
             
+        }
+
+        public int SelectClosestToPointEntities(float3 position,
+            EcsPackedEntity[] result,
+            in LayerId targetsLayerId,
+            in CategoryId targetsCategoryId,
+            int count = 1)
+        {
+            foreach (var kdEntity in _kdDataFilter)
+            {
+                _queryResult.Clear();
+                    
+                ref var dataComponent = ref _targetAspect.Data.Get(kdEntity);
+                ref var kdTreeComponent = ref _targetAspect.Tree.Get(kdEntity);
+                ref var queryComponent = ref _targetAspect.Query.Get(kdEntity);
+
+                var tree = kdTreeComponent.Value;
+                var query = queryComponent.Value;
+                var distances = new List<float>();
+                query.KNearest(kdTreeComponent.Value,position,TargetSelectionData.MaxTargets,_queryResult, distances);
+
+                var amount = _queryResult.Count;
+                amount = math.min(TargetSelectionData.MaxTargets, amount);
+                
+                var counter = 0;
+                for (var i = amount-1; i >= 0 && counter < count; i--)
+                {
+                    var index = _queryResult[i];
+                    var dataComponentPackedEntity = dataComponent.PackedEntities[index];
+                    if(!dataComponentPackedEntity.Unpack(_world, out var entity))
+                        continue;
+                    
+                    ref var layerComponent = ref _targetSelectionAspect.Layer.Get(entity);
+                    ref var categoryComponent = ref _targetSelectionAspect.Category.Get(entity);
+                    if (layerComponent.Value != targetsLayerId || categoryComponent.Value != targetsCategoryId)
+                    {
+                        continue;
+                    }
+                    result[counter] = dataComponentPackedEntity;
+                    counter++;
+                }
+                return counter;
+            }
+            return 0;
         }
     }
     
