@@ -26,6 +26,5 @@
         {
             _world = systems.GetWorld();
         }
-
     }
 }

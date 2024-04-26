@@ -3,6 +3,7 @@ namespace Game.Ecs.Ability.Tools
     using System;
     using System.Runtime.CompilerServices;
     using AbilityInventory.Components;
+    using Animation.Data;
     using Animations.Components;
     using Animations.Components.Requests;
     using Aspects;
@@ -21,6 +22,7 @@ namespace Game.Ecs.Ability.Tools
     using Cysharp.Threading.Tasks;
     using GameLayers.Category.Components;
     using GameLayers.Relationship.Components;
+    using global::Ability.Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Timer.Components;
     using SubFeatures.AbilityAnimation.Components;
@@ -134,6 +136,14 @@ namespace Game.Ecs.Ability.Tools
             
             var abilityLink = abilityConfiguration.animationLink.reference;
 
+            ref var durationComponent = ref _duration.GetOrAddComponent(abilityEntity);
+            durationComponent.Value = abilityConfiguration.duration;
+            ref var milestonesComponent = ref _world.GetOrAddComponent<AbilityEffectMilestonesComponent>(abilityEntity);
+            milestonesComponent.Milestones = new[]
+            {
+                new EffectMilestone { Time = 0f }
+            };
+            
             if (abilityConfiguration.useAnimation)
             {
 #if UNITY_EDITOR
@@ -142,23 +152,44 @@ namespace Game.Ecs.Ability.Tools
                     Debug.LogError($"Missing ability animation link FOR {abilityConfiguration.name}");
                 }
 #endif
-                ComposeAbilityAnimationAsync(_world, ownerEntity,packedAbility,abilityLink).Forget();
-            }
-            else
-            {
-                ref var durationComponent = ref _duration.GetOrAddComponent(abilityEntity);
-                durationComponent.Value = abilityConfiguration.duration;
-                ref var milestonesComponent = ref _world.GetOrAddComponent<AbilityEffectMilestonesComponent>(abilityEntity);
-                milestonesComponent.Milestones = new[]
+                switch (abilityConfiguration.animationType)
                 {
-                    new EffectMilestone { Time = 0f }
-                };
+                    case AnimationType.Animator:
+                        ComposeAbilityAnimation(_world, ownerEntity, packedAbility,abilityConfiguration.animationClipId);
+                        break;
+                    case AnimationType.PlayableDirector:
+                        ComposeAbilityAnimationAsync(_world, ownerEntity,packedAbility,abilityLink).Forget();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
 
             foreach (var abilityBehaviour in abilityConfiguration.abilityBehaviours)
                 abilityBehaviour.Compose(_world, abilityEntity, buildData.IsDefault);
         }
-        
+
+        private void ComposeAbilityAnimation(EcsWorld world,
+            EcsPackedEntity animationTarget,
+            EcsPackedEntity ability,
+            AnimationClipId clipId)
+        {
+            
+            if(!ability.Unpack(world,out var abilityEntity)) return;
+            
+            if (clipId == string.Empty)
+            {
+#if UNITY_EDITOR
+                UnityEngine.Debug.LogWarning($"There is no animation clip id with {clipId}");
+#endif
+                return;
+            }
+            ref var triggeredAnimationIdComponent = ref world.GetOrAddComponent<TriggeredAnimationIdComponent>(abilityEntity);
+            triggeredAnimationIdComponent.animationId = (string)clipId;
+            
+            //todo add milestones and duration
+        }
+
 #if ENABLE_IL2CPP
         [Il2CppSetOption(Option.NullChecks, false)]
         [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
