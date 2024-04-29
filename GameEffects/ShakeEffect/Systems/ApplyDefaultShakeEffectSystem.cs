@@ -1,7 +1,6 @@
 ﻿namespace Game.Ecs.GameEffects.ShakeEffect.Systems
 {
     using System;
-    using Camera.Components;
     using Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
