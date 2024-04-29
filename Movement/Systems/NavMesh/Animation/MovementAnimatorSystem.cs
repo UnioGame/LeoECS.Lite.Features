@@ -11,6 +11,7 @@
     using UniCore.Runtime.ProfilerTools;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Components;
+    using UniGame.LeoEcs.Shared.Extensions;
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
 
@@ -30,10 +31,10 @@
         private EcsPool<TransformComponent> _transformPool;
         private EcsPool<NavMeshAgentComponent> _navMeshPool;
         private EcsPool<MovementAnimationInfoComponent> _animationInfoPool;
-        private EcsPool<AnimatorMapComponent> _animatorMapPool;
         private readonly AnimationClipId _idleClipId;
         private readonly AnimationClipId _walkClipId;
         private AnimationsAnimatorAspect _animatorAspect;
+        private AnimatorsMap _animatorsMap;
 
         public MovementAnimatorSystem(AnimationClipId idleClipId, AnimationClipId walkClipId)
         {
@@ -46,11 +47,11 @@
             _world = systems.GetWorld();
             _filter = _world
                 .Filter<AnimatorComponent>()
-                .Inc<AnimatorMapComponent>()
                 .Inc<TransformComponent>()
                 .Inc<NavMeshAgentComponent>()
                 .Inc<MovementAnimationInfoComponent>()
                 .End();
+            _animatorsMap = _world.GetGlobal<AnimatorsMap>();
         }
 
         public void Run(IEcsSystems systems)
@@ -84,11 +85,9 @@
                     : 1.0f;
                 if(controller == null) continue;
                 
-                ref var animatorMapComponent = ref _animatorAspect.AnimatorMap.Get(entity);
-                
                 //todo что будет если такие стейтов не существует?
-                if (!animatorMapComponent.value.TryGetValue(_idleClipId, out var idleStateName)
-                    || !animatorMapComponent.value.TryGetValue(_walkClipId, out var walkStateName))
+                if (!_animatorsMap.data.TryGetValue(_idleClipId, out var idleStateName)
+                    || !_animatorsMap.data.TryGetValue(_walkClipId, out var walkStateName))
                 {
                     GameLog.LogError("AnimatorMapComponent has no such states");
                     continue;
