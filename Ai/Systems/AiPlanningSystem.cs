@@ -3,7 +3,7 @@ namespace Game.Ecs.AI.Systems
     using System;
     using Components;
     using Leopotam.EcsLite;
-    using Service;
+    using Data;
 
     [Serializable]
     public class AiPlanningSystem : IEcsRunSystem,IEcsInitSystem
@@ -29,35 +29,37 @@ namespace Game.Ecs.AI.Systems
                 var plan = agentComponent.PlannerData;
                 var actions = agentComponent.PlannedActions;
 
-                //MaxPriorityPlanning(plan, actions);
-                PriorityPlanning(plan, actions);
+                MaxPriorityPlanning(plan, actions);
+                //PriorityPlanning(plan, actions);
             }
         }
 
-        private void PriorityPlanning(AiPlannerData[] plan,bool[] actions)
+        private void PriorityPlanning(AiPlannerData[] plan, bool[] actions)
         {
             for (int i = 0; i < plan.Length; i++)
             {
                 var priority = plan[i].Priority;
-                actions[i] = priority>0;
+                actions[i] = priority > 0;
             }
         }
         
-        private void MaxPriorityPlanning(AiPlannerData[] plan,bool[] actions)
+        private void MaxPriorityPlanning(AiPlannerData[] plan, bool[] actions)
         {
             var maxPriority = -1f;
             var selectedId = -1;
             for (var i = 0; i < plan.Length; i++)
             {
                 var priority = plan[i].Priority;
-                if(priority<=maxPriority) continue;
+                if(priority <= maxPriority) continue;
 
                 maxPriority = priority;
                 selectedId = i;
             }
 
             for (var i = 0; i < plan.Length; i++)
+            {
                 actions[i] = i == selectedId;
+            }
         }
 
     }

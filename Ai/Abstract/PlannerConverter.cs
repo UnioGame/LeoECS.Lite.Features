@@ -12,7 +12,7 @@
     using UnityEngine.Serialization;
 
     [Serializable]
-    public abstract class PlannerConverter : GameObjectConverter,IPlannerConverter, IEntityConverter
+    public abstract class PlannerConverter : GameObjectConverter, IPlannerConverter, IEntityConverter
     {
 
         [FormerlySerializedAs("_id")] 
@@ -21,23 +21,12 @@
         
         public AiAgentActionId Id => id;
 
-        public void Apply(GameObject target, EcsWorld world, int entity)
+        public new void Apply(GameObject target, EcsWorld world, int entity)
         {
             if (enabled == false)
                 return;
             
             Apply(world, entity);
-            OnApply(target,world,entity);
-        }
-        
-        protected virtual void OnApply(GameObject target, EcsWorld world, int entity, CancellationToken cancellationToken = default)
-        {
-            
-        }
-
-        public virtual void Apply(EcsWorld world, int entity)
-        {
-            
         }
     }
 

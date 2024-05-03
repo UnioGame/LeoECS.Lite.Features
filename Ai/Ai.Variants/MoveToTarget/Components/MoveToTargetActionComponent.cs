@@ -9,6 +9,5 @@ namespace Game.Ecs.GameAi.MoveToTarget.Components
     public struct MoveToTargetActionComponent
     {
         public float3 Position;
-        public List<IEffectConfiguration> Effects;
     }
 }

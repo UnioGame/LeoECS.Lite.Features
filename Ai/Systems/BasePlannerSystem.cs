@@ -4,13 +4,13 @@ namespace Game.Ecs.AI.Systems
     using Components;
     using Abstract;
     using Cysharp.Threading.Tasks;
-    using Service;
     using Leopotam.EcsLite;
     using Tools;
     using UniGame.LeoEcs.Shared.Extensions;
+    using Data;
 
     [Serializable]
-    public abstract class BasePlannerSystem<TComponent>: IAiPlannerSystem,IEcsRunSystem
+    public abstract class BasePlannerSystem<TComponent>: IAiPlannerSystem, IEcsRunSystem
         where TComponent : struct
     {
         protected int _id;

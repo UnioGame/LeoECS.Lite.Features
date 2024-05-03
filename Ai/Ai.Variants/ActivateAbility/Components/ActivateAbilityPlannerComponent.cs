@@ -1,7 +1,7 @@
 namespace Game.Code.Ai.ActivateAbility
 {
     using System;
-    using Ecs.AI.Service;
+    using Ecs.AI.Data;
     using GameLayers.Category;
     using Sirenix.OdinInspector;
     using UniGame.LeoEcs.Shared.Abstract;

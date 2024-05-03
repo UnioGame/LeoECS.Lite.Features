@@ -1,6 +1,5 @@
 namespace Game.Ecs.AI.Configurations
 {
-    using Service;
     using Sirenix.OdinInspector;
     using UnityEngine;
 

@@ -1,4 +1,6 @@
-﻿namespace Game.Ecs.TargetSelection.Systems
+﻿using Game.Code.GameLayers.Relationship;
+
+namespace Game.Ecs.TargetSelection.Systems
 {
     using System;
     using Aspects;
@@ -37,8 +39,7 @@
             _targetSelection = _world.GetGlobal<TargetSelectionSystem>();
             
             _targetFilter = _world
-                .Filter<SqrRangeFilterTargetComponent>()
-                .Inc<SqrRangeTargetSelectionComponent>()
+                .Filter<SqrRangeTargetsSelectionComponent>()
                 .End();
         }
 
@@ -46,32 +47,48 @@
         {
             foreach (var entity in _targetFilter)
             {
-                ref var targetComponent = ref _targetAspect.Data.Get(entity);
-                ref var resultComponent = ref _targetAspect.Result.GetOrAddComponent(entity);
-                
-                var target = targetComponent.Target;
-                if(!target.Unpack(_world,out var targetEntity)) continue;
-                
-                ref var transformComponent = ref _targetAspect.Position.Get(targetEntity);
+                ref var selectionComponent = ref _targetAspect.TargetSelection.GetOrAddComponent(entity);
+                var requests = selectionComponent.Requests;
+                var results = selectionComponent.Results;
 
-                var position = transformComponent.Position;
-                var radius = targetComponent.Radius;
-                var category = targetComponent.Category;
-                var layer = targetComponent.Layer;
-                
-                var amount = _targetSelection.SelectEntitiesInArea(
-                    _resultSelection,
-                    radius,
-                    ref position,
-                    ref layer,
-                    ref category);
-
-                resultComponent.Count = amount;
-                
-                for (var i = 0; i < amount; i++)
+                for (int i = 0; i < requests.Length; i++)
                 {
-                    ref var resultValue = ref _resultSelection[i];
-                    resultComponent.Values[i] = resultValue;
+                    ref var request = ref requests[i];
+                    if (request.Processed)
+                    {
+                        continue;
+                    }
+                    
+                    var target = request.Target;
+                    if (!target.Unpack(_world, out var targetEntity))
+                    {
+                        continue;
+                    }
+
+                    ref var result = ref results[i];
+                    ref var transformComponent = ref _targetAspect.Position.Get(targetEntity);
+
+                    var position = transformComponent.Position;
+                    var radius = request.Radius;
+                    var category = request.Category;
+                    var layer = request.Relationship.GetFilterMask(request.SourceLayer);
+
+                    var amount = _targetSelection.SelectEntitiesInArea(
+                        _resultSelection,
+                        radius,
+                        ref position,
+                        ref layer,
+                        ref category);
+
+                    result.Count = amount;
+                    for (var j = 0; j < amount; j++)
+                    {
+                        ref var resultValue = ref _resultSelection[j];
+                        result.Values[j] = resultValue;
+                    }
+
+                    result.Ready = true;
+                    request.Processed = true;
                 }
             }
         }

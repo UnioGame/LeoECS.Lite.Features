@@ -7,9 +7,7 @@
     public struct MoveByCategoryComponent 
         : IApplyableComponent<MoveByCategoryComponent>
     {
-        public float MinFilteredTargetPriority;
-        
-        public MoveFilterData[] FilterData;
+        public MoveFilterData FilterData;
         
         /// <summary>
         /// Дистанция при достижении которой приоритет будет расти
@@ -20,7 +18,7 @@
         /// <summary>
         /// Максимальный приоритет который добавляется за близость к цели
         /// </summary>
-        public float MaxPriorityByDistance;
+        public int MaxPriorityByDistance;
                 
         public void Apply(ref MoveByCategoryComponent component)
         {

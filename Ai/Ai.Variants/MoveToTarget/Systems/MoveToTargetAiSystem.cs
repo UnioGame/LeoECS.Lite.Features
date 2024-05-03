@@ -1,3 +1,7 @@
+using Game.Ecs.TargetSelection.Components;
+using Game.Ecs.Units.Components;
+using UnityEngine;
+
 namespace Game.Ecs.GameAi.MoveToTarget.Systems
 {
     using System;
@@ -31,23 +35,20 @@ namespace Game.Ecs.GameAi.MoveToTarget.Systems
         private EcsFilter _filter;
         private EcsWorld _world;
         private AbilityTools _abilityTools;
-        
-        private EcsPool<TransformPositionComponent> _transformPool;
-        private EcsPool<TransformDirectionComponent> _directionPool;
+
+        private EcsPool<UnitComponent> _unitsPool;
         private EcsPool<MoveToTargetActionComponent> _moveToTargetPool;
-        private EcsPool<MovementPointRequest> _movementPointPool;
-        private EcsPool<RotateToPointSelfRequest> _rotateToPointPool;
-        private EcsPool<ActiveGameViewComponent> _viewPool;
-        private EcsPool<NavMeshAgentComponent> _agentPool;
 
         public void Init(IEcsSystems systems)
         {
+            Debug.Log("MoveToTargetAiSystem init");
+            
             _world = systems.GetWorld();
             _abilityTools = _world.GetGlobal<AbilityTools>();
             
             _filter = _world
                 .Filter<MoveToTargetActionComponent>()
-                .Inc<TransformComponent>()
+                .Inc<UnitComponent>()
                 .Inc<AiAgentComponent>()
                 .Exc<ImmobilityComponent>()
                 .Exc<DisabledComponent>()
@@ -59,30 +60,9 @@ namespace Game.Ecs.GameAi.MoveToTarget.Systems
             foreach (var entity in _filter)
             {
                 ref var moveToTargetComponent = ref _moveToTargetPool.Get(entity);
-                ref var directionComponent = ref _directionPool.Get(entity);
-                ref var transformComponent = ref _transformPool.Get(entity);
-                ref var targetComponentRequest = ref _movementPointPool.GetOrAddComponent(entity);
+                ref var unitComponent = ref _unitsPool.Get(entity);
                 
-                var position = transformComponent.Position;
-                var targetPosition = moveToTargetComponent.Position;
-                var sqrDistance = math.distancesq(targetPosition,position);
-                
-                ref var destination = ref moveToTargetComponent.Position;
-                ref var rotateToPoint = ref _rotateToPointPool.GetOrAddComponent(entity);
-                rotateToPoint.Point = destination;
-                
-                if(_viewPool.Has(entity))
-                    rotateToPoint.Point = directionComponent.Forward + position;
-                
-                if (sqrDistance < minSqrDistance)
-                {
-                    _world.AddComponent<MovementStopRequest>(entity);
-                    continue;
-                }
-                
-                targetComponentRequest.DestinationPosition = destination;
-                var packedEntity = _world.PackEntity(entity);
-                moveToTargetComponent.Effects.CreateRequests(_world,packedEntity,packedEntity);
+                unitComponent.Value.Move(moveToTargetComponent.Position);
             }
         }
     }

@@ -2,11 +2,11 @@
 {
     using Cysharp.Threading.Tasks;
     using Leopotam.EcsLite;
-    using Service;
+    using Data;
 
     public interface IAiPlannerSystem : IAiPlannerSwitched
     {
-        public UniTask Initialize(int id,IEcsSystems ecsSystems);
+        public UniTask Initialize(int id, IEcsSystems ecsSystems);
        
         void ApplyPlanningResult(IEcsSystems systems, int entity, AiPlannerData data);
     }

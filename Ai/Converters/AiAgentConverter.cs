@@ -1,12 +1,10 @@
 namespace Game.Ecs.AI.Converters
 {
     using System;
-    using System.Threading;
     using Cysharp.Threading.Tasks;
     using Components;
     using Configurations;
     using Leopotam.EcsLite;
-    using Service;
     using Sirenix.OdinInspector;
     using UniGame.AddressableTools.Runtime;
     using UniGame.LeoEcs.Converter.Runtime;
@@ -16,17 +14,14 @@ namespace Game.Ecs.AI.Converters
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.Serialization;
+    using Data;
 
     [Serializable]
-    public class AiAgentConverter : LeoEcsConverter,ILeoEcsGizmosDrawer
+    public class AiAgentConverter : LeoEcsConverter, ILeoEcsGizmosDrawer
     {
         public bool drawGizmos = false;
         
         public AssetReferenceT<AiAgentConfigurationAsset> configuration;
-        
-        [FormerlySerializedAs("_sensorRange")] 
-        [SerializeField]
-        public float sensorRange = 100f;
 
         [FormerlySerializedAs("_useForceControl")]
         [ShowIf(nameof(IsRuntime))]
@@ -53,8 +48,6 @@ namespace Game.Ecs.AI.Converters
         
         public override void Apply(GameObject target, EcsWorld world, int entity)
         {
-            ref var aiSensorAgent = ref world.GetOrAddComponent<AiSensorComponent>(entity);
-            aiSensorAgent.Range = sensorRange;
             ApplyAiDataAsync(target, world, entity).Forget();
         }
 
@@ -68,19 +61,24 @@ namespace Game.Ecs.AI.Converters
             ApplyAiData(target, world, entity, aiData);
         }
 
-        private void ApplyAiData(GameObject target,EcsWorld world,int entity,AiAgentConfigurationAsset aiData)
+        private void ApplyAiData(GameObject target, EcsWorld world, int entity, AiAgentConfigurationAsset aiData)
         {
             activeActions = new bool[aiData.ActionsCount];
-            plannerData    = new AiPlannerData[aiData.ActionsCount];
+            plannerData = new AiPlannerData[aiData.ActionsCount];
             
-            var availableActions    = new bool[aiData.ActionsCount];
+            var availableActions = new bool[aiData.ActionsCount];
             var aiConfiguration = aiData.agentConfiguration;
 
             foreach (var planner in aiConfiguration.planners)
+            {
                 availableActions[planner.id] = true;
+                planner.Apply(target, world, entity);
+            }
 
-            foreach (var converter in aiConfiguration.planners)
-                converter.Apply(target, world, entity);
+            foreach (var c in aiData.commonAiConverters)
+            {
+                c.commonAiConverters.Apply(world, entity);
+            }
 
             ref var aiAgent = ref world.AddComponent<AiAgentComponent>(entity);
             aiAgent.Configuration = aiConfiguration;
@@ -89,7 +87,9 @@ namespace Game.Ecs.AI.Converters
             aiAgent.AvailableActions = availableActions;
 
             if (useForceControl)
+            {
                 world.AddComponent<AiAgentSelfControlComponent>(entity);
+            }
         }
 
         public void DrawGizmos(GameObject target)
@@ -100,7 +100,6 @@ namespace Game.Ecs.AI.Converters
             if (aiConfiguration == null) return;
             aiConfiguration.DrawGizmos(target);
 #endif
-            
         }
     }
 }

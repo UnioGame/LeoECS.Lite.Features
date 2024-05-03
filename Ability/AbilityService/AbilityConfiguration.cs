@@ -3,8 +3,6 @@
     using System.Collections.Generic;
     using Animations;
     using Description;
-    using Ecs.Animation.Data;
-    // using Ecs.Animation.Data;
     using Sirenix.OdinInspector;
     using UniGame.AddressableTools.Runtime.AssetReferencies;
     using UnityEngine;
@@ -40,12 +38,6 @@
         [EnumToggleButtons]
         [InfoBox("Animation clip id witch triggered concrete animation", InfoMessageType.None,VisibleIf = "@animationType == AnimationType.Animator")]
         public AnimationType animationType;
-        
-        [TitleGroup("Animation")]
-        [InlineProperty]
-        [HideLabel]
-        [ShowIf("@useAnimation && animationType == AnimationType.Animator")]
-        [SerializeField] public AnimationClipId animationClipId;
         
         [PropertySpace(8)]
         [TitleGroup("Animation")]

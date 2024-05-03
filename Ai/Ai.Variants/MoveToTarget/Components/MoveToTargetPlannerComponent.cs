@@ -1,7 +1,7 @@
 namespace Game.Ecs.GameAi.MoveToTarget.Components
 {
     using System;
-    using Game.Ecs.AI.Service;
+    using Game.Ecs.AI.Data;
     using Sirenix.OdinInspector;
     using UniGame.LeoEcs.Shared.Abstract;
     using UnityEngine;

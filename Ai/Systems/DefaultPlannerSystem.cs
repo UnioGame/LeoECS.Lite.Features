@@ -3,10 +3,10 @@ namespace Game.Ecs.AI.Systems
     using System;
     using Components;
     using Leopotam.EcsLite;
-    using Service;
     using Sirenix.OdinInspector;
     using UniGame.LeoEcs.Shared.Extensions;
     using UnityEngine;
+    using Data;
 
     [Serializable]
     public class DefaultPlannerSystem : BasePlannerSystem<AiDefaultActionComponent>,IEcsInitSystem

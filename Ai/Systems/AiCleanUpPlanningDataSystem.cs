@@ -4,8 +4,8 @@ namespace Game.Ecs.AI.Systems
     using System.Collections.Generic;
     using Components;
     using Configurations;
-    using Service;
     using Leopotam.EcsLite;
+    using Data;
 
     [Serializable]
     public class AiCleanUpPlanningDataSystem : IEcsRunSystem, IEcsInitSystem

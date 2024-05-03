@@ -46,9 +46,11 @@ namespace Game.Ecs.AI.Systems
                     var planner = dataItem.planner;
 
                     if (actionEnabled)
+                    {
                         continue;
-                    
-                    planner.RemoveComponent(systems,entity);
+                    }
+
+                    planner.RemoveComponent(systems, entity);
                 }
             }
         }

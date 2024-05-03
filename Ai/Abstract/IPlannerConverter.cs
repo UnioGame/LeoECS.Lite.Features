@@ -6,6 +6,5 @@ namespace Game.Ecs.AI.Abstract
     public interface IPlannerConverter : IEcsComponentConverter
     {
         AiAgentActionId Id { get; }
-        
     }
 }

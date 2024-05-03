@@ -3,7 +3,7 @@ namespace Game.Ecs.AI.Components
     using System;
     using Configurations;
     using Leopotam.EcsLite;
-    using Service;
+    using Data;
 
     /// <summary>
     /// Компонент с данными агента необходимомыми для выполнения

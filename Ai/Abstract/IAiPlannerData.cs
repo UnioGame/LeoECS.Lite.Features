@@ -1,6 +1,6 @@
 ﻿namespace Game.Ecs.AI.Abstract
 {
-    using Service;
+    using Data;
 
     public interface IAiPlannerData
     {

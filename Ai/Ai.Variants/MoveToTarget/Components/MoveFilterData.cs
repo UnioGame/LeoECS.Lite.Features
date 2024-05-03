@@ -15,7 +15,5 @@
         
         [CategoryIdMask]
         public CategoryId CategoryId;
-        
-        public float SensorDistance;
     }
 }
