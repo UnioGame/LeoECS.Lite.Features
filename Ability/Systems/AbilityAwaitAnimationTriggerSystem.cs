@@ -4,7 +4,9 @@ namespace Ability.Systems
     using System.Linq;
     using Components;
     using Game.Ecs.Ability.Common.Components;
+    using Game.Ecs.Animations.Components.Requests;
     using Leopotam.EcsLite;
+    using UniCore.Runtime.ProfilerTools;
     using UniGame.Core.Runtime.Extension;
     using UniGame.LeoEcs.Shared.Extensions;
     using UniGame.Runtime.ObjectPool.Extensions;
@@ -30,6 +32,8 @@ namespace Ability.Systems
         private EcsFilter _filter;
         private EcsPool<ApplyAbilityEffectsSelfRequest> _requestPool;
         private EcsPool<AbilityAwaitAnimationTriggerComponent> _awaitPool;
+        private EcsFilter _filter1;
+        private EcsFilter _filter2;
 
         public void Init(IEcsSystems systems)
         {
@@ -37,15 +41,34 @@ namespace Ability.Systems
             _filter = _world.Filter<AbilityEvaluationComponent>()
                 .Inc<AbilityUsingComponent>()
                 .Inc<AbilityAwaitAnimationTriggerComponent>()
+                .Inc<AnimationTriggerRequest>()
                 .End();
+            _filter1 = _world.Filter<AbilityUsingComponent>()
+                .Inc<AnimationTriggerRequest>()
+                .Inc<AbilityAwaitAnimationTriggerComponent>().End();
+            _filter2 = _world.Filter<AbilityEvaluationComponent>()
+                .Inc<AnimationTriggerRequest>()
+                .Inc<AbilityAwaitAnimationTriggerComponent>().End();
         }
 
         public void Run(IEcsSystems systems)
         {
+            // foreach (var VARIABLE in _filter2)
+            // {
+            //     GameLog.Log($"AbilityAwaitAnimationTriggerSystem::Run Filter 2, Entity {VARIABLE}");
+            // }
+            //
+            // foreach (var VARIABLE in _filter1)
+            // {
+            //     GameLog.Log($"AbilityAwaitAnimationTriggerSystem::Run Filter 1, Entity {VARIABLE}");
+            // }
+            
             foreach (var abilityEntity in _filter)
             {
+                GameLog.Log("AbilityAwaitAnimationTriggerSystem::Run");
+                _world.RemoveComponent<AnimationTriggerRequest>(abilityEntity);
+                
                 _requestPool.Add(abilityEntity);
-                _awaitPool.Del(abilityEntity);
             }
         }
     }

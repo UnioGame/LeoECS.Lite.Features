@@ -187,7 +187,7 @@ namespace Game.Ecs.Ability.Tools
             ref var triggeredAnimationIdComponent = ref world.GetOrAddComponent<TriggeredAnimationIdComponent>(abilityEntity);
             triggeredAnimationIdComponent.animationId = (string)clipId;
             
-            //todo add milestones and duration
+            _abilityAspect.AwaitAnimationTrigger.GetOrAddComponent(abilityEntity);
         }
 
 #if ENABLE_IL2CPP
