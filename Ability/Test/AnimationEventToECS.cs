@@ -1,13 +1,11 @@
 namespace Ability.Test
 {
-    using System;
     using Cysharp.Threading.Tasks;
     using Game.Ecs.Ability.Common.Components;
     using Game.Ecs.Animations.Components.Requests;
     using Leopotam.EcsLite;
     using UniCore.Runtime.ProfilerTools;
     using UniGame.LeoEcs.Converter.Runtime;
-    using UniModules.UniCore.Runtime.Extension;
     using UnityEngine;
 
     public class AnimationEventToECS : MonoBehaviour

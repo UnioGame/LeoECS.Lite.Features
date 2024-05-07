@@ -32,8 +32,6 @@ namespace Ability.Systems
         private EcsFilter _filter;
         private EcsPool<ApplyAbilityEffectsSelfRequest> _requestPool;
         private EcsPool<AbilityAwaitAnimationTriggerComponent> _awaitPool;
-        private EcsFilter _filter1;
-        private EcsFilter _filter2;
 
         public void Init(IEcsSystems systems)
         {
@@ -43,31 +41,13 @@ namespace Ability.Systems
                 .Inc<AbilityAwaitAnimationTriggerComponent>()
                 .Inc<AnimationTriggerRequest>()
                 .End();
-            _filter1 = _world.Filter<AbilityUsingComponent>()
-                .Inc<AnimationTriggerRequest>()
-                .Inc<AbilityAwaitAnimationTriggerComponent>().End();
-            _filter2 = _world.Filter<AbilityEvaluationComponent>()
-                .Inc<AnimationTriggerRequest>()
-                .Inc<AbilityAwaitAnimationTriggerComponent>().End();
         }
 
         public void Run(IEcsSystems systems)
         {
-            // foreach (var VARIABLE in _filter2)
-            // {
-            //     GameLog.Log($"AbilityAwaitAnimationTriggerSystem::Run Filter 2, Entity {VARIABLE}");
-            // }
-            //
-            // foreach (var VARIABLE in _filter1)
-            // {
-            //     GameLog.Log($"AbilityAwaitAnimationTriggerSystem::Run Filter 1, Entity {VARIABLE}");
-            // }
-            
             foreach (var abilityEntity in _filter)
             {
-                GameLog.Log("AbilityAwaitAnimationTriggerSystem::Run");
                 _world.RemoveComponent<AnimationTriggerRequest>(abilityEntity);
-                
                 _requestPool.Add(abilityEntity);
             }
         }
