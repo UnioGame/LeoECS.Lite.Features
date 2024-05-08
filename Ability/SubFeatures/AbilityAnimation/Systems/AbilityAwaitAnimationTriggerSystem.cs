@@ -1,17 +1,13 @@
 namespace Ability.Systems
 {
     using System;
-    using System.Linq;
     using Components;
+    using Game.Ecs.Ability.Aspects;
     using Game.Ecs.Ability.Common.Components;
+    using Game.Ecs.Ability.SubFeatures.Target.Aspects;
     using Game.Ecs.Animations.Components.Requests;
     using Leopotam.EcsLite;
-    using UniCore.Runtime.ProfilerTools;
-    using UniGame.Core.Runtime.Extension;
     using UniGame.LeoEcs.Shared.Extensions;
-    using UniGame.Runtime.ObjectPool.Extensions;
-    using UnityEngine;
-    using UnityEngine.Pool;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
 
     /// <summary>
@@ -32,6 +28,8 @@ namespace Ability.Systems
         private EcsFilter _filter;
         private EcsPool<ApplyAbilityEffectsSelfRequest> _requestPool;
         private EcsPool<AbilityAwaitAnimationTriggerComponent> _awaitPool;
+        private TargetAbilityAspect _targetAspect;
+        private AbilityAspect _abilityAspect;
 
         public void Init(IEcsSystems systems)
         {
@@ -48,6 +46,18 @@ namespace Ability.Systems
             foreach (var abilityEntity in _filter)
             {
                 _world.RemoveComponent<AnimationTriggerRequest>(abilityEntity);
+                ref var selectedTargetsComponent = ref _targetAspect.SelectedTargets.Get(abilityEntity);
+
+                //check if target exists
+                for (var index = 0; index < selectedTargetsComponent.Count; index++)
+                {
+                    var packedEntity = selectedTargetsComponent.Entities[index];
+                    if (!packedEntity.Unpack(_world, out var targetEntity))
+                    {
+                        _abilityAspect.CompleteAbility.Add(abilityEntity);
+                    }
+                }
+
                 _requestPool.Add(abilityEntity);
             }
         }
