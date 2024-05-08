@@ -1,4 +1,4 @@
-namespace Ability.Test
+namespace Ability.Tools
 {
     using Cysharp.Threading.Tasks;
     using Game.Ecs.Ability.Common.Components;

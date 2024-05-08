@@ -21,6 +21,12 @@
         Animator = 0,
         PlayableDirector = 1
     }
+    
+    public enum FittingType
+    {
+        BasedOnClip = 0,
+        BasedOnAbility = 1
+    }
     [CreateAssetMenu(fileName = "Ability Configuration", menuName = "Game/Ability/Ability Configuration")]
     public sealed class AbilityConfiguration : ScriptableObject
     {
@@ -40,12 +46,25 @@
         [EnumToggleButtons]
         [InfoBox("Animation clip id witch triggered concrete animation", InfoMessageType.None,VisibleIf = "@animationType == AnimationType.Animator")]
         public AnimationType animationType;
+
+        #region animator
         
         [TitleGroup("Animation")]
         [InlineProperty]
         [HideLabel]
         [ShowIf("@useAnimation && animationType == AnimationType.Animator")]
         [SerializeField] public AnimationClipId animationClipId;
+
+        [TitleGroup("Animation")]
+        [InlineProperty]
+        [HideLabel]
+        [ShowIf("@useAnimation && animationType == AnimationType.Animator")]
+        [EnumToggleButtons]
+        public FittingType fittingType;
+
+        #endregion
+        
+        #region playables director
         
         [PropertySpace(8)]
         [TitleGroup("Animation")]
@@ -54,6 +73,8 @@
         [ShowIf(nameof(useAnimation))]
         [ShowIf("@useAnimation && animationType == AnimationType.PlayableDirector")]
         public AddressableValue<AnimationLink> animationLink;
+        
+        #endregion
         
         [TitleGroup("Animation")]
         [HideIf(nameof(useAnimation))]
