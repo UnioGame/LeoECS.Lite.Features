@@ -2,6 +2,7 @@
 {
     using System;
     using Cysharp.Threading.Tasks;
+    using global::Ability.Systems;
     using Leopotam.EcsLite;
     using Systems;
     using UnityEngine;
@@ -40,5 +41,10 @@
             return UniTask.FromResult(ecsSystems);
         }
 
+        public override UniTask<IEcsSystems> OnPreparationApplyEffectsSystems(IEcsSystems ecsSystems)
+        {
+            ecsSystems.Add(new AbilityAwaitAnimationTriggerSystem());
+            return base.OnPreparationApplyEffectsSystems(ecsSystems);
+        }
     }
 }
