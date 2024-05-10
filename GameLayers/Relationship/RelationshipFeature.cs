@@ -14,15 +14,13 @@ namespace Game.Ecs.GameLayers.Relationship
     public sealed class RelationshipFeature : BaseLeoEcsFeature
     {
         [SerializeField]
-        private LayerIdConfiguration _layerIdConfiguration;
-        [SerializeField]
         private RelationshipIdMap _relationshipIdMap;
         [SerializeField]
         private RelationshipId _selfRelationship;
     
         public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
         {
-            ecsSystems.Add(new RelationshipToolsSystem(_layerIdConfiguration, _relationshipIdMap, _selfRelationship));
+            ecsSystems.Add(new RelationshipToolsSystem(_relationshipIdMap, _selfRelationship));
             return UniTask.CompletedTask;
         }
     }

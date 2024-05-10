@@ -1,6 +1,3 @@
-using Leopotam.EcsLite.ExtendedSystems;
-using UnityEngine;
-
 namespace Game.Ecs.GameAi.MoveToTarget.Systems
 {
     using System;
@@ -10,16 +7,18 @@ namespace Game.Ecs.GameAi.MoveToTarget.Systems
     using Components;
     using Core.Death.Components;
     using Ai.Ai.Variants.MoveToTarget.Aspects;
-    using AI.Aspects;
+    using Ai.Ai.Variants.Prioritizer.Aspects;
+    using Ai.Ai.Variants.Prioritizer.Components;
+    using AI.Data;
     using TargetSelection;
     using TargetSelection.Aspects;
     using UniGame.LeoEcs.Shared.Components;
-    using Unity.Mathematics;
     using Leopotam.EcsLite;
     using Movement.Components;
+    using TargetSelection.Components;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Extensions;
-    using Game.Ecs.AI.Data;
+    using UnityEngine;
 
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
@@ -34,19 +33,18 @@ namespace Game.Ecs.GameAi.MoveToTarget.Systems
     {
         private EcsFilter _filter;
         private EcsWorld _world;
-        
-        private EcsPool<MoveToTargetActionComponent> _moveToTargetActionPool;
-        private EcsPool<MoveToTargetComponent> _moveToTargetPool;
-        private EcsPool<MoveToTargetPlannerComponent> _moveToTargetPlannerPool;
+
+        private AiMoveAspect _moveAspect;
+        private PrioritizerAspect _prioritizerAspect;
+
+        private EcsPool<TransformPositionComponent> _positionPool;
         
         public void Init(IEcsSystems systems)
         {
-            Debug.Log("MoveToTargetPlanner init");
-            
             _world = systems.GetWorld();
             _filter = _world.Filter<AiAgentComponent>()
-                .Inc<MoveToTargetComponent>()
                 .Inc<MoveToTargetPlannerComponent>()
+                .Inc<PrioritizedTargetComponent>()
                 .Exc<ImmobilityComponent>()
                 .Exc<DisabledComponent>()
                 .End();
@@ -56,20 +54,27 @@ namespace Game.Ecs.GameAi.MoveToTarget.Systems
         {
             foreach (var entity in _filter)
             {
-                ref var moveToTargetPlannerComponent = ref _moveToTargetPlannerPool.Get(entity);
-                ref var moveToTargetComponent = ref _moveToTargetPool.Get(entity);
-                ref var moveToTargetActionComponent = ref _moveToTargetActionPool.GetOrAddComponent(entity);
-                moveToTargetActionComponent.Position = moveToTargetComponent.TargetPosition;
-
-                ApplyPlanningResult(systems, entity, moveToTargetPlannerComponent.PlannerData);
+                ref var moveToTargetPlannerComponent = ref _moveAspect.Planner.Get(entity);
+                int priority = AiConstants.PriorityNever;
+                ref var resultComponent = ref _prioritizerAspect.Target.Get(entity);
+                var result = resultComponent.Value[(int)_actionId];
+                if (result.Unpack(_world, out var targetEntity))
+                {
+                    ref var positionComponent = ref _positionPool.Get(targetEntity);
+                    ref var moveToTargetActionComponent = ref _moveAspect.MoveAction.GetOrAddComponent(entity);
+                    moveToTargetActionComponent.Position = positionComponent.Position;
+                    priority = moveToTargetPlannerComponent.PlannerData.Priority;
+                }
+                
+                ApplyPlanningResult(systems, entity, new AiPlannerData
+                {
+                    Priority = priority
+                });
             }
         }
 
-        protected override UniTask OnInitialize(int id, IEcsSystems systems)
+        protected override UniTask OnInitialize(IEcsSystems systems)
         {
-            systems.DelHere<MoveToTargetComponent>();
-            systems.Add(new MoveByCategoryTargetSelectionSystem(id));
-
             return UniTask.CompletedTask;
         }
     }

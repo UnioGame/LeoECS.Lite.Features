@@ -10,7 +10,6 @@
     public class AiConfiguration
     {
         [Searchable(FilterOptions = SearchFilterOptions.ISearchFilterableInterface)]
-        [ListDrawerSettings(ListElementLabelName = "@name")]
         public AiActionData[] aiActions = Array.Empty<AiActionData>();
     }
 }

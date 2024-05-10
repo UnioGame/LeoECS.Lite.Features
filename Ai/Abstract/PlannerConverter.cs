@@ -4,6 +4,7 @@
     using System.Threading;
     using Configurations;
     using Leopotam.EcsLite;
+    using Shared.Generated;
     using Sirenix.OdinInspector;
     using UniGame.LeoEcs.Converter.Runtime;
     using UniGame.LeoEcs.Shared.Abstract;
@@ -15,11 +16,14 @@
     public abstract class PlannerConverter : GameObjectConverter, IPlannerConverter, IEntityConverter
     {
 
+        [FormerlySerializedAs("id")]
         [FormerlySerializedAs("_id")] 
         [SerializeField]
-        public AiAgentActionId id;
+        public ActionType actionId;
         
-        public AiAgentActionId Id => id;
+        public ActionType ActionId => actionId;
+
+        protected int PlannerIndex;
 
         public new void Apply(GameObject target, EcsWorld world, int entity)
         {

@@ -10,7 +10,8 @@ namespace Game.Ecs.GameAi.MoveToTarget.Converters
     using Components;
 
     [Serializable]
-    public class MoveToTargetPlannerConverter : PlannerConverter<MoveToTargetPlannerComponent>,ILeoEcsGizmosDrawer
+    public class MoveToTargetPlannerConverter : PlannerConverter<MoveToTargetPlannerComponent>, 
+        ILeoEcsGizmosDrawer
     {
         [SerializeReference]
         [InlineProperty]
@@ -20,7 +21,7 @@ namespace Game.Ecs.GameAi.MoveToTarget.Converters
         {
             foreach (var converter in converters)
             {
-                converter.Apply(world, entity);
+                converter.Apply(world, entity, actionId);
             }
         }
 

@@ -20,6 +20,7 @@ namespace Ai.Ai.Variants.MoveToTarget.Aspects
     public class AiMoveAspect : EcsAspect
     {
         public EcsPool<MoveToTargetPlannerComponent> Planner;
-        public EcsPool<MoveByCategoryComponent> MoveByCategoryPool;
+        public EcsPool<MoveToTargetActionComponent> MoveAction;
+        public EcsPool<MoveToTargetDefaultComponent> Default;
     }
 }

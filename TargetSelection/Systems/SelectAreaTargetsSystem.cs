@@ -1,4 +1,5 @@
 ﻿using Game.Code.GameLayers.Relationship;
+using Game.Ecs.Core.Components;
 
 namespace Game.Ecs.TargetSelection.Systems
 {
@@ -26,10 +27,12 @@ namespace Game.Ecs.TargetSelection.Systems
     public class SelectAreaTargetsSystem : IEcsInitSystem, IEcsRunSystem
     {
         private EcsWorld _world;
-        private EcsFilter _targetFilter;
+        private EcsFilter _requestFilter;
 
         private TargetSelectionAspect _targetAspect;
         private TargetSelectionSystem _targetSelection;
+
+        private EcsPool<OwnerComponent> _ownerPool;
         
         private EcsPackedEntity[] _resultSelection = new EcsPackedEntity[TargetSelectionData.MaxTargets];
 
@@ -38,58 +41,48 @@ namespace Game.Ecs.TargetSelection.Systems
             _world = systems.GetWorld();
             _targetSelection = _world.GetGlobal<TargetSelectionSystem>();
             
-            _targetFilter = _world
-                .Filter<SqrRangeTargetsSelectionComponent>()
+            _requestFilter = _world
+                .Filter<SqrRangeTargetsSelectionRequestComponent>()
+                .Inc<OwnerComponent>()
                 .End();
         }
 
         public void Run(IEcsSystems systems)
         {
-            foreach (var entity in _targetFilter)
+            foreach (var requestEntity in _requestFilter)
             {
-                ref var selectionComponent = ref _targetAspect.TargetSelection.GetOrAddComponent(entity);
-                var requests = selectionComponent.Requests;
-                var results = selectionComponent.Results;
-
-                for (int i = 0; i < requests.Length; i++)
+                ref var ownerComponent = ref _ownerPool.Get(requestEntity);
+                if (!ownerComponent.Value.Unpack(_world, out var targetEntity))
                 {
-                    ref var request = ref requests[i];
-                    if (request.Processed)
-                    {
-                        continue;
-                    }
-                    
-                    var target = request.Target;
-                    if (!target.Unpack(_world, out var targetEntity))
-                    {
-                        continue;
-                    }
-
-                    ref var result = ref results[i];
-                    ref var transformComponent = ref _targetAspect.Position.Get(targetEntity);
-
-                    var position = transformComponent.Position;
-                    var radius = request.Radius;
-                    var category = request.Category;
-                    var layer = request.Relationship.GetFilterMask(request.SourceLayer);
-
-                    var amount = _targetSelection.SelectEntitiesInArea(
-                        _resultSelection,
-                        radius,
-                        ref position,
-                        ref layer,
-                        ref category);
-
-                    result.Count = amount;
-                    for (var j = 0; j < amount; j++)
-                    {
-                        ref var resultValue = ref _resultSelection[j];
-                        result.Values[j] = resultValue;
-                    }
-
-                    result.Ready = true;
-                    request.Processed = true;
+                    continue;
                 }
+                
+                ref var requestComponent = ref _targetAspect.TargetSelectionRequest.GetOrAddComponent(requestEntity);
+                ref var transformComponent = ref _targetAspect.Position.Get(targetEntity);
+                var layer = requestComponent.Relationship.GetFilterMask(requestComponent.SourceLayer);
+                var count = _targetSelection.SelectEntitiesInArea(
+                    _resultSelection,
+                    requestComponent.Radius,
+                    ref transformComponent.Position,
+                    ref layer,
+                    ref requestComponent.Category);
+
+                ref var resultComponent = ref _targetAspect.TargetSelectionResult.Get(targetEntity);
+                var values = resultComponent.Results[requestComponent.ResultHash].Values;
+                var result = new SqrRangeTargetSelectionResult
+                {
+                    Count = count,
+                    Values = values
+                };
+                
+                for (var j = 0; j < count; j++)
+                {
+                    ref var resultValue = ref _resultSelection[j];
+                    result.Values[j] = resultValue;
+                }
+
+                result.Ready = true;
+                resultComponent.Results[requestComponent.ResultHash] = result;
             }
         }
     }

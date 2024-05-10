@@ -28,7 +28,7 @@ namespace Game.Ecs.GameAi.MoveToTarget.Systems
 #endif
     [Serializable]
     [ECSDI]
-    public class MoveToTargetAiSystem : IAiActionSystem,IEcsInitSystem
+    public class MoveToTargetAiSystem : IAiActionSystem, IEcsInitSystem
     {
         public float minSqrDistance = 4f;
         
@@ -41,8 +41,6 @@ namespace Game.Ecs.GameAi.MoveToTarget.Systems
 
         public void Init(IEcsSystems systems)
         {
-            Debug.Log("MoveToTargetAiSystem init");
-            
             _world = systems.GetWorld();
             _abilityTools = _world.GetGlobal<AbilityTools>();
             
@@ -62,7 +60,7 @@ namespace Game.Ecs.GameAi.MoveToTarget.Systems
                 ref var moveToTargetComponent = ref _moveToTargetPool.Get(entity);
                 ref var unitComponent = ref _unitsPool.Get(entity);
                 
-                unitComponent.Value.Move(moveToTargetComponent.Position);
+                unitComponent.Value.MoveOrder(moveToTargetComponent.Position);
             }
         }
     }

@@ -1,5 +1,3 @@
-using Leopotam.EcsLite;
-
 namespace Game.Ecs.AI.Configurations
 {
     using Sirenix.OdinInspector;
@@ -36,27 +34,6 @@ namespace Game.Ecs.AI.Configurations
             {
                 if(planner is not ILeoEcsGizmosDrawer drawer) continue;
                 drawer.DrawGizmos(target);
-            }
-        }
-
-        private void OnValidate()
-        {
-            foreach (var c in commonAiConverters)
-            {
-                if (c.commonAiConverters is SqrRangeTargetSelectionConverter rangeTargetSelectionConverter)
-                {
-                    int capacity = agentConfiguration.Planners.Count;
-                    rangeTargetSelectionConverter.Value.Requests = new SqrRangeTargetSelectionRequest[agentConfiguration.Planners.Count];
-                    rangeTargetSelectionConverter.Value.Results = new SqrRangeTargetSelectionResult[agentConfiguration.Planners.Count];
-                    for (int i = 0; i < capacity; i++)
-                    {
-                        ref var request = ref rangeTargetSelectionConverter.Value.Requests[i];
-                        request.Processed = true;
-                        
-                        ref var result = ref rangeTargetSelectionConverter.Value.Results[i];
-                        result.Ready = false;
-                    }
-                }
             }
         }
     }

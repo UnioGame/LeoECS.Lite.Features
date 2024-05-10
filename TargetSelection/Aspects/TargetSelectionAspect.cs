@@ -15,7 +15,8 @@
     [Serializable]
     public class TargetSelectionAspect : EcsAspect
     {
-        public EcsPool<SqrRangeTargetsSelectionComponent> TargetSelection;
+        public EcsPool<TargetsSelectionResultComponent> TargetSelectionResult;
+        public EcsPool<SqrRangeTargetsSelectionRequestComponent> TargetSelectionRequest;
         public EcsPool<LayerIdComponent> Layer;
         public EcsPool<CategoryIdComponent> Category;
         public EcsPool<TransformComponent> Transform;

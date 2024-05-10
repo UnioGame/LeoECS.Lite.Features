@@ -1,9 +1,11 @@
 namespace Game.Ecs.AI.Systems
 {
     using System;
+    using System.Collections.Generic;
     using Components;
     using Leopotam.EcsLite;
     using Data;
+    using Shared.Generated;
 
     [Serializable]
     public class AiPlanningSystem : IEcsRunSystem,IEcsInitSystem
@@ -27,9 +29,9 @@ namespace Game.Ecs.AI.Systems
             {
                 ref var agentComponent = ref aiAgentComponentPool.Get(entity);
                 var plan = agentComponent.PlannerData;
-                var actions = agentComponent.PlannedActions;
+                ref var actions = ref agentComponent.PlannedActionsMask;
 
-                MaxPriorityPlanning(plan, actions);
+                MaxPriorityPlanning(plan, ref actions);
                 //PriorityPlanning(plan, actions);
             }
         }
@@ -43,23 +45,23 @@ namespace Game.Ecs.AI.Systems
             }
         }
         
-        private void MaxPriorityPlanning(AiPlannerData[] plan, bool[] actions)
+        private void MaxPriorityPlanning(Dictionary<ActionType, AiPlannerData> plan, ref ActionType plannedActionsMask)
         {
             var maxPriority = -1f;
-            var selectedId = -1;
-            for (var i = 0; i < plan.Length; i++)
+            ActionType selectedId = ActionType.None;
+            foreach (var key in plan.Keys)
             {
-                var priority = plan[i].Priority;
-                if(priority <= maxPriority) continue;
+                var priority = plan[key].Priority;
+                if (priority <= maxPriority)
+                {
+                    continue;
+                }
 
                 maxPriority = priority;
-                selectedId = i;
+                selectedId = key;
             }
 
-            for (var i = 0; i < plan.Length; i++)
-            {
-                actions[i] = i == selectedId;
-            }
+            plannedActionsMask |= selectedId;
         }
 
     }

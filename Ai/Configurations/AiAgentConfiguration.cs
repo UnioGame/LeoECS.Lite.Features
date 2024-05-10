@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Abstract;
+    using Shared.Generated;
     using Sirenix.OdinInspector;
     using UnityEngine;
     using UnityEngine.Serialization;
@@ -20,7 +21,7 @@
 
         #endregion
 
-        public IReadOnlyList<AiAgentActionId> Actions => planners.Select(x => x.Id).ToList();
+        public IReadOnlyList<ActionType> Actions => planners.Select(x => x.ActionId).ToList();
 
         public IReadOnlyList<IPlannerConverter> Planners => planners;
     }

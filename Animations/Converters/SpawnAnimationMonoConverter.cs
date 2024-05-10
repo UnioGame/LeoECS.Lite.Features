@@ -10,13 +10,10 @@
     using UniGame.AddressableTools.Runtime;
     using UniGame.LeoEcs.Converter.Runtime;
     using UniGame.LeoEcs.Shared.Extensions;
-    using UniGame.Shared.Runtime.Timeline;
     using UniModules.UniGame.Core.Runtime.DataFlow.Extensions;
     using UnityEngine;
-    using UnityEngine.AddressableAssets;
     using UnityEngine.Playables;
     using UnityEngine.Serialization;
-    using UnityEngine.Timeline;
 
     public sealed class SpawnAnimationMonoConverter : MonoLeoEcsConverter
     {
@@ -87,28 +84,13 @@
                 disabledPart.SetActive(true);
             }
         }
-
-        [Button]
-        public void Test()
-        {
-            // Get the PlayableGraph from the PlayableDirector
-            playableDirector.playableAsset = spawnAnimation;
-            playableDirector.RebuildGraph();
-            
-            var binding = playableDirector.GetGenericBinding(spawnAnimation);
-            var graph = playableDirector.playableGraph;
-            var animator = gameObject.GetComponent<Animator>();
-
-            var track = spawnAnimation.GetTrack<AnimationTrack>();
-            playableDirector.SetGenericBinding(track,animator);
-        }
     }
     
     [Serializable]
     public sealed class SpawnAnimationConverter : LeoEcsConverter
     {
-        [SerializeField]
-        public AssetReferenceT<PlayableAsset> spawnAnimation;
+        //[SerializeField]
+        //public AssetReferenceT<PlayableAsset> spawnAnimation;
 
         [Required]
         [SerializeField]
@@ -138,14 +120,14 @@
 
         private async UniTask ActivateAnimationAsync(GameObject target, EcsWorld world, int entity)
         {
-            var lifeTime = target.GetAssetLifeTime();
+            /*var lifeTime = target.GetAssetLifeTime();
             var animation = spawnAnimation
                 .LoadAssetForCompletion(lifeTime);
             
             CreateAnimationEntity(animation,target,world,entity);
 
             await ActivateAfterSpawn((float)animation.duration)
-                .AttachExternalCancellation(lifeTime.Token);
+                .AttachExternalCancellation(lifeTime.Token);*/
         }
 
         private void CreateAnimationEntity(PlayableAsset animation,GameObject target, EcsWorld world, int entity)

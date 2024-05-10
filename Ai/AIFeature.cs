@@ -26,7 +26,7 @@
             {
                 var aiActionData = actions[index];
                 var planner = aiActionData.planner;
-                await planner.Initialize(index, ecsSystems);
+                await planner.Initialize(ecsSystems, aiActionData.actionId);
             }
             
             ecsSystems.Add(new AiPlanningSystem());
@@ -37,7 +37,6 @@
             }
 
             ecsSystems.Add(new AiCleanUpPlanningDataSystem(actions));
-            ecsSystems.DelHere<AiAgentPlanningComponent>();
         }
     }
 }

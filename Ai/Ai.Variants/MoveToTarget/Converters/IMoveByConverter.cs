@@ -1,6 +1,9 @@
 ﻿namespace Game.Ecs.GameAi.MoveToTarget.Converters
 {
-    using UniGame.LeoEcs.Converter.Runtime.Abstract;
+    using AI.Converters;
 
-    public interface IMoveByConverter : IEcsComponentConverter {}
+    public interface IMoveByConverter : IEcsComponentSubPlannerConverter
+    {
+        
+    }
 }

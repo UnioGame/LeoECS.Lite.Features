@@ -1,11 +1,11 @@
 namespace Game.Ecs.AI.Converters
 {
     using System;
+    using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
     using Components;
     using Configurations;
     using Leopotam.EcsLite;
-    using Sirenix.OdinInspector;
     using UniGame.AddressableTools.Runtime;
     using UniGame.LeoEcs.Converter.Runtime;
     using UniGame.LeoEcs.Converter.Runtime.Abstract;
@@ -13,8 +13,10 @@ namespace Game.Ecs.AI.Converters
     using UniModules.UniGame.Core.Runtime.DataFlow.Extensions;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
-    using UnityEngine.Serialization;
     using Data;
+    using Shared.Generated;
+    using TargetSelection;
+    using TargetSelection.Components;
 
     [Serializable]
     public class AiAgentConverter : LeoEcsConverter, ILeoEcsGizmosDrawer
@@ -22,29 +24,6 @@ namespace Game.Ecs.AI.Converters
         public bool drawGizmos = false;
         
         public AssetReferenceT<AiAgentConfigurationAsset> configuration;
-
-        [FormerlySerializedAs("_useForceControl")]
-        [ShowIf(nameof(IsRuntime))]
-        [BoxGroup("debug")]      
-        [Tooltip("add AiAgentSelfControlComponent if checked")]
-        [SerializeField]
-        public bool useForceControl = false;
-
-        [FormerlySerializedAs("_activeActions")]
-        [ShowIf(nameof(IsRuntime))]
-        [BoxGroup("debug")]
-        [Tooltip("runtime inspector for selected ai actions")]
-        [SerializeField]
-        public bool[] activeActions;
-        
-        [FormerlySerializedAs("_plannerData")]
-        [ShowIf(nameof(IsRuntime))]
-        [BoxGroup("debug")]
-        [Tooltip("runtime inspector for selected ai actions")]
-        [SerializeField]
-        public AiPlannerData[] plannerData;
-
-        public bool IsRuntime => Application.isPlaying;
         
         public override void Apply(GameObject target, EcsWorld world, int entity)
         {
@@ -63,32 +42,32 @@ namespace Game.Ecs.AI.Converters
 
         private void ApplyAiData(GameObject target, EcsWorld world, int entity, AiAgentConfigurationAsset aiData)
         {
-            activeActions = new bool[aiData.ActionsCount];
-            plannerData = new AiPlannerData[aiData.ActionsCount];
-            
-            var availableActions = new bool[aiData.ActionsCount];
             var aiConfiguration = aiData.agentConfiguration;
 
+            ref var prioritizedTargetsComponent = ref world.AddComponent<PrioritizedTargetComponent>(entity);
+            prioritizedTargetsComponent.Value = new Dictionary<int, EcsPackedEntity>();
+            ref var targetResultComponent = ref world.AddComponent<TargetsSelectionResultComponent>(entity);
+            targetResultComponent.Results = new Dictionary<int, SqrRangeTargetSelectionResult>();
+            
+            ref var aiAgent = ref world.AddComponent<AiAgentComponent>(entity);
+            aiAgent.Configuration = aiConfiguration;
+            aiAgent.PlannedActionsMask = 0;
+            aiAgent.PlannerData = new Dictionary<ActionType, AiPlannerData>();
+            
             foreach (var planner in aiConfiguration.planners)
             {
-                availableActions[planner.id] = true;
+                aiAgent.PlannerData.Add(planner.ActionId, new AiPlannerData());
                 planner.Apply(target, world, entity);
+                prioritizedTargetsComponent.Value.Add((int)planner.ActionId, default);
+                targetResultComponent.Results.Add((int)planner.ActionId, new SqrRangeTargetSelectionResult
+                {
+                    Values = new EcsPackedEntity[TargetSelectionData.MaxTargets]
+                });
             }
 
             foreach (var c in aiData.commonAiConverters)
             {
                 c.commonAiConverters.Apply(world, entity);
-            }
-
-            ref var aiAgent = ref world.AddComponent<AiAgentComponent>(entity);
-            aiAgent.Configuration = aiConfiguration;
-            aiAgent.PlannedActions = activeActions;
-            aiAgent.PlannerData = plannerData;
-            aiAgent.AvailableActions = availableActions;
-
-            if (useForceControl)
-            {
-                world.AddComponent<AiAgentSelfControlComponent>(entity);
             }
         }
 
