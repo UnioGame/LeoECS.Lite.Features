@@ -1,9 +1,11 @@
 ﻿namespace Game.Ecs.Characteristics.AttackSpeed.Systems
 {
     using System;
+    using Ability.Common.Components;
     using Components;
     using Game.Ecs.Characteristics.Base.Components;
     using Leopotam.EcsLite;
+    using UniGame.LeoEcs.Shared.Extensions;
 
     /// <summary>
     /// update value of attack speed characteristic

@@ -2,6 +2,8 @@
 {
     using System;
     using Cysharp.Threading.Tasks;
+    using Data;
+    using global::Ability.SubFeatures.AbilityAnimation.Systems;
     using global::Ability.Systems;
     using Leopotam.EcsLite;
     using Systems;
@@ -14,6 +16,7 @@
     [CreateAssetMenu(menuName = "Game/Feature/Ability/AbilityAnimations SubFeature",fileName = "AbilityAnimations SubFeature")]
     public class AbilityAnimationsSubFeature : AbilitySubFeature
     {
+        public AnimatorParametersMap animatorParametersMap;
         public override UniTask<IEcsSystems> OnCompleteAbilitySystems(IEcsSystems ecsSystems)
         {
             //clear ability animation when ability complete
@@ -32,6 +35,10 @@
             
             //trigger animation trough animator component
             ecsSystems.Add(new AbilityTriggerAnimatorSystem());
+            //update attack animation speeed
+            ecsSystems.Add(new UpdateAttackAnimationSpeedSystem(animatorParametersMap));
+            //update movement animation speed
+            // ecsSystems.Add(new UpdateMovementAnimationSpeedSystem(animatorParametersMap));
             return UniTask.FromResult(ecsSystems);
         }
         

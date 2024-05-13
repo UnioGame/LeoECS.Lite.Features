@@ -11,6 +11,7 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown.Systems
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Extensions;
     using UniGame.LeoEcs.Timer.Components;
+    using UnityEngine;
 
     /// <summary>
     /// обновляем базовое значение кулдауна способности на значение скорости атаки
@@ -88,6 +89,10 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown.Systems
                     CooldownType.Speed => 1f / attackSpeed.Value,
                     _ => throw new ArgumentOutOfRangeException(nameof(cooldownTypeComponent.Value))
                 };
+                
+                ref var abilityCooldownComponent = ref _abilityAspect.BaseCooldown.GetOrAddComponent(abilityEntity);
+                var baseCooldown = abilityCooldownComponent.Value;
+                
             }
         }
     }
