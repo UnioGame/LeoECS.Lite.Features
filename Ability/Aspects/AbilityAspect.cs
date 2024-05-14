@@ -70,6 +70,8 @@
         public EcsPool<AbilityCompleteSelfEvent> CompleteEvent;
         
         public EcsPool<EquipAbilityIdSelfRequest> EquipAbilityIdRequest;
+        
+        public EcsPool<AbilityCooldownComponent> AbilityCooldownValues;
         //animation
         public EcsPool<AbilityAwaitAnimationTriggerComponent> AwaitAnimationTrigger;
         public EcsPool<AnimationTriggerRequest> AnimationTrigger;

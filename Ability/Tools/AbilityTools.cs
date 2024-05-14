@@ -156,6 +156,9 @@ namespace Game.Ecs.Ability.Tools
                 {
                     case AnimationType.Animator:
                         ComposeAbilityAnimation(_world, ownerEntity, packedAbility,abilityConfiguration.animationClipId);
+                        ref var abilityCooldownComponent = ref _abilityAspect.AbilityCooldownValues.GetOrAddComponent(abilityEntity);
+                        abilityCooldownComponent.baseCooldown = abilityConfiguration.specification.Cooldown;
+                        abilityCooldownComponent.currentCooldown = abilityConfiguration.specification.Cooldown;
                         break;
                     case AnimationType.PlayableDirector:
                         ComposeAbilityAnimationAsync(_world, ownerEntity,packedAbility,abilityLink).Forget();
@@ -184,8 +187,10 @@ namespace Game.Ecs.Ability.Tools
 #endif
                 return;
             }
+            
             ref var triggeredAnimationIdComponent = ref world.GetOrAddComponent<TriggeredAnimationIdComponent>(abilityEntity);
             triggeredAnimationIdComponent.animationId = (string)clipId;
+            //todo trim ability cooldown to animation duration if cooldown is bigger
             
             _abilityAspect.AwaitAnimationTrigger.GetOrAddComponent(abilityEntity);
         }

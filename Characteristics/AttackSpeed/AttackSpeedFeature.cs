@@ -22,11 +22,11 @@
     {
         protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
-            //register health characteristic
-            ecsSystems.AddCharacteristic<AttackSpeedComponent>();
             //update attack speed value
+            ecsSystems.Add(new OverrideBaseAbilityCooldownSystem());
             ecsSystems.Add(new UpdateAttackSpeedChangedSystem());
-
+            ecsSystems.AddCharacteristic<AttackSpeedComponent>();
+            
             return UniTask.CompletedTask;
         }
     }
