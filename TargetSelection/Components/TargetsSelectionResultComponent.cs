@@ -3,7 +3,8 @@
 namespace Game.Ecs.TargetSelection.Components
 {
     using System;
-    
+    using Leopotam.EcsLite;
+
     /// <summary>
     /// cache for range selection
     /// </summary>
@@ -17,6 +18,7 @@ namespace Game.Ecs.TargetSelection.Components
     [Serializable]
     public struct TargetsSelectionResultComponent
     {
-        public Dictionary<int, SqrRangeTargetSelectionResult> Results;
+        public EcsPackedEntity[] Values;
+        public int Count;
     }
 }

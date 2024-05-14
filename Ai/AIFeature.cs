@@ -1,8 +1,11 @@
 ﻿namespace Game.Ecs.AI
 {
+    using Ai.Targeting.Systems;
     using Components;
     using Configurations;
     using Cysharp.Threading.Tasks;
+    using global::Ai.Ai.Variants.Prioritizer.Components;
+    using global::Ai.Ai.Variants.Prioritizer.Systems;
     using Leopotam.EcsLite;
     using Leopotam.EcsLite.ExtendedSystems;
     using Systems;
@@ -21,6 +24,13 @@
             var configuration = configurationAsset.configuration;
             var actions = configuration.aiActions;
 
+            ecsSystems.Add(new SelectByCategoryTargetSelectionSystem());
+            ecsSystems.Add(new SelectByAttackDealerSystem());
+            ecsSystems.DelHere<TEMPORARY_HealthChangedEvent>();
+            ecsSystems.Add(new AttackEventTargetCountdownSystem());
+            ecsSystems.DelHere<ChaseTargetComponent>();
+            ecsSystems.Add(new TargetPrioritizerSystem());
+            
             // add all planners
             for (var index = 0; index < actions.Length; index++)
             {

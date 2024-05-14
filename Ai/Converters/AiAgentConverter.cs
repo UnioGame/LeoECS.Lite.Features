@@ -14,7 +14,6 @@ namespace Game.Ecs.AI.Converters
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using Data;
-    using Shared.Generated;
     using TargetSelection;
     using TargetSelection.Components;
 
@@ -43,26 +42,26 @@ namespace Game.Ecs.AI.Converters
         private void ApplyAiData(GameObject target, EcsWorld world, int entity, AiAgentConfigurationAsset aiData)
         {
             var aiConfiguration = aiData.agentConfiguration;
-
-            ref var prioritizedTargetsComponent = ref world.AddComponent<PrioritizedTargetComponent>(entity);
-            prioritizedTargetsComponent.Value = new Dictionary<int, EcsPackedEntity>();
+            
             ref var targetResultComponent = ref world.AddComponent<TargetsSelectionResultComponent>(entity);
-            targetResultComponent.Results = new Dictionary<int, SqrRangeTargetSelectionResult>();
+            targetResultComponent.Values = new EcsPackedEntity[TargetSelectionData.MaxTargets];
             
             ref var aiAgent = ref world.AddComponent<AiAgentComponent>(entity);
             aiAgent.Configuration = aiConfiguration;
             aiAgent.PlannedActionsMask = 0;
             aiAgent.PlannerData = new Dictionary<ActionType, AiPlannerData>();
+
+            foreach (var targetSelector in aiData.targetingConfig.targetSelectors)
+            {
+                targetSelector.Apply(world, entity);
+            }
+            
+            aiData.prioritizerConfig.prioritizerConverter.Apply(world, entity);
             
             foreach (var planner in aiConfiguration.planners)
             {
                 aiAgent.PlannerData.Add(planner.ActionId, new AiPlannerData());
                 planner.Apply(target, world, entity);
-                prioritizedTargetsComponent.Value.Add((int)planner.ActionId, default);
-                targetResultComponent.Results.Add((int)planner.ActionId, new SqrRangeTargetSelectionResult
-                {
-                    Values = new EcsPackedEntity[TargetSelectionData.MaxTargets]
-                });
             }
 
             foreach (var c in aiData.commonAiConverters)

@@ -1,8 +1,8 @@
 ﻿namespace Game.Ecs.AI.Converters
 {
     using System;
+    using Data;
     using Leopotam.EcsLite;
-    using Shared.Generated;
     using UniGame.LeoEcs.Converter.Runtime.Abstract;
 
     public abstract class EcsComponentSubPlannerConverter : IEcsComponentConverter, IEcsComponentSubPlannerConverter

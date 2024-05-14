@@ -7,7 +7,6 @@ namespace Game.Ecs.AI.Systems
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Shared.Extensions;
     using Data;
-    using Shared.Generated;
 
     [Serializable]
     public abstract class BasePlannerSystem<TComponent>: IAiPlannerSystem, IEcsRunSystem

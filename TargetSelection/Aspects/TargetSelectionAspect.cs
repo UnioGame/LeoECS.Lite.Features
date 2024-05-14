@@ -16,7 +16,7 @@
     public class TargetSelectionAspect : EcsAspect
     {
         public EcsPool<TargetsSelectionResultComponent> TargetSelectionResult;
-        public EcsPool<SqrRangeTargetsSelectionRequestComponent> TargetSelectionRequest;
+        public EcsPool<TargetsSelectionRequestComponent> TargetSelectionRequest;
         public EcsPool<LayerIdComponent> Layer;
         public EcsPool<CategoryIdComponent> Category;
         public EcsPool<TransformComponent> Transform;

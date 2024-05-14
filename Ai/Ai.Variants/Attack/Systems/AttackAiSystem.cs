@@ -1,27 +1,17 @@
 ﻿namespace Ai.Ai.Variants.Attack.Systems
 {
     using System;
-    using System.Linq;
     using Aspects;
     using Components;
     using Game.Ecs.AI.Abstract;
     using Game.Ecs.AI.Components;
     using Game.Ecs.Core.Death.Components;
-    using Game.Ecs.Movement.Components;
     using Game.Ecs.Units.Components;
     using Girand.Runtime.Server;
     using Leopotam.EcsLite;
-    using UniGame.Core.Runtime.Extension;
-    using UniGame.LeoEcs.Shared.Extensions;
-    using UniGame.Runtime.ObjectPool.Extensions;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Components;
-    using UnityEngine;
-    using UnityEngine.Pool;
-
-    /// <summary>
-    /// ADD DESCRIPTION HERE
-    /// </summary>
+    
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
 
@@ -38,7 +28,7 @@
 
         private EcsPool<UnitComponent> _unitPool;
         private EcsPool<GameObjectComponent> _gameObjectComponent;
-        private AiAttackAspect _attackAspect;
+        private AttackAspect _attackAspect;
         public void Init(IEcsSystems systems)
         {
             _world = systems.GetWorld();

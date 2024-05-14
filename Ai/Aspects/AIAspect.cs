@@ -5,10 +5,7 @@ namespace Game.Ecs.AI.Aspects
 {
     using System;
     using UniGame.LeoEcs.Bootstrap.Runtime.Abstract;
-
-    /// <summary>
-    /// ADD DESCRIPTION HERE
-    /// </summary>
+    
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
 

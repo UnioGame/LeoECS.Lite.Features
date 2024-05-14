@@ -4,17 +4,15 @@
     using System.Collections.Generic;
     using System.Linq;
     using Abstract;
-    using Shared.Generated;
+    using Data;
     using Sirenix.OdinInspector;
     using UnityEngine;
-    using UnityEngine.Serialization;
 
     [Serializable]
     public class AiAgentConfiguration
     {
         #region inspector
-
-        [FormerlySerializedAs("_planners")]
+        
         [SerializeReference]
         [InlineProperty]
         public List<PlannerConverter> planners = new List<PlannerConverter>();

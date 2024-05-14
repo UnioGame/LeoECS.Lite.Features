@@ -5,10 +5,7 @@
     using Sirenix.OdinInspector;
     using UniGame.LeoEcs.Shared.Abstract;
     using UnityEngine;
-
-    /// <summary>
-    /// ADD DESCRIPTION HERE
-    /// </summary>
+    
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
 

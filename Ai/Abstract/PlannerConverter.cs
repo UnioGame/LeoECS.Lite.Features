@@ -1,10 +1,8 @@
 ﻿namespace Game.Ecs.AI.Abstract
 {
     using System;
-    using System.Threading;
-    using Configurations;
+    using Data;
     using Leopotam.EcsLite;
-    using Shared.Generated;
     using Sirenix.OdinInspector;
     using UniGame.LeoEcs.Converter.Runtime;
     using UniGame.LeoEcs.Shared.Abstract;

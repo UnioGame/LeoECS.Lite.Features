@@ -1,7 +1,7 @@
 ﻿namespace Game.Ecs.AI.Converters
 {
+    using Data;
     using Leopotam.EcsLite;
-    using Shared.Generated;
 
     public interface IEcsComponentSubPlannerConverter
     {

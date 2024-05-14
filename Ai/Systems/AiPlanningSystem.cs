@@ -5,7 +5,6 @@ namespace Game.Ecs.AI.Systems
     using Components;
     using Leopotam.EcsLite;
     using Data;
-    using Shared.Generated;
 
     [Serializable]
     public class AiPlanningSystem : IEcsRunSystem,IEcsInitSystem
@@ -47,7 +46,7 @@ namespace Game.Ecs.AI.Systems
         
         private void MaxPriorityPlanning(Dictionary<ActionType, AiPlannerData> plan, ref ActionType plannedActionsMask)
         {
-            var maxPriority = -1f;
+            var maxPriority = AiConstants.PriorityNever;
             ActionType selectedId = ActionType.None;
             foreach (var key in plan.Keys)
             {
@@ -61,7 +60,7 @@ namespace Game.Ecs.AI.Systems
                 selectedId = key;
             }
 
-            plannedActionsMask |= selectedId;
+            plannedActionsMask = selectedId;
         }
 
     }

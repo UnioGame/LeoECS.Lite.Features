@@ -2,10 +2,9 @@
 {
     using System;
     using Abstract;
-    using Shared.Generated;
+    using Data;
     using Sirenix.OdinInspector;
     using UnityEngine;
-    using UnityEngine.Serialization;
 
     [Serializable]
     public class AiActionData

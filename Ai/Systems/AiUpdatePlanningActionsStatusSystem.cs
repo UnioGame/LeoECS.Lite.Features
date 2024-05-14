@@ -5,11 +5,7 @@ namespace Game.Ecs.AI.Systems
     using Components;
     using Configurations;
     using Leopotam.EcsLite;
-
-    /// <summary>
-    /// Система удаляет для система экшенов их компоненты с данными,
-    /// тем самым включая/выключая логику для сущности агента.
-    /// </summary>
+    
     [Serializable]
     public class AiUpdatePlanningActionsStatusSystem : IEcsRunSystem, IEcsInitSystem
     {

@@ -26,7 +26,7 @@ namespace Game.Ecs.TargetSelection
             ecsSystems.Add(new InitKDTreeTargetsSystem());
             ecsSystems.Add(new CollectKDTreeTargetsSystem());
             ecsSystems.Add(new SelectAreaTargetsSystem());
-            ecsSystems.DelHere<SqrRangeTargetsSelectionRequestComponent>();
+            ecsSystems.DelHere<TargetsSelectionRequestComponent>();
             return UniTask.CompletedTask;
         }
     }

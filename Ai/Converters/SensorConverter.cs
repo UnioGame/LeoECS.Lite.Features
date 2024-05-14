@@ -4,10 +4,6 @@
     using Unity.IL2CPP.CompilerServices;
     using Abstract;
     using Components;
-    using Leopotam.EcsLite;
-    using UniGame.LeoEcs.Converter.Runtime;
-    using UniGame.LeoEcs.Shared.Extensions;
-    using UnityEngine;
 
     /// <summary>
     /// ADD DESCRIPTION HERE

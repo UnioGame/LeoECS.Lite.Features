@@ -6,7 +6,6 @@ namespace Game.Ecs.AI.Systems
     using Configurations;
     using Leopotam.EcsLite;
     using Data;
-    using Shared.Generated;
 
     [Serializable]
     public class AiCleanUpPlanningDataSystem : IEcsRunSystem, IEcsInitSystem
@@ -41,7 +40,7 @@ namespace Game.Ecs.AI.Systems
                     action.planner.RemoveComponent(systems, entity);
                     agentComponent.PlannerData[action.actionId] = new AiPlannerData
                     {
-                        Priority = 0,
+                        Priority = AiConstants.PriorityNever,
                     };
                 }
             }

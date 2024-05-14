@@ -3,10 +3,7 @@
 namespace Ai.Ai.Variants.Attack.Components
 {
     using System;
-
-    /// <summary>
-    /// ADD DESCRIPTION HERE
-    /// </summary>
+    
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
 

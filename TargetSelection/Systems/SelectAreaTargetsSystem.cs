@@ -42,8 +42,7 @@ namespace Game.Ecs.TargetSelection.Systems
             _targetSelection = _world.GetGlobal<TargetSelectionSystem>();
             
             _requestFilter = _world
-                .Filter<SqrRangeTargetsSelectionRequestComponent>()
-                .Inc<OwnerComponent>()
+                .Filter<TargetsSelectionRequestComponent>()
                 .End();
         }
 
@@ -51,14 +50,8 @@ namespace Game.Ecs.TargetSelection.Systems
         {
             foreach (var requestEntity in _requestFilter)
             {
-                ref var ownerComponent = ref _ownerPool.Get(requestEntity);
-                if (!ownerComponent.Value.Unpack(_world, out var targetEntity))
-                {
-                    continue;
-                }
-                
-                ref var requestComponent = ref _targetAspect.TargetSelectionRequest.GetOrAddComponent(requestEntity);
-                ref var transformComponent = ref _targetAspect.Position.Get(targetEntity);
+                ref var requestComponent = ref _targetAspect.TargetSelectionRequest.Get(requestEntity);
+                ref var transformComponent = ref _targetAspect.Position.Get(requestEntity);
                 var layer = requestComponent.Relationship.GetFilterMask(requestComponent.SourceLayer);
                 var count = _targetSelection.SelectEntitiesInArea(
                     _resultSelection,
@@ -67,22 +60,13 @@ namespace Game.Ecs.TargetSelection.Systems
                     ref layer,
                     ref requestComponent.Category);
 
-                ref var resultComponent = ref _targetAspect.TargetSelectionResult.Get(targetEntity);
-                var values = resultComponent.Results[requestComponent.ResultHash].Values;
-                var result = new SqrRangeTargetSelectionResult
-                {
-                    Count = count,
-                    Values = values
-                };
-                
+                ref var resultComponent = ref _targetAspect.TargetSelectionResult.GetOrAddComponent(requestEntity);
+                resultComponent.Count = count;
                 for (var j = 0; j < count; j++)
                 {
                     ref var resultValue = ref _resultSelection[j];
-                    result.Values[j] = resultValue;
+                    resultComponent.Values[j] = resultValue;
                 }
-
-                result.Ready = true;
-                resultComponent.Results[requestComponent.ResultHash] = result;
             }
         }
     }

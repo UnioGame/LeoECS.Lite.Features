@@ -1,28 +1,34 @@
 namespace Game.Ecs.AI.Configurations
 {
+    using global::Ai.Ai.Variants.Prioritizer.Data;
     using Sirenix.OdinInspector;
+    using Targeting.Data;
     using UniGame.LeoEcs.Converter.Runtime.Abstract;
     using UnityEngine;
-    using UnityEngine.Serialization;
-    using Converters;
-    using TargetSelection;
 
     [CreateAssetMenu(menuName = "Game/Configurations/AI/Ai Agent Configuration",fileName = nameof(AiConfigurationAsset))]
     public class AiAgentConfigurationAsset : ScriptableObject, ILeoEcsGizmosDrawer
     {
-        [FormerlySerializedAs("_agentConfiguration")]
+        [SerializeField]
+        [InlineProperty] 
+        [HideLabel]
+        public TargetingConfig targetingConfig;
+
+        [SerializeField]
+        [HideLabel]
+        public PrioritizerConfig prioritizerConfig;
+        
+        [SerializeField]
+        public AiCommonPlanners[] commonAiConverters;
+        
         [SerializeField]
         [InlineProperty] 
         [HideLabel] 
         public AiAgentConfiguration agentConfiguration = new AiAgentConfiguration();
-
-        [FormerlySerializedAs("_aiConfiguration")]
+        
         [SerializeField]
         [InlineEditor]
         public AiConfigurationAsset aiConfiguration;
-
-        [SerializeField]
-        public AiCommonPlanners[] commonAiConverters;
 
         public int ActionsCount => aiConfiguration
             .configuration
