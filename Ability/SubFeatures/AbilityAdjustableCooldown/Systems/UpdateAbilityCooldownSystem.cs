@@ -44,7 +44,7 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown.Systems
             //todo разкоментировать компонент CharacteristicChangedComponent<AttackSpeedComponent>
             _filter = _world
                 .Filter<CharacteristicComponent<AttackSpeedComponent>>()
-                // .Inc<CharacteristicChangedComponent<AttackSpeedComponent>>()
+                .Inc<CharacteristicChangedComponent<AttackSpeedComponent>>()
                 .Inc<AttackSpeedComponent>()
                 .Inc<AttackSpeedCooldownTypeComponent>()
                 .End();
@@ -89,9 +89,6 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown.Systems
                     CooldownType.Speed => 1f / attackSpeed.Value,
                     _ => throw new ArgumentOutOfRangeException(nameof(cooldownTypeComponent.Value))
                 };
-                
-                ref var abilityCooldownComponent = ref _abilityAspect.BaseCooldown.GetOrAddComponent(abilityEntity);
-                var baseCooldown = abilityCooldownComponent.Value;
                 
             }
         }

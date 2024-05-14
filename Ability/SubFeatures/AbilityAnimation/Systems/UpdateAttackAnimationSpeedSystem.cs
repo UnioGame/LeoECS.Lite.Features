@@ -6,6 +6,8 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
     using Game.Ecs.Ability.Aspects;
     using Game.Ecs.Ability.Common.Components;
     using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Data;
+    using Game.Ecs.Characteristics.AttackSpeed.Components;
+    using Game.Ecs.Characteristics.Base.Components;
     using Game.Ecs.Core.Components;
     using Leopotam.EcsLite;
     using UniGame.Core.Runtime.Extension;
@@ -47,6 +49,7 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
         {
             _world = systems.GetWorld();
             _filter = _world.Filter<AnimatorComponent>()
+                // .Inc<CharacteristicChangedComponent<AttackSpeedComponent>>()
                 .Inc<AbilityInHandLinkComponent>()
                 .End();
              _abilityFilter = _world.Filter<AbilityCooldownComponent>()
@@ -57,19 +60,25 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
 
         public void Run(IEcsSystems systems)
         {
-            foreach (var abilityEntity in _abilityFilter)
+            foreach (var owner in _filter)
             {
-                ref var ownerComponent = ref _abilityAspect.Owner.Get(abilityEntity);
-                if(!ownerComponent.Value.Unpack(_world, out var ownerEntity)) continue;
+                foreach (var abilityEntity in _abilityFilter)
+                {
+                    ref var ownerComponent = ref _abilityAspect.Owner.Get(abilityEntity);
+                    if(!ownerComponent.Value.Unpack(_world, out var ownerEntity)) continue;
 
-                ref var baseCooldownComponent = ref _abilityAspect.BaseCooldown.Get(abilityEntity);
-                ref var cooldownComponent = ref _abilityAspect.Cooldown.Get(abilityEntity);
+                    ref var baseCooldownComponent = ref _abilityAspect.BaseCooldown.Get(abilityEntity);
+                    ref var cooldownComponent = ref _abilityAspect.Cooldown.Get(abilityEntity);
+                    
+                    //todo сейчас использовал старый кулдаун и базовый кулдаун. Не уверен что это будет работать.
+                    //todo если не будет работать, то нужно будет использовать мой новый AbilityCooldownValues
+                    // ref var abilityCooldownComponent = ref _abilityAspect.AbilityCooldownValues.Get(abilityEntity);
+                    ref var animatorComponent = ref _animatorPool.Get(ownerEntity);
+                    Debug.Log($"Cooldown component value is {cooldownComponent.Value} and base cooldown component value is {baseCooldownComponent.Value}");
+                    Debug.Log($"New attack speed animator parameter was set from {animatorComponent.Value.GetFloat(_parametersMap.attackSpeed)} to {cooldownComponent.Value/baseCooldownComponent.Value}");
+                    animatorComponent.Value.SetFloat(_parametersMap.attackSpeed,cooldownComponent.Value/baseCooldownComponent.Value);
+                }
                 
-                //todo сейчас использовал старый кулдаун и базовый кулдаун. Не уверен что это будет работать.
-                //todo если не будет работать, то нужно будет использовать мой новый AbilityCooldownValues
-                // ref var abilityCooldownComponent = ref _abilityAspect.AbilityCooldownValues.Get(abilityEntity);
-                ref var animatorComponent = ref _animatorPool.Get(ownerEntity);
-                animatorComponent.Value.SetFloat(_parametersMap.attackSpeed,cooldownComponent.Value/baseCooldownComponent.Value);
             }
         }
     }
