@@ -3,7 +3,7 @@ namespace Game.Ecs.Ability.Tools
     using System;
     using System.Runtime.CompilerServices;
     using AbilityInventory.Components;
-    using Animation.Data;
+    //using Animation.Data;
     using Animations.Components;
     using Animations.Components.Requests;
     using Aspects;
@@ -143,33 +143,12 @@ namespace Game.Ecs.Ability.Tools
             {
                 new EffectMilestone { Time = 0f }
             };
-            
-            if (abilityConfiguration.useAnimation)
-            {
-#if UNITY_EDITOR
-                if (abilityLink == null || !abilityLink.RuntimeKeyIsValid())
-                {
-                    Debug.LogError($"Missing ability animation link FOR {abilityConfiguration.name}");
-                }
-#endif
-                switch (abilityConfiguration.animationType)
-                {
-                    case AnimationType.Animator:
-                        ComposeAbilityAnimation(_world, ownerEntity, packedAbility,abilityConfiguration.animationClipId);
-                        break;
-                    case AnimationType.PlayableDirector:
-                        ComposeAbilityAnimationAsync(_world, ownerEntity,packedAbility,abilityLink).Forget();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
 
             foreach (var abilityBehaviour in abilityConfiguration.abilityBehaviours)
                 abilityBehaviour.Compose(_world, abilityEntity, buildData.IsDefault);
         }
 
-        private void ComposeAbilityAnimation(EcsWorld world,
+        /*private void ComposeAbilityAnimation(EcsWorld world,
             EcsPackedEntity animationTarget,
             EcsPackedEntity ability,
             AnimationClipId clipId)
@@ -188,7 +167,7 @@ namespace Game.Ecs.Ability.Tools
             triggeredAnimationIdComponent.animationId = (string)clipId;
             
             _abilityAspect.AwaitAnimationTrigger.GetOrAddComponent(abilityEntity);
-        }
+        }*/
 
 #if ENABLE_IL2CPP
         [Il2CppSetOption(Option.NullChecks, false)]

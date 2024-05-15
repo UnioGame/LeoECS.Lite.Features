@@ -1,4 +1,4 @@
-﻿namespace Game.Ecs.Ability.SubFeatures.AbilityAnimation
+﻿/*namespace Game.Ecs.Ability.SubFeatures.AbilityAnimation
 {
     using System;
     using Cysharp.Threading.Tasks;
@@ -47,4 +47,4 @@
             return base.OnPreparationApplyEffectsSystems(ecsSystems);
         }
     }
-}
+}*/

@@ -41,7 +41,8 @@
 
         public override void Apply(EcsWorld world, int entity)
         {
-            
+            ref var component = ref world.GetOrAddComponent<TComponent>(entity);
+            data.Apply(ref component);
         }
     }
 }

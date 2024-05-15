@@ -4,8 +4,8 @@ namespace Game.Ecs.AI.Systems
     using System.Collections.Generic;
     using Components;
     using Configurations;
-    using Service;
     using Leopotam.EcsLite;
+    using Data;
 
     [Serializable]
     public class AiCleanUpPlanningDataSystem : IEcsRunSystem, IEcsInitSystem
@@ -28,28 +28,20 @@ namespace Game.Ecs.AI.Systems
         public void Run(IEcsSystems systems)
         {
             var agentComponentPool = _world.GetPool<AiAgentComponent>();
-            var selfControllerAgents = _world.GetPool<AiAgentSelfControlComponent>();
         
             foreach (var entity in _filter)
             {
                 ref var agentComponent = ref agentComponentPool.Get(entity);
-                var actionsMap = agentComponent.PlannedActions;
-                
-                for (var i = 0; i < actionsMap.Length; i++)
+                agentComponent.PlannedActionsMask = ActionType.None;
+
+                for (int i = 0; i < _actionData.Count; i++)
                 {
-                    //reset priority
-                    ref var data = ref agentComponent.PlannerData[i];
-                    data.Priority = AiConstants.PriorityNever;
-                
-                    //update action status
-                    var actions = agentComponent.PlannedActions;
-                    var actionStatus = actions[i];
-                    var selfController = selfControllerAgents.Has(entity);
-                    agentComponent.PlannedActions[i] = selfController && actionStatus;
-                
-                    //remove ai system components
-                    var planner = _actionData[i].planner;
-                    planner.RemoveComponent(systems,entity);
+                    var action = _actionData[i];
+                    action.planner.RemoveComponent(systems, entity);
+                    agentComponent.PlannerData[action.actionId] = new AiPlannerData
+                    {
+                        Priority = AiConstants.PriorityNever,
+                    };
                 }
             }
         }

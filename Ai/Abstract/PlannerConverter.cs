@@ -1,8 +1,7 @@
 ﻿namespace Game.Ecs.AI.Abstract
 {
     using System;
-    using System.Threading;
-    using Configurations;
+    using Data;
     using Leopotam.EcsLite;
     using Sirenix.OdinInspector;
     using UniGame.LeoEcs.Converter.Runtime;
@@ -12,32 +11,24 @@
     using UnityEngine.Serialization;
 
     [Serializable]
-    public abstract class PlannerConverter : GameObjectConverter,IPlannerConverter, IEntityConverter
+    public abstract class PlannerConverter : GameObjectConverter, IPlannerConverter, IEntityConverter
     {
 
+        [FormerlySerializedAs("id")]
         [FormerlySerializedAs("_id")] 
         [SerializeField]
-        public AiAgentActionId id;
+        public ActionType actionId;
         
-        public AiAgentActionId Id => id;
+        public ActionType ActionId => actionId;
 
-        public void Apply(GameObject target, EcsWorld world, int entity)
+        protected int PlannerIndex;
+
+        public new void Apply(GameObject target, EcsWorld world, int entity)
         {
             if (enabled == false)
                 return;
             
             Apply(world, entity);
-            OnApply(target,world,entity);
-        }
-        
-        protected virtual void OnApply(GameObject target, EcsWorld world, int entity, CancellationToken cancellationToken = default)
-        {
-            
-        }
-
-        public virtual void Apply(EcsWorld world, int entity)
-        {
-            
         }
     }
 

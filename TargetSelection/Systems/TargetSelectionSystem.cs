@@ -111,10 +111,15 @@
                 var layer = layerComponent.Value;
                 var category = categoryComponent.Value;
 
-                if ((layerId & layer) != layer ||
-                    (categoryId & category) != category) continue;
+                if ((layerId & layer) != layer || (categoryId & category) != category)
+                {
+                    continue;
+                }
 
-                if(entity < 0) continue;
+                if (entity < 0)
+                {
+                    continue;
+                }
                 
                 result[counter] = packedEntity;
                 counter++;

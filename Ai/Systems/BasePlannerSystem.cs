@@ -4,29 +4,24 @@ namespace Game.Ecs.AI.Systems
     using Components;
     using Abstract;
     using Cysharp.Threading.Tasks;
-    using Service;
     using Leopotam.EcsLite;
-    using Tools;
     using UniGame.LeoEcs.Shared.Extensions;
+    using Data;
 
     [Serializable]
-    public abstract class BasePlannerSystem<TComponent>: IAiPlannerSystem,IEcsRunSystem
+    public abstract class BasePlannerSystem<TComponent>: IAiPlannerSystem, IEcsRunSystem
         where TComponent : struct
     {
-        protected int _id;
-
-        public int Id => _id;
+        protected ActionType _actionId;
         
-        public async UniTask Initialize(int id,IEcsSystems ecsSystems)
+        public async UniTask Initialize(IEcsSystems ecsSystems, ActionType actionId)
         {
-            _id = id;
-            await OnInitialize(id, ecsSystems);
+            _actionId = actionId;
+            await OnInitialize(ecsSystems);
             ecsSystems.Add(this);
         }
 
         public abstract void Run(IEcsSystems systems);
-
-        public bool IsPlannerEnabledForEntity(EcsWorld world, int entity) => AiSystemsTools.IsPlannerEnabledForEntity(world, entity, _id);
         
         public void ApplyPlanningResult(IEcsSystems systems, int entity, AiPlannerData data)
         {
@@ -34,9 +29,7 @@ namespace Game.Ecs.AI.Systems
             var aiAgentPool = world.GetPool<AiAgentComponent>();
             
             ref var aiAgentComponent = ref aiAgentPool.Get(entity);
-            
-            var resultData = aiAgentComponent.PlannerData;
-            resultData[_id] = data;
+            aiAgentComponent.PlannerData[_actionId] = data;
         }
         
         public void RemoveComponent(IEcsSystems systems, int entity)
@@ -44,7 +37,7 @@ namespace Game.Ecs.AI.Systems
             systems.TryRemoveComponent<TComponent>(entity);
         }
 
-        protected virtual UniTask OnInitialize(int id, IEcsSystems systems) => UniTask.CompletedTask;
+        protected virtual UniTask OnInitialize(IEcsSystems systems) => UniTask.CompletedTask;
 
     }
 }

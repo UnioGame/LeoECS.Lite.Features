@@ -2,12 +2,7 @@
 {
     using System;
     using Abstract;
-    using PlayableBindings;
-    using UniGame.Shared.Runtime.Timeline;
-    using UnityEngine;
-    using UnityEngine.AddressableAssets;
     using UnityEngine.Playables;
-    using UnityEngine.Timeline;
 
 #if UNITY_EDITOR
     using UniModules.UniGame.AddressableExtensions.Editor;
@@ -25,7 +20,7 @@
         {
             foreach (var animationOutput in animation.outputs)
             {
-                var track = animationOutput.sourceObject;
+                /*var track = animationOutput.sourceObject;
                 if(track is not AnimationTrack animationTrack) continue;
                 
                 var binding = map.bindings;
@@ -56,18 +51,18 @@
 
                     reference.Clips.Add(animationClipData);
 #endif
-                }
+                }*/
                 
-                binding.Add(reference);
+                //binding.Add(reference);
             }
         }
 
         public void CleanReferences(PlayableDirector director,PlayableAsset animation)
         {
-            foreach (var clip in animation.GetClips<AnimationPlayableAsset,AnimationTrack>())
+            /*foreach (var clip in animation.GetClips<AnimationPlayableAsset,AnimationTrack>())
             {
                 clip.clip = null;
-            }
+            }*/
         }
     }
 }

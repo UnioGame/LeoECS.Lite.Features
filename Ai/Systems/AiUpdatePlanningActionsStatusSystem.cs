@@ -5,11 +5,7 @@ namespace Game.Ecs.AI.Systems
     using Components;
     using Configurations;
     using Leopotam.EcsLite;
-
-    /// <summary>
-    /// Система удаляет для система экшенов их компоненты с данными,
-    /// тем самым включая/выключая логику для сущности агента.
-    /// </summary>
+    
     [Serializable]
     public class AiUpdatePlanningActionsStatusSystem : IEcsRunSystem, IEcsInitSystem
     {
@@ -31,24 +27,17 @@ namespace Game.Ecs.AI.Systems
         
         public void Run(IEcsSystems systems)
         {
-            var agentComponentPool = _world.GetPool<AiAgentComponent>();
-
             foreach (var entity in _filter)
             {
+                var agentComponentPool = _world.GetPool<AiAgentComponent>();
                 ref var agentComponent = ref agentComponentPool.Get(entity);
-                var actionsActions = agentComponent.PlannedActions;
-                var availableActions = agentComponent.PlannedActions;
-                
-                for (var i = 0; i < actionsActions.Length; i++)
+                for (int i = 0; i < _actionData.Count; i++)
                 {
-                    var actionEnabled = actionsActions[i] && availableActions[i];
-                    var dataItem = _actionData[i];
-                    var planner = dataItem.planner;
-
-                    if (actionEnabled)
-                        continue;
-                    
-                    planner.RemoveComponent(systems,entity);
+                    var action = _actionData[i];
+                    if (!agentComponent.PlannedActionsMask.HasFlag(action.actionId))
+                    {
+                        action.planner.RemoveComponent(systems, entity);
+                    }
                 }
             }
         }

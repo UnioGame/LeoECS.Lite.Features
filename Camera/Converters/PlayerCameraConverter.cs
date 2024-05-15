@@ -39,7 +39,7 @@
         {
             _world = world;
             
-            var cameraPool = world.GetPool<CameraComponent>();
+            var cameraPool = world.GetPool<SimpleCameraComponent>();
             ref var cameraComponent = ref cameraPool.Add(entity);
             targetCamera ??= target.GetComponent<Camera>();
                 
@@ -65,7 +65,7 @@
         {
             if (_world == null) return;
 
-            _filter ??= _world.Filter<CameraLookTargetComponent>().Inc<CameraComponent>().End();
+            _filter ??= _world.Filter<CameraLookTargetComponent>().Inc<SimpleCameraComponent>().End();
             foreach (var entity in _filter)
             {
                 ref var lookTarget = ref _world.GetComponent<CameraLookTargetComponent>(entity);

@@ -3,8 +3,7 @@
     using System.Collections.Generic;
     using Animations;
     using Description;
-    using Ecs.Animation.Data;
-    // using Ecs.Animation.Data;
+    //using Ecs.Animation.Data;
     using Sirenix.OdinInspector;
     using UniGame.AddressableTools.Runtime.AssetReferencies;
     using UnityEngine;
@@ -49,11 +48,11 @@
 
         #region animator
         
-        [TitleGroup("Animation")]
-        [InlineProperty]
-        [HideLabel]
-        [ShowIf("@useAnimation && animationType == AnimationType.Animator")]
-        [SerializeField] public AnimationClipId animationClipId;
+        //[TitleGroup("Animation")]
+        //[InlineProperty]
+        //[HideLabel]
+        //[ShowIf("@useAnimation && animationType == AnimationType.Animator")]
+        //[SerializeField] public AnimationClipId animationClipId;
 
         [TitleGroup("Animation")]
         [InlineProperty]

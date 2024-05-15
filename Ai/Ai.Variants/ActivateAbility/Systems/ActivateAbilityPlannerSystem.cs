@@ -63,7 +63,7 @@ namespace Game.Code.Ai.ActivateAbility
             }
         }
 
-        protected override UniTask OnInitialize(int id, IEcsSystems systems)
+        protected override UniTask OnInitialize(IEcsSystems systems)
         {
             systems.DelHere<AbilityAiActionTargetComponent>();
             //systems.Add(new SelectAbilityTargetsDataPlannerSystem());
