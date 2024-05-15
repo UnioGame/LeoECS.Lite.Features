@@ -86,8 +86,8 @@
                 if(controller == null) continue;
                 
                 //todo что будет если такие стейтов не существует?
-                if (!_animatorsMap.data.TryGetValue(_idleClipId, out var idleStateName)
-                    || !_animatorsMap.data.TryGetValue(_walkClipId, out var walkStateName))
+                if (!_animatorsMap.data.TryGetValue(_idleClipId, out var idleStateData)
+                    || !_animatorsMap.data.TryGetValue(_walkClipId, out var movementStateData))
                 {
                     GameLog.LogError("AnimatorMapComponent has no such states");
                     continue;
@@ -95,16 +95,16 @@
                 
                 if (speedValue != 0)
                 {
-                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName(walkStateName))
+                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName(movementStateData.stateName))
                     {
-                        animator.Play(walkStateName);
+                        animator.Play(movementStateData.stateName);
                     }
                 }
                 else
                 {
-                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName(idleStateName))
+                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName(idleStateData.stateName))
                     {
-                        animator.Play(idleStateName);
+                        animator.Play(idleStateData.stateName);
                     }
                 }
             }

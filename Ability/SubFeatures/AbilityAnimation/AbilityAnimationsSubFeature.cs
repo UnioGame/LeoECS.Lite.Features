@@ -36,7 +36,7 @@
             //trigger animation trough animator component
             ecsSystems.Add(new AbilityTriggerAnimatorSystem());
             //update attack animation speeed
-            ecsSystems.Add(new UpdateAttackAnimationSpeedSystem(animatorParametersMap));
+            // ecsSystems.Add(new UpdateAttackAnimationSpeedSystem(animatorParametersMap));
             //update movement animation speed
             // ecsSystems.Add(new UpdateMovementAnimationSpeedSystem(animatorParametersMap));
             return UniTask.FromResult(ecsSystems);
