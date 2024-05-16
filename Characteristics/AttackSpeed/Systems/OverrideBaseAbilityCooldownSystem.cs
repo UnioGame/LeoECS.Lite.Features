@@ -51,11 +51,6 @@ namespace Game.Ecs.Characteristics.AttackSpeed.Systems
                 ref var request = ref _createPool.Get(attackCharacteristic);
                 if(!request.Owner.Unpack(_world, out var ownerEntity)) continue;
                 
-                // _storedData.Push(new StoredData
-                // {
-                //     BaseCooldown = request.Value,
-                //     Owner = request.Owner
-                // });
                 ref var attackAbilityIdComponent = ref _world.GetOrAddComponent<AttackAbilityIdComponent>(ownerEntity);
                 var slotId = attackAbilityIdComponent.Value;
                 
@@ -63,21 +58,7 @@ namespace Game.Ecs.Characteristics.AttackSpeed.Systems
                 ref var abilityBaseCooldownSelfRequest = ref _world.AddComponent<SetAbilityBaseCooldownSelfRequest>(ownerEntity);
                 abilityBaseCooldownSelfRequest.AbilitySlot = slotId;
                 abilityBaseCooldownSelfRequest.Cooldown = request.Value;
-                // ref var abilityMap = ref _world.GetComponent<AbilityMapComponent>(ownerEntity);
-                // foreach (var entity in abilityMap.AbilityEntities)
-                // {
-                //     entity.Unpack(_world, out var abilityEntity);
-                //     Debug.Log("Ability entity: " + abilityEntity +"\n");
-                // }
             }
-            // for (int i = 0; i < _storedData.Count; i++)
-            // {
-            //     var initialValues = _storedData.Pop();
-            //     if (initialValues.Owner.Unpack(_world, out var ownerEntity))
-            //     {
-            //     }
-            //     
-            // }
         }
     }
 

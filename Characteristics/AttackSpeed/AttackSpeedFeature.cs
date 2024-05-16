@@ -23,7 +23,7 @@
         protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             //update attack speed value
-            ecsSystems.Add(new OverrideBaseAbilityCooldownSystem());
+            ecsSystems.Add(new OverrideBaseAbilityCooldownSystem());//todo remove
             ecsSystems.Add(new UpdateAttackSpeedChangedSystem());
             ecsSystems.AddCharacteristic<AttackSpeedComponent>();
             

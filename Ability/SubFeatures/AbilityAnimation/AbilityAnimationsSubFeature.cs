@@ -33,10 +33,9 @@
             //reset all ability options when ability activated
             ecsSystems.Add(new AbilityResetAnimationOptionsSystem());
             
+            ecsSystems.Add(new UpdataAbilityDurationAnimationSystem());
             //trigger animation trough animator component
             ecsSystems.Add(new AbilityTriggerAnimatorSystem());
-            //update attack animation speeed
-            // ecsSystems.Add(new UpdateAttackAnimationSpeedSystem(animatorParametersMap));
             //update movement animation speed
             // ecsSystems.Add(new UpdateMovementAnimationSpeedSystem(animatorParametersMap));
             return UniTask.FromResult(ecsSystems);
@@ -48,10 +47,23 @@
             return UniTask.FromResult(ecsSystems);
         }
 
+        public override UniTask<IEcsSystems> OnAfterInHandSystems(IEcsSystems ecsSystems)
+        {
+           
+            return base.OnAfterInHandSystems(ecsSystems);
+        }
+
         public override UniTask<IEcsSystems> OnPreparationApplyEffectsSystems(IEcsSystems ecsSystems)
         {
             ecsSystems.Add(new AbilityAwaitAnimationTriggerSystem());
+            //update attack animation speeed
+            ecsSystems.Add(new UpdateAttackAnimationSpeedSystem(animatorParametersMap));
             return base.OnPreparationApplyEffectsSystems(ecsSystems);
+        }
+
+        public override UniTask<IEcsSystems> OnLastAbilitySystems(IEcsSystems ecsSystems)
+        {
+            return base.OnLastAbilitySystems(ecsSystems);
         }
     }
 }

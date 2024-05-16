@@ -6,6 +6,7 @@
     using Game.Ecs.Characteristics.Base.Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Shared.Extensions;
+    using UnityEngine;
 
     /// <summary>
     /// update value of attack speed characteristic
@@ -48,6 +49,7 @@
                 ref var characteristicComponent = ref _characteristicPool.Get(entity);
                 ref var attackSpeedComponent = ref _attackSpeed.Get(entity);
                 attackSpeedComponent.Value = characteristicComponent.Value;
+                Debug.Log("Attack speed characteristic was updated. New value: " + attackSpeedComponent.Value);
             }
         }
     }

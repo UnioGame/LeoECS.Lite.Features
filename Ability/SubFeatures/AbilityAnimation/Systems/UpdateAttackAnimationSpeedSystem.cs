@@ -1,6 +1,7 @@
 namespace Ability.SubFeatures.AbilityAnimation.Systems
 {
     using System;
+    using System.Collections.Generic;
     using Components;
     using Game.Ecs.Ability.Aspects;
     using Game.Ecs.Ability.Common.Components;
@@ -41,6 +42,7 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
         private EcsPool<AnimatorComponent> _animatorPool;
         private AbilityTools _abilityTool;
         private AnimationsIdsMap _animatorGlobalMap;
+        private Stack<int> _stack = new Stack<int>();
 
         public UpdateAttackAnimationSpeedSystem(AnimatorParametersMap parametersMap)
         {
@@ -62,14 +64,19 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
                 .End();
             _abilityTool = _world.GetGlobal<AbilityTools>();
             _animatorGlobalMap = _world.GetGlobal<AnimationsIdsMap>();
+            
         }
 
         public void Run(IEcsSystems systems)
         {
+            
             foreach (var ownerEntity in _filter)
             {
                 ref var attackAbilityIdComponent = ref _world.GetComponent<AttackAbilityIdComponent>(ownerEntity);
-                var abilityEntity = _abilityTool.GetAbilityBySlot(ownerEntity, attackAbilityIdComponent.Value);
+                // var abilityEntity = _abilityTool.GetAbilityBySlot(ownerEntity, attackAbilityIdComponent.Value);//todo лучше так
+                
+                ref var abilityInHandLinkComponent = ref _world.GetComponent<AbilityInHandLinkComponent>(ownerEntity);
+                if(!abilityInHandLinkComponent.AbilityEntity.Unpack(_world, out var abilityEntity)) continue;
                 
                 ref var baseCooldownComponent = ref _abilityAspect.BaseCooldown.Get(abilityEntity);
                 ref var cooldownComponent = ref _abilityAspect.Cooldown.Get(abilityEntity);
