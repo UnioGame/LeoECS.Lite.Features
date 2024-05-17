@@ -2,7 +2,6 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
 {
     using System;
     using System.Collections.Generic;
-    using Components;
     using Game.Ecs.Ability.Aspects;
     using Game.Ecs.Ability.Common.Components;
     using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Aspects;
@@ -13,7 +12,6 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
     using Game.Ecs.Animation.Components;
     using Game.Ecs.Animation.Data;
     using Game.Ecs.Characteristics.AttackSpeed.Components;
-    using Game.Ecs.Characteristics.Base.Components;
     using Game.Ecs.Core.Components;
     using Leopotam.EcsLite;
     using UniCore.Runtime.ProfilerTools;
@@ -72,22 +70,18 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
 
         public void Run(IEcsSystems systems)
         {
-            if(_abilityFilter.GetEntitiesCount() == 0) return;
+            if(_abilityFilter.GetEntitiesCount() == 0) return; //нужно для того чтобы дождаться заполнения AbilityMap 
             
             foreach (var ownerEntity in _filter)
             {
                 ref var attackAbilityIdComponent = ref _world.GetComponent<AttackAbilityIdComponent>(ownerEntity);
-                var abilityEntity = _abilityTool.GetAbilityBySlot(ownerEntity, attackAbilityIdComponent.Value);//todo лучше так
+                var abilityEntity = _abilityTool.GetAbilityBySlot(ownerEntity, attackAbilityIdComponent.Value);
                 
-                // ref var abilityInHandLinkComponent = ref _world.GetComponent<AbilityInHandLinkComponent>(ownerEntity);
-                // if(!abilityInHandLinkComponent.AbilityEntity.Unpack(_world, out var abilityEntity)) continue;
-                
-                ref var baseCooldownComponent = ref _abilityAspect.BaseCooldown.Get(abilityEntity);
                 ref var cooldownComponent = ref _abilityAspect.Cooldown.Get(abilityEntity);
-                ref var abilityAnimationIDComponent = ref _world.GetOrAddComponent<TriggeredAnimationIdComponent>(abilityEntity);
+                ref var abilityAnimationIDComponent = ref _animationAspect.ClipId.Get(abilityEntity);
                 
                 var animationId = abilityAnimationIDComponent.animationId;
-                ref var animationsLengthMap = ref _world.GetComponent<AnimationsLengthMapComponent>(ownerEntity);
+                ref var animationsLengthMap = ref _animationAspect.AnimationsLengthMap.Get(ownerEntity);
                 if (!animationsLengthMap.value.TryGetValue((AnimationClipId)animationId, out var animationLength))
                 {
                     GameLog.LogError("UpdateAttackAnimationSystem: Animation length not found in map");
@@ -99,10 +93,6 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
                     _animationAspect.RecalculateAttackSpeed.Del(ownerEntity);
                     continue;
                 }
-                
-                //todo сейчас использовал старый кулдаун и базовый кулдаун. Не уверен что это будет работать.
-                //todo если не будет работать, то нужно будет использовать мой новый AbilityCooldownValues
-                //todo ref var abilityCooldownComponent = ref _abilityAspect.AbilityCooldownValues.Get(abilityEntity);
                 ref var animatorComponent = ref _animationAspect.Animator.Get(ownerEntity);
                 GameLog.Log(
                     $"Cooldown component value is {cooldownComponent.Value}", Color.green);

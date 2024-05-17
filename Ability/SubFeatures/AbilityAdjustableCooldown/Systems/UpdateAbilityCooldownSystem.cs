@@ -34,30 +34,27 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown.Systems
         private EcsPool<AttackSpeedComponent> _attackSpeed;
         private EcsPool<AttackSpeedCooldownTypeComponent> _cooldownType;
         private EcsPool<AttackAbilityIdComponent> _attackAbilityId;
-        private AbilityTools _abilityTool;
         private AbilityAspect _abilityAspect;
+        private AbilityOwnerAspect _abilityOwnerAspect;
         private EcsPool<AbilityIdComponent> _abilityFilter;
 
         public void Init(IEcsSystems systems)
         {
             _world = systems.GetWorld();
             
-            //todo разкоментировать компонент CharacteristicChangedComponent<AttackSpeedComponent>
+            //обратить внимание что сисетма сработает только при изменении компонента AttackSpeedComponent, но не при его создании
             _filter = _world
                 .Filter<CharacteristicComponent<AttackSpeedComponent>>()
                 .Inc<CharacteristicChangedComponent<AttackSpeedComponent>>()
                 .Inc<AttackSpeedComponent>()
                 .Inc<AttackSpeedCooldownTypeComponent>()
                 .End();
-            
-            
 
             _characteristicPool = _world.GetPool<CharacteristicComponent<AttackSpeedComponent>>();
             _attackSpeed = _world.GetPool<AttackSpeedComponent>();
             _cooldownType = _world.GetPool<AttackSpeedCooldownTypeComponent>();
             _attackAbilityId = _world.GetPool<AttackAbilityIdComponent>();
             
-            _abilityTool = _world.GetGlobal<AbilityTools>();
             _abilityFilter = _world.GetPool<AbilityIdComponent>();
         }
 
@@ -66,9 +63,9 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown.Systems
             foreach (var entity in _filter)
             {
                 ref var slotIdComponent = ref _attackAbilityId.Get(entity);
-                ref var inHandAbility = ref _world.GetComponent<AbilityInHandLinkComponent>(entity);
+                ref var inHandAbility = ref _abilityOwnerAspect.AbilityInHandLink.Get(entity);
                 
-                //вынужденная проверка в лоб, пока не почним AbilityMapComponent
+                //вынужденная проверка в лоб, пока не поймаем нормальное заполнение AbilityMapComponent
                 if(!inHandAbility.AbilityEntity.Unpack(_world, out var abilityEntity))
                     continue;
                 ref var ablitySlotId = ref _abilityAspect.AbilitySlot.Get(abilityEntity);
@@ -94,15 +91,9 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown.Systems
 
         private float CalculateCooldown(float attackSpeedValue)
         {
-            if (attackSpeedValue <= 0)
-            {
-                GameLog.LogError("UpdateAbilityCooldownSystem: attack speed value is less or equal to zero");
-                return 0;
-            }
-            else
-            {
-                return 1f / attackSpeedValue;
-            }
+            if (!(attackSpeedValue <= 0)) return 1f / attackSpeedValue;
+            GameLog.LogError("UpdateAbilityCooldownSystem: attack speed value is less or equal to zero");
+            return 0;
         }
     }
 }

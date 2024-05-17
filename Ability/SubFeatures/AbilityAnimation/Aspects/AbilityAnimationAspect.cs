@@ -1,6 +1,7 @@
 ﻿namespace Game.Ecs.Ability.SubFeatures.AbilityAnimation.Aspects
 {
     using System;
+    using Animation.Components;
     using Animations.Components;
     using Characteristics.Cooldown.Components;
     using Characteristics.Duration.Components;
@@ -25,5 +26,6 @@
         public EcsPool<TriggeredAnimationIdComponent> ClipId;
         public EcsPool<AnimatorComponent> Animator;
         public EcsPool<RecalculateAnimationAttackSpeedSelfRequest> RecalculateAttackSpeed;
+        public EcsPool<AnimationsLengthMapComponent> AnimationsLengthMap;
     }
 }

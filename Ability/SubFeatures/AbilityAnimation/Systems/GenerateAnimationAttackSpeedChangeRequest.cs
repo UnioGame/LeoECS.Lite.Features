@@ -1,8 +1,6 @@
 namespace Ability.SubFeatures.AbilityAnimation.Systems
 {
     using System;
-    using System.Linq;
-    using Game.Ecs.Ability.Common.Components;
     using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Aspects;
     using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Components;
     using Game.Ecs.Animation.Components;
@@ -10,11 +8,6 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
     using Game.Ecs.Characteristics.Base.Components;
     using Game.Ecs.Characteristics.Base.Components.Requests;
     using Leopotam.EcsLite;
-    using UniGame.Core.Runtime.Extension;
-    using UniGame.LeoEcs.Shared.Extensions;
-    using UniGame.Runtime.ObjectPool.Extensions;
-    using UnityEngine;
-    using UnityEngine.Pool;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Components;
 
@@ -41,15 +34,17 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
         public void Init(IEcsSystems systems)
         {
             _world = systems.GetWorld();
-            _filter = _world.Filter<AnimatorComponent>()
-                .Exc<RecalculateAnimationAttackSpeedSelfRequest>()
-                .Inc<CharacteristicChangedComponent<AttackSpeedComponent>>()
-                .Inc<AbilityInHandLinkComponent>()
-                .Inc<AttackAbilityIdComponent>()
+            _filter = _world.Filter<CharacteristicChangedComponent<AttackSpeedComponent>>()
+                .Inc<AnimatorComponent>()
                 .Inc<AnimationsLengthMapComponent>()
+                .Exc<RecalculateAnimationAttackSpeedSelfRequest>()
                 .End();
 
-            _createFilter = _world.Filter<CreateCharacteristicRequest<AttackSpeedComponent>>().End();
+            _createFilter = _world.Filter<CreateCharacteristicRequest<AttackSpeedComponent>>()
+                .Inc<AnimatorComponent>()
+                .Inc<AnimationsLengthMapComponent>()
+                .Exc<RecalculateAnimationAttackSpeedSelfRequest>()
+                .End();
         }
 
         public void Run(IEcsSystems systems)
