@@ -1,5 +1,6 @@
 namespace Game.Ecs.Gameplay.Death
 {
+    using Animation.Data;
     using Cysharp.Threading.Tasks;
     using Leopotam.EcsLite;
     using Systems;
@@ -9,6 +10,7 @@ namespace Game.Ecs.Gameplay.Death
     [CreateAssetMenu(menuName = "Game/Feature/Gameplay/Death")]
     public class DeathFeature  : BaseLeoEcsFeature
     {
+        public AnimationClipId deathAnimationClipId;
         public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             ecsSystems.Add(new CheckReadyToDeathSystem());
@@ -19,6 +21,9 @@ namespace Game.Ecs.Gameplay.Death
             ecsSystems.Add(new EvaluateDeathAnimationSystem());
             ecsSystems.Add(new CompleteDeathAnimationSystem());
             
+            ecsSystems.Add(new ProcessDeathAnimationByAnimatorSystem(deathAnimationClipId));
+            ecsSystems.Add(new EvaluateDeathAnimationByAnimatorSystem(deathAnimationClipId));
+            ecsSystems.Add(new CompleteDeathAnimationByAnimatorSystem());
             return UniTask.CompletedTask;
         }
     }
