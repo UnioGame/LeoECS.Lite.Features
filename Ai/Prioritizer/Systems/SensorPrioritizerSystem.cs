@@ -4,6 +4,7 @@
     using Aspects;
     using Components;
     using Game.Ecs.Ai.Targeting.Aspects;
+    using Game.Ecs.Core.Death.Components;
     using Game.Ecs.TargetSelection.Aspects;
     using Game.Ecs.TargetSelection.Components;
     using Leopotam.EcsLite;
@@ -27,6 +28,8 @@
         private TargetingAspect _targetingAspect;
         private TargetSelectionAspect _targetSelectionAspect;
         private PrioritizerAspect _prioritizerAspect;
+        
+        private EcsPool<DisabledComponent> _disabledPool;
         
         public void Init(IEcsSystems systems)
         {
@@ -64,6 +67,11 @@
                 {
                     var result = results.Values[i];
                     if (!result.Unpack(_world, out var targetEntity))
+                    {
+                        continue;
+                    }
+
+                    if (_disabledPool.Has(targetEntity))
                     {
                         continue;
                     }

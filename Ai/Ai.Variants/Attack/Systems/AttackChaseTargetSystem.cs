@@ -5,6 +5,7 @@
     using Components;
     using Game.Ecs.Characteristics.CriticalChance.Components;
     using Game.Ecs.Characteristics.Radius.Component;
+    using Game.Ecs.Core.Death.Components;
     using Game.Ecs.Units.Components;
     using Leopotam.EcsLite;
     using Prioritizer.Aspects;

@@ -23,8 +23,6 @@ namespace Game.Ecs.GameAi.Move.Systems
     [ECSDI]
     public class MoveToTargetAiSystem : IAiActionSystem, IEcsInitSystem
     {
-        public float minSqrDistance = 4f;
-        
         private EcsFilter _filter;
         private EcsWorld _world;
         private AbilityTools _abilityTools;
@@ -52,11 +50,6 @@ namespace Game.Ecs.GameAi.Move.Systems
             {
                 ref var moveToTargetComponent = ref _moveToTargetPool.Get(entity);
                 ref var unitComponent = ref _unitsPool.Get(entity);
-
-                if (unitComponent.Value.IsDead && unitComponent.Value.CurrentHealth <= 0f)
-                {
-                    continue;
-                }
                 
                 unitComponent.Value.MoveOrder(moveToTargetComponent.Position);
             }

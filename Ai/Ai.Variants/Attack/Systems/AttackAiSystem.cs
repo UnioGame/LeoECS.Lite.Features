@@ -45,11 +45,6 @@
             foreach (var entity in _filter)
             {
                 ref var unitComponent = ref _unitPool.Get(entity);
-                if (unitComponent.Value.IsDead && unitComponent.Value.CurrentHealth <= 0f)
-                {
-                    continue;
-                }
-                
                 ref var attackActionComponent = ref _attackAspect.Action.Get(entity);
                 if (!attackActionComponent.Value.Unpack(_world, out var targetEntity))
                 {
