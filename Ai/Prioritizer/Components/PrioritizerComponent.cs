@@ -19,5 +19,8 @@
     {
         [SerializeReference]
         public IPriorityComparer[] Comparers;
+
+        [SerializeReference]
+        public IAgroCondition[] AgroConditions;
     }
 }

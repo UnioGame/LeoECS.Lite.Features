@@ -52,6 +52,11 @@ namespace Game.Ecs.GameAi.Move.Systems
             {
                 ref var moveToTargetComponent = ref _moveToTargetPool.Get(entity);
                 ref var unitComponent = ref _unitsPool.Get(entity);
+
+                if (unitComponent.Value.IsDead && unitComponent.Value.CurrentHealth <= 0f)
+                {
+                    continue;
+                }
                 
                 unitComponent.Value.MoveOrder(moveToTargetComponent.Position);
             }

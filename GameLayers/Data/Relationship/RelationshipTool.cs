@@ -51,13 +51,17 @@ namespace Game.Code.GameLayers.Relationship
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static LayerId GetFilterMask(this RelationshipId relationship, LayerId self)
         {
-            if (relationship.HasFlag(selfRelationship))
+            /*if (relationship.HasFlag(selfRelationship))
+            {
                 return self;
-            
+            }*/
+
             var data = new RelationLayerData(self, relationship);
-            if(layerMaskCache.ContainsKey(data)) 
+            if (layerMaskCache.ContainsKey(data))
+            {
                 return layerMaskCache[data];
-            
+            }
+
             var layer = GetFilterMaskCached(self, relationship);
             layerMaskCache[data] = layer;
             return layer;

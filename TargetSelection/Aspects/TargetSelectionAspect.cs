@@ -18,6 +18,7 @@
         public EcsPool<TargetsSelectionResultComponent> TargetSelectionResult;
         public EcsPool<TargetsSelectionRequestComponent> TargetSelectionRequest;
         public EcsPool<LayerIdComponent> Layer;
+        public EcsPool<LayerOverrideComponent> LayerOverride;
         public EcsPool<CategoryIdComponent> Category;
         public EcsPool<TransformComponent> Transform;
         public EcsPool<TransformPositionComponent> Position;

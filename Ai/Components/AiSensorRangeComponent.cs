@@ -5,11 +5,11 @@ namespace Game.Ecs.AI.Components
     using System;
 
     [Serializable]
-    public struct AiSensorComponent : IApplyableComponent<AiSensorComponent>
+    public struct AiSensorRangeComponent : IApplyableComponent<AiSensorRangeComponent>
     {
         public float Range;
         
-        public void Apply(ref AiSensorComponent component)
+        public void Apply(ref AiSensorRangeComponent component)
         {
             component.Range = Range;
         }

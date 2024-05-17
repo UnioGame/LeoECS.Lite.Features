@@ -2,10 +2,11 @@
 namespace Game.Code.GameLayers.Relationship
 {
 	using System;
+	[Flags]
 	public enum RelationshipId
 	{
-		Ally = 0,
-		Enemy = 1,
-		Neutral = 2,
+		Ally = 1 << 1,
+		Enemy = 1 << 2,
+		Neutral = 1 << 3,
 	}
 }

@@ -22,5 +22,6 @@ namespace Ai.Ai.Variants.MoveToTarget.Aspects
 
         public EcsPool<MoveToDefaultTargetComponent> DefaultTarget;
         public EcsPool<MoveToChaseTargetComponent> ChaseTarget;
+        public EcsPool<MoveToSpawnPositionComponent> SpawnPosition;
     }
 }

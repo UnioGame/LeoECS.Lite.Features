@@ -13,7 +13,7 @@
     [Serializable]
     public struct AttackEventTargetComponent
     {
-        public float Duration;
-        public EcsPackedEntity Value;
+        //public float Duration;
+        //public EcsPackedEntity Value;
     }
 }

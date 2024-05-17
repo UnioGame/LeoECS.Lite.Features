@@ -4,17 +4,11 @@
     using System.Runtime.CompilerServices;
     using Code.GameLayers.Category;
     using Code.GameLayers.Layer;
-    using Core;
-    using Core.Components;
-    using Core.Death.Components;
-    using GameLayers.Category.Components;
-    using GameLayers.Layer.Components;
     using Leopotam.EcsLite;
     using TargetSelection;
     using TargetSelection.Aspects;
     using TargetSelection.Components;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
-    using UniGame.LeoEcs.Shared.Components;
     using Unity.Mathematics;
     using UnityEngine;
 

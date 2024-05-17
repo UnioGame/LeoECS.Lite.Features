@@ -3,7 +3,8 @@
     using System;
     using AI.Data;
     using Leopotam.EcsLite;
-    
+    using Unity.Mathematics;
+
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
 
@@ -14,7 +15,7 @@
     [Serializable]
     public struct MoveToTargetComponent : IEcsAutoReset<MoveToTargetComponent>
     {
-        public EcsPackedEntity Value;
+        public float3 Value;
         public int Priority;
         public void AutoReset(ref MoveToTargetComponent c)
         {

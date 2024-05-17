@@ -1,14 +1,19 @@
 ﻿namespace Ai.Ai.Variants.Prioritizer.Systems
 {
     using System;
+    using System.Linq;
     using Aspects;
     using Components;
     using Game.Ecs.Ai.Targeting.Aspects;
     using Game.Ecs.TargetSelection.Aspects;
     using Game.Ecs.TargetSelection.Components;
     using Leopotam.EcsLite;
-    using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
+    using UniGame.Core.Runtime.Extension;
     using UniGame.LeoEcs.Shared.Extensions;
+    using UniGame.Runtime.ObjectPool.Extensions;
+    using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
+    using UnityEngine;
+    using UnityEngine.Pool;
     
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
@@ -19,21 +24,22 @@
 #endif
     [Serializable]
     [ECSDI]
-    public class TargetPrioritizerSystem : IEcsInitSystem, IEcsRunSystem
+    public class AgroPrioritizerSystem : IEcsInitSystem, IEcsRunSystem
     {
         private EcsWorld _world;
         private EcsFilter _filter;
-
+        
         private TargetingAspect _targetingAspect;
         private TargetSelectionAspect _targetSelectionAspect;
         private PrioritizerAspect _prioritizerAspect;
-        
+
         public void Init(IEcsSystems systems)
         {
             _world = systems.GetWorld();
             _filter = _world
                 .Filter<PrioritizerComponent>()
                 .Inc<TargetsSelectionResultComponent>()
+                .Exc<AgroComponent>()
                 .End();
         }
 
@@ -44,7 +50,7 @@
                 ref var priorityComponent = ref _prioritizerAspect.Priority.Get(priorityEntity);
                 ref var results = ref _targetSelectionAspect.TargetSelectionResult.Get(priorityEntity);
                 
-                var priorityTarget = (int)default;
+                /*var priorityTarget = (int)default;
                 if (_targetingAspect.AttackEventTarget.Has(priorityEntity))
                 {
                     ref var attackEventTargetComponent = ref _targetingAspect.AttackEventTarget.Get(priorityEntity);
@@ -56,12 +62,28 @@
                 else if (results.Count < 1)
                 {
                     continue;
-                }
+                }*/
                 
+                var priorityTarget = (int)default;
                 for (int i = 0; i < results.Count; i++)
                 {
                     var result = results.Values[i];
                     if (!result.Unpack(_world, out var targetEntity))
+                    {
+                        continue;
+                    }
+
+                    bool conditionsPassed = true;
+                    foreach (var condition in priorityComponent.AgroConditions)
+                    {
+                        if (!condition.Check(_world, priorityEntity, targetEntity))
+                        {
+                            conditionsPassed = false;
+                            break;
+                        }
+                    }
+
+                    if (!conditionsPassed)
                     {
                         continue;
                     }
@@ -89,8 +111,12 @@
                     }
                 }
 
-                ref var chaseTargetComponent = ref _prioritizerAspect.Chase.Add(priorityEntity);
-                chaseTargetComponent.Value = priorityTarget.PackedEntity(_world);
+                if (priorityTarget != default)
+                {
+                    ref var chaseTargetComponent = ref _prioritizerAspect.Chase.Add(priorityEntity);
+                    chaseTargetComponent.Value = priorityTarget.PackedEntity(_world);
+                    _prioritizerAspect.Agro.TryAdd(priorityEntity);
+                }
             }
         }
     }

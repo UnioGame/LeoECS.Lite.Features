@@ -51,6 +51,11 @@ namespace Game.Ecs.AI.Converters
             aiAgent.PlannedActionsMask = 0;
             aiAgent.PlannerData = new Dictionary<ActionType, AiPlannerData>();
 
+            /*foreach (var targetOverride in aiData.targetOverrideConfig.Converters)
+            {
+                targetOverride.Apply(world, entity);
+            }*/
+            
             foreach (var targetSelector in aiData.targetingConfig.targetSelectors)
             {
                 targetSelector.Apply(world, entity);
@@ -67,6 +72,11 @@ namespace Game.Ecs.AI.Converters
             foreach (var c in aiData.commonAiConverters)
             {
                 c.commonAiConverters.Apply(world, entity);
+            }
+
+            if (aiData.isGroupAgent)
+            {
+                world.AddComponent<AiGroupAgentComponent>(entity);
             }
         }
 

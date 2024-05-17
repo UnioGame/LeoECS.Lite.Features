@@ -8,7 +8,8 @@
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Shared.Extensions;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
-    
+    using UniGame.LeoEcs.Shared.Components;
+
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
 
@@ -25,6 +26,8 @@
         private EcsFilter _filter;
         private MoveAspect _moveAspect;
         private PrioritizerAspect _prioritizerAspect;
+        
+        private EcsPool<TransformPositionComponent> _transformPositionPool;
 
         public void Init(IEcsSystems systems)
         {
@@ -49,8 +52,10 @@
                 ref var moveToTargetComponent = ref _moveAspect.Target.GetOrAddComponent(defaultEntity);
                 if (moveToDefaultTargetComponent.Priority > moveToTargetComponent.Priority)
                 {
+                    ref var targetPositionComponent = ref _transformPositionPool.Get(defaultTargetEntity);
+                    
                     moveToTargetComponent.Priority = moveToDefaultTargetComponent.Priority;
-                    moveToTargetComponent.Value = defaultTargetComponent.Value;
+                    moveToTargetComponent.Value = targetPositionComponent.Position;
                 }
             }
         }

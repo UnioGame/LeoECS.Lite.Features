@@ -12,6 +12,6 @@
     [Serializable]
     public struct SelectByAttackEventComponent
     {
-        public float Duration;
+        //public float Duration;
     }
 }

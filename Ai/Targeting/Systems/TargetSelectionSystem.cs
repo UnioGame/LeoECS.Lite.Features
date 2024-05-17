@@ -18,7 +18,7 @@
 #endif
     [Serializable]
     [ECSDI]
-    public class SelectByCategoryTargetSelectionSystem : IEcsInitSystem, IEcsRunSystem
+    public class TargetSelectionSystem : IEcsInitSystem, IEcsRunSystem
     {
         private EcsWorld _world;
 
@@ -26,7 +26,7 @@
         private TargetSelectionAspect _targetSelectionAspect;
         
         private EcsPool<LayerIdComponent> _layerPool;
-        private EcsPool<AiSensorComponent> _sensorPool;
+        private EcsPool<AiSensorRangeComponent> _sensorPool;
 
         private EcsFilter _targetSelectionFilter;
         
@@ -34,10 +34,10 @@
         {
             _world = systems.GetWorld();
             _targetSelectionFilter = _world
-                .Filter<SelectByCategoryComponent>()
+                .Filter<SelectBySensorComponent>()
+                .Inc<CategoryFilterComponent>()
                 .Inc<AiAgentComponent>()
-                .Inc<AiSensorComponent>()
-                .Inc<LayerIdComponent>()
+                .Exc<TargetingLock>()
                 .End();
         }
 
@@ -45,14 +45,14 @@
         {
             foreach (var targetSelectionEntity in _targetSelectionFilter)
             {
-                ref var selectComponent = ref _targetingAspect.SelectByCategory.Get(targetSelectionEntity);
                 ref var sensorComponent = ref _sensorPool.Get(targetSelectionEntity);
                 ref var layerComponent = ref _layerPool.Get(targetSelectionEntity);
+                ref var categoryFilterComponent = ref _targetingAspect.CategoryFilter.Get(targetSelectionEntity);
                 ref var request = ref _targetSelectionAspect.TargetSelectionRequest.Add(targetSelectionEntity);
                 
                 request.SourceLayer = layerComponent.Value;
-                request.Relationship = selectComponent.Relationship;
-                request.Category = selectComponent.CategoryId;
+                request.Relationship = categoryFilterComponent.Relationship;
+                request.Category = categoryFilterComponent.CategoryId;
                 request.Radius = sensorComponent.Range;
             }
         }

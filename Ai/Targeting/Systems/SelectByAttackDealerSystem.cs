@@ -1,10 +1,14 @@
 ﻿namespace Game.Ecs.Ai.Targeting.Systems
 {
     using System;
+    using AI.Aspects;
     using AI.Components;
     using Aspects;
     using Components;
+    using Core.Components;
+    using global::Ai.Ai.Variants.Prioritizer.Aspects;
     using Leopotam.EcsLite;
+    using Shared.Components;
     using UniGame.LeoEcs.Shared.Extensions;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     
@@ -21,9 +25,14 @@
     {
         private EcsWorld _world;
         private EcsFilter _filter;
-        private TargetingAspect _targetingAspect;
 
+        private AIAspect _aiAspect;
+        private TargetingAspect _targetingAspect;
+        private PrioritizerAspect _prioritizerAspect;
+
+        private EcsPool<ChildrenComponent> _childrenPool;
         private EcsPool<TEMPORARY_HealthChangedEvent> _damageEventPool;
+        private EcsPool<OwnerComponent> _ownerPool;
 
         public void Init(IEcsSystems systems)
         {
@@ -31,6 +40,7 @@
             _filter = _world
                 .Filter<SelectByAttackEventComponent>()
                 .Inc<TEMPORARY_HealthChangedEvent>()
+                .Exc<TargetingLock>()
                 .End();
         }
 
@@ -38,11 +48,29 @@
         {
             foreach (var entity in _filter)
             {
-                ref var selectByAttackEventComponent = ref _targetingAspect.SelectByAttackEvent.Get(entity);
-                ref var attackEventTargetComponent = ref _targetingAspect.AttackEventTarget.GetOrAddComponent(entity);
-                ref var damageEvent = ref _damageEventPool.Get(entity);
-                attackEventTargetComponent.Duration = selectByAttackEventComponent.Duration;
-                attackEventTargetComponent.Value = damageEvent.Dealer;
+                if (_aiAspect.GroupAgent.Has(entity))
+                {
+                    ref var ownerComponent = ref _ownerPool.Get(entity);
+                    if (!ownerComponent.Value.Unpack(_world, out var targetGroupEntity))
+                    {
+                        continue;
+                    }
+
+                    ref var childrenComponent = ref _childrenPool.Get(targetGroupEntity);
+                    foreach (var groupAgent in childrenComponent.Children)
+                    {
+                        if (!groupAgent.Unpack(_world, out var targetGroupAgent))
+                        {
+                            continue;
+                        }
+
+                        _prioritizerAspect.Agro.TryAdd(targetGroupAgent);
+                    }
+                }
+                else
+                {
+                    _prioritizerAspect.Agro.TryAdd(entity);
+                }
             }
         }
     }

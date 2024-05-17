@@ -3,12 +3,18 @@ namespace Game.Ecs.AI.Configurations
     using global::Ai.Ai.Variants.Prioritizer.Data;
     using Sirenix.OdinInspector;
     using Targeting.Data;
+    using TargetOverride.Data;
     using UniGame.LeoEcs.Converter.Runtime.Abstract;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Game/Configurations/AI/Ai Agent Configuration",fileName = nameof(AiConfigurationAsset))]
     public class AiAgentConfigurationAsset : ScriptableObject, ILeoEcsGizmosDrawer
     {
+        /*[SerializeField]
+        [InlineProperty]
+        [HideLabel]
+        public TargetOverrideConfig targetOverrideConfig;*/
+        
         [SerializeField]
         [InlineProperty] 
         [HideLabel]
@@ -29,6 +35,9 @@ namespace Game.Ecs.AI.Configurations
         [SerializeField]
         [InlineEditor]
         public AiConfigurationAsset aiConfiguration;
+
+        [SerializeField]
+        public bool isGroupAgent;
 
         public int ActionsCount => aiConfiguration
             .configuration

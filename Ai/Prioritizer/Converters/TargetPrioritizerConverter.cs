@@ -14,11 +14,8 @@
         public void Apply(EcsWorld world, int entity)
         {
             ref var prioritizerComponent = ref world.AddComponent<PrioritizerComponent>(entity);
-            prioritizerComponent.Comparers = new IPriorityComparer[prioritizer.Comparers.Length];
-            for (int i = 0; i < prioritizer.Comparers.Length; i++)
-            {
-                prioritizerComponent.Comparers[i] = prioritizer.Comparers[i];
-            }
+            prioritizerComponent.Comparers = prioritizer.Comparers;
+            prioritizerComponent.AgroConditions = prioritizer.AgroConditions;
         }
     }
 }

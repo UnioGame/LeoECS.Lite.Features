@@ -35,7 +35,7 @@
 
         public void Run(IEcsSystems systems)
         {
-            foreach (var attackEventTargetEntity in _filter)
+            /*foreach (var attackEventTargetEntity in _filter)
             {
                 ref var attackEventTargetComponent = ref _targetingAspect.AttackEventTarget.Get(attackEventTargetEntity);
                 attackEventTargetComponent.Duration -= Time.deltaTime;
@@ -44,7 +44,7 @@
                 {
                     _targetingAspect.AttackEventTarget.TryRemove(attackEventTargetEntity);
                 }
-            }
+            }*/
         }
     }
 }

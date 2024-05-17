@@ -15,8 +15,12 @@
     [Serializable]
     public class TargetingAspect : EcsAspect
     {
-        public EcsPool<SelectByCategoryComponent> SelectByCategory;
+        public EcsPool<SelectBySensorComponent> SelectByCategory;
         public EcsPool<SelectByAttackEventComponent> SelectByAttackEvent;
-        public EcsPool<AttackEventTargetComponent> AttackEventTarget;
+        //public EcsPool<AttackEventTargetComponent> AttackEventTarget;
+        public EcsPool<CategoryFilterComponent> CategoryFilter;
+
+        public EcsPool<OverDistanceTargetingLockComponent> OverDistanceLock;
+        public EcsPool<TargetingLock> Lock;
     }
 }

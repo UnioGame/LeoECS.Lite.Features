@@ -2,10 +2,11 @@
 namespace Game.Code.GameLayers.Layer
 {
 	using System;
+	[Flags]
 	public enum LayerId
 	{
-		TeamHeroes = 0,
-		TeamWaves = 1,
-		TeamForest = 2,
+		TeamHeroes = 1 << 1,
+		TeamWaves = 1 << 2,
+		TeamForest = 1 << 3,
 	}
 }

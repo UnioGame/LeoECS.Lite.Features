@@ -16,6 +16,9 @@ namespace Game.Ecs.AI.Aspects
     [Serializable]
     public class AIAspect : EcsAspect
     {
-        public EcsPool<AiSensorComponent> Sensor;
+        public EcsPool<AiSensorRangeComponent> Sensor;
+        public EcsPool<AiAgentComponent> AiAgent;
+        public EcsPool<AiGroupAgentComponent> GroupAgent;
+        public EcsPool<AiGroupComponent> Group;
     }
 }

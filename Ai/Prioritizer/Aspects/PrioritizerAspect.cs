@@ -16,6 +16,7 @@
     public class PrioritizerAspect : EcsAspect
     {
         public EcsPool<PrioritizerComponent> Priority;
+        public EcsPool<AgroComponent> Agro;
 
         public EcsPool<DefaultTargetComponent> Default;
         public EcsPool<ChaseTargetComponent> Chase;

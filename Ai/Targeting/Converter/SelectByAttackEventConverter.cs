@@ -13,13 +13,10 @@
     [Serializable]
     public class SelectByAttackEventConverter : ITargetSelectorConverter
     {
-        [SerializeField]
-        private float _chaseDuration;
-        
         public void Apply(EcsWorld world, int entity)
         {
             ref var selectByAttackEventComponent = ref world.AddComponent<SelectByAttackEventComponent>(entity);
-            selectByAttackEventComponent.Duration = _chaseDuration;
+            //selectByAttackEventComponent.Duration = _chaseDuration;
         }
     }
 }

@@ -11,7 +11,8 @@ namespace Game.Ecs.TargetSelection.Systems
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Extensions;
     using Unity.Mathematics;
-    
+    using UnityEngine;
+
     /// <summary>
     /// select targets in area by radius
     /// </summary>
@@ -53,6 +54,12 @@ namespace Game.Ecs.TargetSelection.Systems
                 ref var requestComponent = ref _targetAspect.TargetSelectionRequest.Get(requestEntity);
                 ref var transformComponent = ref _targetAspect.Position.Get(requestEntity);
                 var layer = requestComponent.Relationship.GetFilterMask(requestComponent.SourceLayer);
+                if (_targetAspect.LayerOverride.Has(requestEntity))
+                {
+                    ref var layerOverrideComponent = ref _targetAspect.LayerOverride.Get(requestEntity);
+                    layer |= layerOverrideComponent.Value;
+                }
+                
                 var count = _targetSelection.SelectEntitiesInArea(
                     _resultSelection,
                     requestComponent.Radius,
