@@ -11,10 +11,12 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown
     [CreateAssetMenu(menuName = "Game/Feature/Ability/Ability Adjustable Cooldown SubFeature",fileName = "Ability Adjustable Cooldown SubFeature")]
     public class AbilityAdjustableCooldownSubFeature : AbilitySubFeature
     {
-        public override UniTask<IEcsSystems> OnLastAbilitySystems(IEcsSystems ecsSystems)
+        public override UniTask<IEcsSystems> OnStartSystems(IEcsSystems ecsSystems)
         {
             ecsSystems.Add(new UpdateAbilityCooldownSystem());
             return base.OnActivateSystems(ecsSystems);
         }
+        
+        
     }
 }

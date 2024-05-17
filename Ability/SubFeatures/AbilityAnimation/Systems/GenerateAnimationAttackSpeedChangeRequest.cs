@@ -8,6 +8,7 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
     using Game.Ecs.Animation.Components;
     using Game.Ecs.Characteristics.AttackSpeed.Components;
     using Game.Ecs.Characteristics.Base.Components;
+    using Game.Ecs.Characteristics.Base.Components.Requests;
     using Leopotam.EcsLite;
     using UniGame.Core.Runtime.Extension;
     using UniGame.LeoEcs.Shared.Extensions;
@@ -35,6 +36,7 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
         private EcsWorld _world;
         private EcsFilter _filter;
         private AbilityAnimationAspect _animationAspect;
+        private EcsFilter _createFilter;
 
         public void Init(IEcsSystems systems)
         {
@@ -46,11 +48,18 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
                 .Inc<AttackAbilityIdComponent>()
                 .Inc<AnimationsLengthMapComponent>()
                 .End();
+
+            _createFilter = _world.Filter<CreateCharacteristicRequest<AttackSpeedComponent>>().End();
         }
 
         public void Run(IEcsSystems systems)
         {
             foreach (var ownerEntity in _filter)
+            {
+                _animationAspect.RecalculateAttackSpeed.Add(ownerEntity);
+            }
+
+            foreach (var ownerEntity in _createFilter)
             {
                 _animationAspect.RecalculateAttackSpeed.Add(ownerEntity);
             }

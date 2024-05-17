@@ -108,7 +108,8 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
                     $"Cooldown component value is {cooldownComponent.Value}", Color.green);
                 GameLog.Log(
                     $"New attack speed animator parameter was set from {animatorComponent.Value.GetFloat(_parametersMap.attackSpeed)} to {animationLength / cooldownComponent.Value}", Color.green);
-                var ratio = animationLength / cooldownComponent.Value;
+                var ratio = Math.Clamp(animationLength / cooldownComponent.Value,0,100) ;
+                
                 animatorComponent.Value.SetFloat(_parametersMap.attackSpeed, ratio);
                 
                 _animationAspect.RecalculateAttackSpeed.Del(ownerEntity);

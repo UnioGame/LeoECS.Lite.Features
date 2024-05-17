@@ -8,6 +8,7 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown.Systems
     using Game.Ecs.Characteristics.Base.Components;
     using Game.Ecs.Cooldown;
     using Leopotam.EcsLite;
+    using UniCore.Runtime.ProfilerTools;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Extensions;
     using UniGame.LeoEcs.Timer.Components;
@@ -84,10 +85,23 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown.Systems
                 cooldownComponent.Value = cooldownTypeComponent.Value switch
                 {
                     CooldownType.Cooldown => attackSpeed.Value,
-                    CooldownType.Speed => 1f / attackSpeed.Value,
+                    CooldownType.Speed => CalculateCooldown(attackSpeed.Value),
                     _ => throw new ArgumentOutOfRangeException(nameof(cooldownTypeComponent.Value))
                 };
                 
+            }
+        }
+
+        private float CalculateCooldown(float attackSpeedValue)
+        {
+            if (attackSpeedValue <= 0)
+            {
+                GameLog.LogError("UpdateAbilityCooldownSystem: attack speed value is less or equal to zero");
+                return 0;
+            }
+            else
+            {
+                return 1f / attackSpeedValue;
             }
         }
     }
