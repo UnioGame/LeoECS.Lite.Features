@@ -57,6 +57,7 @@
         {
             ecsSystems.Add(new AbilityAwaitAnimationTriggerSystem());
             //update attack animation speeed
+            ecsSystems.Add(new GenerateAnimationAttackSpeedChangeRequest());
             ecsSystems.Add(new UpdateAttackAnimationSpeedSystem(animatorParametersMap));
             return base.OnPreparationApplyEffectsSystems(ecsSystems);
         }

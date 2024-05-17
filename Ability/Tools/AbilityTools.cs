@@ -156,9 +156,6 @@ namespace Game.Ecs.Ability.Tools
                 {
                     case AnimationType.Animator:
                         ComposeAbilityAnimation(_world, ownerEntity, packedAbility,abilityConfiguration.animationClipId);
-                        ref var abilityCooldownComponent = ref _abilityAspect.AbilityCooldownValues.GetOrAddComponent(abilityEntity);
-                        abilityCooldownComponent.baseCooldown = abilityConfiguration.specification.Cooldown;
-                        abilityCooldownComponent.currentCooldown = abilityConfiguration.specification.Cooldown;
                         break;
                     case AnimationType.PlayableDirector:
                         ComposeAbilityAnimationAsync(_world, ownerEntity,packedAbility,abilityLink).Forget();

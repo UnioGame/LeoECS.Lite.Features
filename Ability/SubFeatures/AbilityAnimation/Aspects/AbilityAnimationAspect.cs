@@ -24,5 +24,6 @@
         public EcsPool<PlayableDirectorComponent> Director;
         public EcsPool<TriggeredAnimationIdComponent> ClipId;
         public EcsPool<AnimatorComponent> Animator;
+        public EcsPool<RecalculateAnimationAttackSpeedSelfRequest> RecalculateAttackSpeed;
     }
 }

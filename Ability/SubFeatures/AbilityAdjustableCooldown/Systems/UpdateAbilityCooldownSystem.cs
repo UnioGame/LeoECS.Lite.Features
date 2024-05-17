@@ -75,8 +75,6 @@ namespace Ability.SubFeatures.AbilityAdjustableCooldown.Systems
                 if(ablitySlotId.SlotType != slotIdComponent.Value) continue;
                 
                 //todo  не работает потому что не заполняется AbilityMapComponent
-                // var abilityEntity = _abilitytool.GetAbilityBySlot(entity, slotIdComponent.Value);
-                // if (abilityEntity < 0) continue;
                 
                 ref var attackSpeed = ref _characteristicPool.Get(entity);
                 ref var cooldownTypeComponent = ref _cooldownType.Get(entity);

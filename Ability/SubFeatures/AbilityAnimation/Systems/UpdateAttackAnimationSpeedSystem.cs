@@ -5,8 +5,11 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
     using Components;
     using Game.Ecs.Ability.Aspects;
     using Game.Ecs.Ability.Common.Components;
+    using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Aspects;
+    using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Components;
     using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Data;
     using Game.Ecs.Ability.Tools;
+    using Game.Ecs.AbilityInventory.Components;
     using Game.Ecs.Animation.Components;
     using Game.Ecs.Animation.Data;
     using Game.Ecs.Characteristics.AttackSpeed.Components;
@@ -39,10 +42,10 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
         private EcsFilter _filter;
         private EcsFilter _abilityFilter;
         private AbilityAspect _abilityAspect;
-        private EcsPool<AnimatorComponent> _animatorPool;
+        private AbilityAnimationAspect _animationAspect;
         private AbilityTools _abilityTool;
         private AnimationsIdsMap _animatorGlobalMap;
-        private Stack<int> _stack = new Stack<int>();
+        private Stack<EcsPackedEntity> _stack = new Stack<EcsPackedEntity>();
 
         public UpdateAttackAnimationSpeedSystem(AnimatorParametersMap parametersMap)
         {
@@ -53,30 +56,31 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
         {
             _world = systems.GetWorld();
             _filter = _world.Filter<AnimatorComponent>()
-                .Inc<CharacteristicChangedComponent<AttackSpeedComponent>>()
+                .Inc<RecalculateAnimationAttackSpeedSelfRequest>()
                 .Inc<AbilityInHandLinkComponent>()
                 .Inc<AttackAbilityIdComponent>()
                 .Inc<AnimationsLengthMapComponent>()
                 .End();
-            _abilityFilter = _world.Filter<AbilityCooldownComponent>()
+            _abilityFilter = _world.Filter<AbilityIdComponent>()
+                .Inc<AbilityInventoryCompleteComponent>()
                 .Inc<CooldownComponent>()
                 .Inc<OwnerComponent>()
                 .End();
             _abilityTool = _world.GetGlobal<AbilityTools>();
             _animatorGlobalMap = _world.GetGlobal<AnimationsIdsMap>();
-            
         }
 
         public void Run(IEcsSystems systems)
         {
+            if(_abilityFilter.GetEntitiesCount() == 0) return;
             
             foreach (var ownerEntity in _filter)
             {
                 ref var attackAbilityIdComponent = ref _world.GetComponent<AttackAbilityIdComponent>(ownerEntity);
-                // var abilityEntity = _abilityTool.GetAbilityBySlot(ownerEntity, attackAbilityIdComponent.Value);//todo лучше так
+                var abilityEntity = _abilityTool.GetAbilityBySlot(ownerEntity, attackAbilityIdComponent.Value);//todo лучше так
                 
-                ref var abilityInHandLinkComponent = ref _world.GetComponent<AbilityInHandLinkComponent>(ownerEntity);
-                if(!abilityInHandLinkComponent.AbilityEntity.Unpack(_world, out var abilityEntity)) continue;
+                // ref var abilityInHandLinkComponent = ref _world.GetComponent<AbilityInHandLinkComponent>(ownerEntity);
+                // if(!abilityInHandLinkComponent.AbilityEntity.Unpack(_world, out var abilityEntity)) continue;
                 
                 ref var baseCooldownComponent = ref _abilityAspect.BaseCooldown.Get(abilityEntity);
                 ref var cooldownComponent = ref _abilityAspect.Cooldown.Get(abilityEntity);
@@ -89,18 +93,25 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
                     GameLog.LogError("UpdateAttackAnimationSystem: Animation length not found in map");
                     continue;
                 }
-                if(animationLength < cooldownComponent.Value) continue;
+                if(animationLength < cooldownComponent.Value)
+                {
+                    GameLog.Log($"Animation length {animationLength} is less than cooldown {cooldownComponent.Value}. Skip recalculation.", Color.cyan);
+                    _animationAspect.RecalculateAttackSpeed.Del(ownerEntity);
+                    continue;
+                }
                 
                 //todo сейчас использовал старый кулдаун и базовый кулдаун. Не уверен что это будет работать.
                 //todo если не будет работать, то нужно будет использовать мой новый AbilityCooldownValues
                 //todo ref var abilityCooldownComponent = ref _abilityAspect.AbilityCooldownValues.Get(abilityEntity);
-                ref var animatorComponent = ref _animatorPool.Get(ownerEntity);
-                Debug.Log(
-                    $"Cooldown component value is {cooldownComponent.Value} and base cooldown component value is {baseCooldownComponent.Value}");
-                Debug.Log(
-                    $"New attack speed animator parameter was set from {animatorComponent.Value.GetFloat(_parametersMap.attackSpeed)} to {cooldownComponent.Value / baseCooldownComponent.Value}");
+                ref var animatorComponent = ref _animationAspect.Animator.Get(ownerEntity);
+                GameLog.Log(
+                    $"Cooldown component value is {cooldownComponent.Value}", Color.green);
+                GameLog.Log(
+                    $"New attack speed animator parameter was set from {animatorComponent.Value.GetFloat(_parametersMap.attackSpeed)} to {animationLength / cooldownComponent.Value}", Color.green);
                 var ratio = animationLength / cooldownComponent.Value;
                 animatorComponent.Value.SetFloat(_parametersMap.attackSpeed, ratio);
+                
+                _animationAspect.RecalculateAttackSpeed.Del(ownerEntity);
             }
         }
     }
