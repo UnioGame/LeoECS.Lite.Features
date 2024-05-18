@@ -33,7 +33,8 @@
         "game.relations",
         "unigame.leoecs.bootstrap.runtime",
         "unigame.leoecs.converter.runtime",
-        "unigame.laeoecs.shared.runtime"
+        "unigame.laeoecs.shared.runtime",
+        "UniGame.LeoEcs.Shared.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -41,7 +42,15 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
+    "defineConstraints": [
+        "LEO_ECS_ENABLED"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.leopotam.ecslite",
+            "expression": "2023.0.0",
+            "define": "LEO_ECS_ENABLED"
+        }
+    ],
     "noEngineReferences": false
 }

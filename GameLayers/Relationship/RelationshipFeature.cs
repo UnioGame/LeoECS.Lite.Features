@@ -9,11 +9,10 @@ namespace Game.Ecs.GameLayers.Relationship
     using UniGame.LeoEcs.Bootstrap.Runtime;
     using UnityEngine;
 
+    [CreateAssetMenu(menuName = "Game/Feature/Relationship feature", fileName = "Relationship feature")]
     [Serializable]
-    public sealed class RelationshipFeature : LeoEcsSystemAsyncFeature
+    public sealed class RelationshipFeature : BaseLeoEcsFeature
     {
-        [SerializeField]
-        private LayerIdConfiguration _layerIdConfiguration;
         [SerializeField]
         private RelationshipIdMap _relationshipIdMap;
         [SerializeField]
@@ -21,8 +20,7 @@ namespace Game.Ecs.GameLayers.Relationship
     
         public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
         {
-            ecsSystems.Add(new RelationshipToolsSystem(_layerIdConfiguration, _relationshipIdMap, _selfRelationship));
-            
+            ecsSystems.Add(new RelationshipToolsSystem(_relationshipIdMap, _selfRelationship));
             return UniTask.CompletedTask;
         }
     }

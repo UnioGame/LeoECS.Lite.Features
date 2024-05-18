@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a45644d810b5874a943ca87d525a56d, type: 3}
+  m_Name: MonsterAi Arena
+  m_EditorClassIdentifier: 
+  agentConfiguration:
+    planners:
+    - rid: 990487755211669508
+    - rid: 5484826031775547441
+  aiConfiguration: {fileID: 11400000, guid: 67e3f299a4b822845b3e765e52f410ab, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 990487755211669508
+      type: {class: MoveToTargetPlannerConverter, ns: Game.Ecs.GameAi.MoveToTarget.Converters,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        isEnabled: 1
+        id:
+          _value: 0
+        data:
+          PlannerData:
+            Priority: 10
+        converters:
+        - rid: 2234490601181020160
+        - rid: 990487904506609665
+    - rid: 990487904506609665
+      type: {class: MoveByAgroConverter, ns: Game.Ecs.GameAi.MoveToTarget.Converters,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        data:
+          FilterData:
+          - RelationshipId:
+              _value: 4
+            CategoryId:
+              _value: 1
+            SensorDistance: 100
+            AgroEffectMultiplier: 4
+    - rid: 2234490601181020160
+      type: {class: MoveByCategoryConverter, ns: Game.Ecs.GameAi.MoveToTarget.Converters,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        data:
+          MinFilteredTargetPriority: 2
+          FilterData:
+          - Relationship:
+              _value: 4
+            CategoryId:
+              _value: 1
+            SensorDistance: 100
+          EffectiveDistance: 100
+          MaxPriorityByDistance: 20
+        rangeGizmosColor: {r: 0, g: 0, b: 0, a: 1}
+        drawGizmos: 0
+    - rid: 5484826031775547441
+      type: {class: ActivateAbilityPlannerConverter, ns: Game.Ecs.GameAi.ActivateAbility.Converters,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        isEnabled: 1
+        id:
+          _value: 1
+        data:
+          PlannerData:
+            Priority: 20
+        _converters:
+        - rid: 5484826317581189183
+    - rid: 5484826317581189183
+      type: {class: AbilityByDefaultConverter, ns: Game.Ecs.GameAi.ActivateAbility.Converters,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        data:
+          Priority: 30
+          FilterData:
+          - UsePriority: 0
+            Priorities:
+            - Category:
+                _value: 1
+              Value: 0
+            Slot: 0

@@ -1,6 +1,6 @@
 ﻿namespace Game.Code.Configuration.Editor.GameLayers.Relationship
 {
-    using System.Linq;
+    using System;
     using Code.GameLayers.Relationship;
     using EditorExtensions;
     using UnityEditor;
@@ -11,7 +11,7 @@
     {
         private static readonly int RelationshipIdHash = nameof(RelationshipIdHash).GetHashCode();
         
-        private RelationshipIdConfiguration _configuration;
+        private RelationshipId[] _configuration;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -26,12 +26,12 @@
             EditorGUI.EndProperty();
         }
 
-        public static int RelationshipField(Rect position, GUIContent label, int relationship, RelationshipIdConfiguration configuration)
+        public static int RelationshipField(Rect position, GUIContent label, int relationship, RelationshipId[] configuration)
         {
             return RelationshipField(position, label, relationship, EditorStyles.popup, configuration);
         }
 
-        private static int RelationshipField(Rect position, GUIContent label, int relationship, GUIStyle style, RelationshipIdConfiguration configuration)
+        private static int RelationshipField(Rect position, GUIContent label, int relationship, GUIStyle style, RelationshipId[] configuration)
         {
             var controlId = GUIUtility.GetControlID(RelationshipIdHash, FocusType.Keyboard, position);
             position = EditorGUI.PrefixLabel(position, controlId, label);
@@ -41,30 +41,32 @@
             
             var current = Event.current;
             var changed = GUI.changed;
+
+            var layers = new string[configuration.Length];
+            for (int i = 0; i < configuration.Length; i++)
+            {
+                layers[i] = configuration[i].ToString();
+            }
             
-            var layers = configuration.Relationships.Where(x=> !string.IsNullOrEmpty(x)).ToArray();
             var selectedValueForControl = EditorGUIExtensions.GetSelectedValueForControl(controlId, -1);
             
             if (selectedValueForControl != -1)
             {
-                if (selectedValueForControl >= layers.Length)
+                if (selectedValueForControl >= configuration.Length)
                 {
-                    EditorGUIUtility.PingObject(configuration);
-                    Selection.activeObject = configuration;
+                    //EditorGUIUtility.PingObject(configuration);
+                    //Selection.activeObject = configuration;
 
                     GUI.changed = changed;
                 }
                 else
                 {
                     var selected = 0;
-                    for (var i = 0; i < RelationshipIdConfiguration.MaxRelationshipsCount; i++)
+                    for (var i = 0; i < configuration.Length; i++)
                     {
-                        if (string.IsNullOrEmpty(configuration.GetRelationshipName(i)))
-                            continue;
-
                         if (selected == selectedValueForControl)
                         {
-                            relationship = configuration.GetRelationshipValue(i);
+                            relationship = (int)configuration[i];
                             break;
                         }
 
@@ -76,20 +78,17 @@
             if (current.type == EventType.MouseDown && position.Contains(current.mousePosition) || EditorGUIExtensions.MainActionKeyForControl(current, controlId))
             {
                 var selected = 0;
-                for (var i = 0; i < RelationshipIdConfiguration.MaxRelationshipsCount; i++)
+                for (var i = 0; i < configuration.Length; i++)
                 {
-                    if (!string.IsNullOrEmpty(configuration.GetRelationshipName(i)))
-                    {
-                        if (configuration.GetRelationshipValue(i) != relationship)
-                            selected++;
-                        else
-                            break;
-                    }
+                    if ((int)configuration[i] != relationship)
+                        selected++;
+                    else
+                        break;
                 }
 
                 
                 ArrayUtility.Add(ref layers, "");
-                ArrayUtility.Add(ref layers, "Add Relationship...");
+                ArrayUtility.Add(ref layers, "Add new");
 
                 EditorGUIExtensions.DoPopup(position, controlId, selected, EditorGUIExtensions.TempContent(layers), style);
                 current.Use();
@@ -99,7 +98,9 @@
 
             if (current.type == EventType.Repaint)
             {
-                var content = EditorGUI.showMixedValue ? EditorGUIUtility.TrTextContent("—", "Mixed Values") : EditorGUIExtensions.TempContent(configuration.GetRelationshipNameByValue(relationship));
+                var content = EditorGUI.showMixedValue 
+                    ? EditorGUIUtility.TrTextContent("—", "Mixed Values") 
+                    : EditorGUIExtensions.TempContent(((RelationshipId)relationship).ToString());
                 style.Draw(position, content, controlId, false, position.Contains(current.mousePosition));
             }
 
@@ -108,18 +109,7 @@
 
         private void Initialize()
         {
-            if (_configuration != null)
-                return;
-            
-            var assetGuid = AssetDatabase.FindAssets($"t:{nameof(RelationshipIdConfiguration)}").FirstOrDefault();
-            if(string.IsNullOrEmpty(assetGuid))
-                return;
-
-            var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
-            if(string.IsNullOrEmpty(assetPath))
-                return;
-
-            _configuration = AssetDatabase.LoadAssetAtPath<RelationshipIdConfiguration>(assetPath);
+            _configuration = Enum.GetValues(typeof(RelationshipId)) as RelationshipId[];
         }
     }
 }

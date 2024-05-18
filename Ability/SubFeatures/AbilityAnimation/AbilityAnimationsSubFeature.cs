@@ -1,7 +1,8 @@
-﻿namespace Game.Ecs.Ability.SubFeatures.AbilityAnimation
+﻿/*namespace Game.Ecs.Ability.SubFeatures.AbilityAnimation
 {
     using System;
     using Cysharp.Threading.Tasks;
+    using global::Ability.Systems;
     using Leopotam.EcsLite;
     using Systems;
     using UnityEngine;
@@ -28,6 +29,9 @@
             ecsSystems.Add(new AbilityActivateAnimationOptionsSystem());
             //reset all ability options when ability activated
             ecsSystems.Add(new AbilityResetAnimationOptionsSystem());
+            
+            //trigger animation trough animator component
+            ecsSystems.Add(new AbilityTriggerAnimatorSystem());
             return UniTask.FromResult(ecsSystems);
         }
         
@@ -37,5 +41,10 @@
             return UniTask.FromResult(ecsSystems);
         }
 
+        public override UniTask<IEcsSystems> OnPreparationApplyEffectsSystems(IEcsSystems ecsSystems)
+        {
+            ecsSystems.Add(new AbilityAwaitAnimationTriggerSystem());
+            return base.OnPreparationApplyEffectsSystems(ecsSystems);
+        }
     }
-}
+}*/

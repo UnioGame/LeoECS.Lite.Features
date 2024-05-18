@@ -5,9 +5,6 @@
 	using Leopotam.EcsLite;
 	using Mana.Components;
 	using Time.Service;
-	using UniCore.Runtime.ProfilerTools;
-	using UniModules.UniCore.Runtime.Time;
-	using UnityEngine;
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
 #endif

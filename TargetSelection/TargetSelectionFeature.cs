@@ -1,4 +1,7 @@
-﻿namespace Game.Ecs.TargetSelection
+﻿using Game.Ecs.TargetSelection.Components;
+using Leopotam.EcsLite.ExtendedSystems;
+
+namespace Game.Ecs.TargetSelection
 {
     using Cysharp.Threading.Tasks;
     using Leopotam.EcsLite;
@@ -23,6 +26,7 @@
             ecsSystems.Add(new InitKDTreeTargetsSystem());
             ecsSystems.Add(new CollectKDTreeTargetsSystem());
             ecsSystems.Add(new SelectAreaTargetsSystem());
+            ecsSystems.DelHere<TargetsSelectionRequestComponent>();
             return UniTask.CompletedTask;
         }
     }

@@ -2,6 +2,7 @@
 {
     using System;
     using Components;
+    using global::Ability.Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UnityEngine;
@@ -29,6 +30,7 @@
             _filter = _world.Filter<AbilityEffectMilestonesComponent>()
                 .Inc<AbilityEvaluationComponent>()
                 .Inc<AbilityUsingComponent>()
+                .Exc<AbilityAwaitAnimationTriggerComponent>()
                 .End();
         }
         

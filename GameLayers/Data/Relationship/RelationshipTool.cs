@@ -1,5 +1,6 @@
 namespace Game.Code.GameLayers.Relationship
 {
+    using System;
     using System.Runtime.CompilerServices;
     using Layer;
     using Unity.Collections;
@@ -22,7 +23,7 @@ namespace Game.Code.GameLayers.Relationship
         public static RelationshipId selfRelationship;
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Initialize(LayerId[] layers, RelationshipId[,] matrix,RelationshipId selfId)
+        public static void Initialize(RelationshipId[,] matrix, RelationshipId selfId)
         {
             if (layerMaskCache.IsCreated)
                 layerMaskCache.Dispose();
@@ -31,7 +32,7 @@ namespace Game.Code.GameLayers.Relationship
                 matrix.Length, 
                 Allocator.Persistent);
             
-            layerIds = layers;
+            layerIds = Enum.GetValues(typeof(LayerId)) as LayerId[];
             relationshipMatrix = matrix;
             selfRelationship = selfId;
         }
@@ -50,13 +51,17 @@ namespace Game.Code.GameLayers.Relationship
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static LayerId GetFilterMask(this RelationshipId relationship, LayerId self)
         {
-            if (relationship.HasFlag(selfRelationship))
+            /*if (relationship.HasFlag(selfRelationship))
+            {
                 return self;
-            
+            }*/
+
             var data = new RelationLayerData(self, relationship);
-            if(layerMaskCache.ContainsKey(data)) 
+            if (layerMaskCache.ContainsKey(data))
+            {
                 return layerMaskCache[data];
-            
+            }
+
             var layer = GetFilterMaskCached(self, relationship);
             layerMaskCache[data] = layer;
             return layer;

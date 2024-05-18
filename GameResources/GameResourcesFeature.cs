@@ -10,6 +10,7 @@
     using UniGame.Context.Runtime.Extension;
     using UniGame.Core.Runtime;
     using UniGame.LeoEcs.Bootstrap.Runtime;
+    using UniGame.LeoEcs.Converter.Runtime;
     using UniGame.LeoEcs.Shared.Extensions;
     using UnityEngine;
 
@@ -21,7 +22,7 @@
             var context = ecsSystems.GetShared<IContext>();
             var dataBase = await context.ReceiveFirstAsync<IGameDatabase>();
             var world = ecsSystems.GetWorld();
-            
+
             var spawnTools = new GameSpawnTools();
             world.SetGlobal(spawnTools);
             ecsSystems.Add(spawnTools);

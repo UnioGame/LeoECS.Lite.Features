@@ -23,20 +23,16 @@
     {
         private EcsWorld _world;
         
-        private LayerIdConfiguration _layerIdConfiguration;
         private RelationshipIdMap _relationshipIdMap;
         private RelationshipId _selfRelationship;
         
-        public RelationshipToolsSystem(LayerIdConfiguration layerIdConfiguration,
-            RelationshipIdMap relationshipIdMap, 
+        public RelationshipToolsSystem(RelationshipIdMap relationshipIdMap, 
             RelationshipId selfRelationship)
         {
-            _layerIdConfiguration = layerIdConfiguration;
             _relationshipIdMap = relationshipIdMap;
             _selfRelationship = selfRelationship;
             
-            RelationshipTool.Initialize(_layerIdConfiguration.LayersIds, 
-                _relationshipIdMap.RelationshipMatrix, 
+            RelationshipTool.Initialize(_relationshipIdMap.RelationshipMatrix, 
                 _selfRelationship);
         }
         

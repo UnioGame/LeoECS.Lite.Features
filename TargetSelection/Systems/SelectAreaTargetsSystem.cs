@@ -1,4 +1,7 @@
-﻿namespace Game.Ecs.TargetSelection.Systems
+﻿using Game.Code.GameLayers.Relationship;
+using Game.Ecs.Core.Components;
+
+namespace Game.Ecs.TargetSelection.Systems
 {
     using System;
     using Aspects;
@@ -8,7 +11,8 @@
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Extensions;
     using Unity.Mathematics;
-    
+    using UnityEngine;
+
     /// <summary>
     /// select targets in area by radius
     /// </summary>
@@ -24,10 +28,12 @@
     public class SelectAreaTargetsSystem : IEcsInitSystem, IEcsRunSystem
     {
         private EcsWorld _world;
-        private EcsFilter _targetFilter;
+        private EcsFilter _requestFilter;
 
         private TargetSelectionAspect _targetAspect;
         private TargetSelectionSystem _targetSelection;
+
+        private EcsPool<OwnerComponent> _ownerPool;
         
         private EcsPackedEntity[] _resultSelection = new EcsPackedEntity[TargetSelectionData.MaxTargets];
 
@@ -36,42 +42,37 @@
             _world = systems.GetWorld();
             _targetSelection = _world.GetGlobal<TargetSelectionSystem>();
             
-            _targetFilter = _world
-                .Filter<SqrRangeFilterTargetComponent>()
-                .Inc<SqrRangeTargetSelectionComponent>()
+            _requestFilter = _world
+                .Filter<TargetsSelectionRequestComponent>()
                 .End();
         }
 
         public void Run(IEcsSystems systems)
         {
-            foreach (var entity in _targetFilter)
+            foreach (var requestEntity in _requestFilter)
             {
-                ref var targetComponent = ref _targetAspect.Data.Get(entity);
-                ref var resultComponent = ref _targetAspect.Result.GetOrAddComponent(entity);
-                
-                var target = targetComponent.Target;
-                if(!target.Unpack(_world,out var targetEntity)) continue;
-                
-                ref var transformComponent = ref _targetAspect.Position.Get(targetEntity);
-
-                var position = transformComponent.Position;
-                var radius = targetComponent.Radius;
-                var category = targetComponent.Category;
-                var layer = targetComponent.Layer;
-                
-                var amount = _targetSelection.SelectEntitiesInArea(
-                    _resultSelection,
-                    radius,
-                    ref position,
-                    ref layer,
-                    ref category);
-
-                resultComponent.Count = amount;
-                
-                for (var i = 0; i < amount; i++)
+                ref var requestComponent = ref _targetAspect.TargetSelectionRequest.Get(requestEntity);
+                ref var transformComponent = ref _targetAspect.Position.Get(requestEntity);
+                var layer = requestComponent.Relationship.GetFilterMask(requestComponent.SourceLayer);
+                if (_targetAspect.LayerOverride.Has(requestEntity))
                 {
-                    ref var resultValue = ref _resultSelection[i];
-                    resultComponent.Values[i] = resultValue;
+                    ref var layerOverrideComponent = ref _targetAspect.LayerOverride.Get(requestEntity);
+                    layer |= layerOverrideComponent.Value;
+                }
+                
+                var count = _targetSelection.SelectEntitiesInArea(
+                    _resultSelection,
+                    requestComponent.Radius,
+                    ref transformComponent.Position,
+                    ref layer,
+                    ref requestComponent.Category);
+
+                ref var resultComponent = ref _targetAspect.TargetSelectionResult.GetOrAddComponent(requestEntity);
+                resultComponent.Count = count;
+                for (var j = 0; j < count; j++)
+                {
+                    ref var resultValue = ref _resultSelection[j];
+                    resultComponent.Values[j] = resultValue;
                 }
             }
         }

@@ -59,6 +59,12 @@ namespace Game.Ecs.Animations
             
             ecsSystems.DelHere<CreateAnimationLinkSelfRequest>();
             ecsSystems.DelHere<CreateAnimationPlayableSelfRequest>();
+
+            #region animator feature
+
+            // ecsSystems.Add(new )
+
+            #endregion
             
             return UniTask.CompletedTask;
         }

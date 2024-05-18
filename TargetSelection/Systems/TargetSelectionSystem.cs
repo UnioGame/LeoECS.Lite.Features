@@ -4,17 +4,11 @@
     using System.Runtime.CompilerServices;
     using Code.GameLayers.Category;
     using Code.GameLayers.Layer;
-    using Core;
-    using Core.Components;
-    using Core.Death.Components;
-    using GameLayers.Category.Components;
-    using GameLayers.Layer.Components;
     using Leopotam.EcsLite;
     using TargetSelection;
     using TargetSelection.Aspects;
     using TargetSelection.Components;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
-    using UniGame.LeoEcs.Shared.Components;
     using Unity.Mathematics;
     using UnityEngine;
 
@@ -111,10 +105,15 @@
                 var layer = layerComponent.Value;
                 var category = categoryComponent.Value;
 
-                if ((layerId & layer) != layer ||
-                    (categoryId & category) != category) continue;
+                if ((layerId & layer) != layer || (categoryId & category) != category)
+                {
+                    continue;
+                }
 
-                if(entity < 0) continue;
+                if (entity < 0)
+                {
+                    continue;
+                }
                 
                 result[counter] = packedEntity;
                 counter++;

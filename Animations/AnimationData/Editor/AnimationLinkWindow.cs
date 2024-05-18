@@ -4,13 +4,11 @@
     using JetBrains.Annotations;
     using Sirenix.OdinInspector;
     using Sirenix.OdinInspector.Editor;
-    using UniGame.Shared.Runtime.Timeline;
     using UniModules.Editor;
     using UnityEditor;
     using UnityEngine;
     using UnityEngine.Playables;
     using UnityEngine.Serialization;
-    using UnityEngine.Timeline;
 
     [UsedImplicitly]
     public sealed class AnimationLinkWindow : OdinEditorWindow

@@ -16,7 +16,16 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
+    "defineConstraints": [
+        "LEO_ECS_ENABLED",
+        "ENABLE_DOTWEEN"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.leopotam.ecslite",
+            "expression": "2023.0.0",
+            "define": "LEO_ECS_ENABLED"
+        }
+    ],
     "noEngineReferences": false
 }

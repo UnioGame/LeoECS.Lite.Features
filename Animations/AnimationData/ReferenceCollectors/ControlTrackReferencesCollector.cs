@@ -3,10 +3,7 @@
     using System;
     using Abstract;
     using Modules.UnioModules.UniGame.CoreModules.UniGame.Core.Runtime.Extension;
-    using UniGame.Shared.Runtime.Timeline;
-    using UnityEngine.AddressableAssets;
     using UnityEngine.Playables;
-    using UnityEngine.Timeline;
 
 #if UNITY_EDITOR
     using UniModules.Editor;
@@ -23,7 +20,7 @@
         {
             foreach (var animationOutput in animation.outputs)
             {
-                var source = animationOutput.sourceObject;
+                /*var source = animationOutput.sourceObject;
                 if (source is not ControlTrack trackAsset) continue;
                 
                 var clips = trackAsset.GetClips();
@@ -69,13 +66,13 @@
                     bindings.Add(reference);
                 }
                 
-                bindings.Add(controlTrackReference);
+                bindings.Add(controlTrackReference);*/
             }
         }
 
         public void CleanReferences(PlayableDirector director,PlayableAsset animation)
         {
-            foreach (var clip in animation
+            /*foreach (var clip in animation
                          .GetClips<ControlPlayableAsset,ControlTrack>())
             {
                 clip.prefabGameObject = null;
@@ -83,7 +80,7 @@
                 clip.MarkDirty();
                 animation.MarkDirty();
 #endif
-            }
+            }*/
         }
     }
     

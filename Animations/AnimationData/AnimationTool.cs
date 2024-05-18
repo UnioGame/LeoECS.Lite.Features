@@ -2,10 +2,8 @@
 {
     using EffectMilestones;
     using EffectMilestones.Timeline;
-    using UniGame.Shared.Runtime.Timeline;
     using UnityEditor;
     using UnityEngine.Playables;
-    using UnityEngine.Timeline;
 
     public static class AnimationTool
     {
@@ -46,7 +44,7 @@
         {
             if (milestonesInfo == null || animation == null) return;
             
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
             milestonesInfo.Clear();
             if(animation is not TimelineAsset playableAsset) return;
             
@@ -57,7 +55,7 @@
                 var milestoneTime = (float)milestoneClip.start;
                 milestonesInfo.AddMilestone(milestoneTime);
             }
-#endif
+#endif*/
         }
         
 

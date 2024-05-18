@@ -15,10 +15,10 @@
     [Serializable]
     public class TargetSelectionAspect : EcsAspect
     {
-        public EcsPool<SqrRangeFilterTargetComponent> Target;
-        public EcsPool<SqrRangeTargetSelectionComponent> Data;
-        public EcsPool<SqrRangeTargetsResultComponent> Result;
+        public EcsPool<TargetsSelectionResultComponent> TargetSelectionResult;
+        public EcsPool<TargetsSelectionRequestComponent> TargetSelectionRequest;
         public EcsPool<LayerIdComponent> Layer;
+        public EcsPool<LayerOverrideComponent> LayerOverride;
         public EcsPool<CategoryIdComponent> Category;
         public EcsPool<TransformComponent> Transform;
         public EcsPool<TransformPositionComponent> Position;

@@ -37,7 +37,18 @@
         "GUID:5425374c3d8fb1b45b1a3879382ddd3e",
         "GUID:069f260d730447a39a1afd811a2be520",
         "GUID:e0cd26848372d4e5c891c569017e11f1",
-        "GUID:2665a8d13d1b3f18800f46e256720795"
+        "GUID:2665a8d13d1b3f18800f46e256720795",
+        "GUID:94cfb6c3a2e94ec0bddecf8d85bc3c5b"
+    ],
+    "defineConstraints": [
+        "LEO_ECS_ENABLED"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.leopotam.ecslite",
+            "expression": "2023.0.0",
+            "define": "LEO_ECS_ENABLED"
+        }
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -45,7 +56,5 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
     "noEngineReferences": false
 }

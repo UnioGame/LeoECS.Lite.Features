@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a45644d810b5874a943ca87d525a56d, type: 3}
+  m_Name: IdleHeroAiConfiguration
+  m_EditorClassIdentifier: 
+  _agentConfiguration:
+    _planners:
+    - rid: 990487904506609669
+    - rid: 5484826407513882651
+  _aiConfiguration: {fileID: 11400000, guid: 67e3f299a4b822845b3e765e52f410ab, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 990487904506609669
+      type: {class: MoveToTargetPlannerConverter, ns: Game.Ecs.GameAi.MoveToTarget.Converters,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        _isEnabled: 1
+        _id:
+          _value: 0
+        data:
+          PlannerData:
+            Priority: 10
+        converters:
+        - rid: 990487904506609670
+        - rid: 990487904506609671
+    - rid: 990487904506609670
+      type: {class: MoveByAgroConverter, ns: Game.Ecs.GameAi.MoveToTarget.Converters,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        data:
+          FilterData:
+          - RelationshipId:
+              _value: 4
+            CategoryId:
+              _value: 4
+            SensorDistance: 8
+            AgroEffectMultiplier: 1
+          - RelationshipId:
+              _value: 4
+            CategoryId:
+              _value: 2
+            SensorDistance: 8
+            AgroEffectMultiplier: 1
+          - RelationshipId:
+              _value: 4
+            CategoryId:
+              _value: 1
+            SensorDistance: 8
+            AgroEffectMultiplier: 4
+    - rid: 990487904506609671
+      type: {class: MoveByCategoryConverter, ns: Game.Ecs.GameAi.MoveToTarget.Converters,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        data:
+          MinFilteredTargetPriority: 2
+          FilterData:
+          - Relationship:
+              _value: 4
+            CategoryId:
+              _value: 11
+            SensorDistance: 100
+          EffectiveDistance: 100
+          MaxPriorityByDistance: 20
+        rangeGizmosColor: {r: 1, g: 0, b: 0, a: 1}
+        drawGizmos: 1
+    - rid: 5484826407513882651
+      type: {class: ActivateAbilityPlannerConverter, ns: Game.Ecs.GameAi.ActivateAbility.Converters,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        _isEnabled: 1
+        _id:
+          _value: 1
+        data:
+          PlannerData:
+            Priority: 20
+        _converters:
+        - rid: 5484826407513882652
+    - rid: 5484826407513882652
+      type: {class: AbilityByDefaultConverter, ns: Game.Ecs.GameAi.ActivateAbility.Converters,
+        asm: Game.Ecs.Ai.Actions.Runtime}
+      data:
+        data:
+          Priority: 20
+          FilterData:
+          - Priorities:
+            - Category:
+                _value: 8
+              Value: 1
+            - Category:
+                _value: 2
+              Value: 2
+            - Category:
+                _value: 1
+              Value: 3
+            Slot: 0

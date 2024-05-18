@@ -12,16 +12,13 @@
         "GUID:c1d53fc1b1b71c647b00626be502b7b1",
         "GUID:4185675af2c91ce438157b41079cd107",
         "GUID:479101ab42675254185bc92a2699743d",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:593a5b492d29ac6448b1ebf7f035ef33",
-        "GUID:5c01796d064528144a599661eaab93a6",
         "GUID:9e24947de15b9834991c9d8411ea37cf",
         "GUID:f06555f75b070af458a003d92f9efb00",
         "GUID:84651a3751eca9349aac36a66bba901b",
         "GUID:8e4577c9194c10845984cf27eb974fd1",
         "GUID:94b76ab488496fe4ba2e594d6c583770",
-        "GUID:2dd89a35f4c106640878e9b4c7be043b",
         "GUID:4de5df4bccc4b524ca52a4caf8116fec",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:e39f87cbc46743bf944e5396a4a148a3"
     ],
     "includePlatforms": [],
@@ -30,7 +27,15 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
+    "defineConstraints": [
+        "LEO_ECS_ENABLED"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.leopotam.ecslite",
+            "expression": "2023.0.0",
+            "define": "LEO_ECS_ENABLED"
+        }
+    ],
     "noEngineReferences": false
 }

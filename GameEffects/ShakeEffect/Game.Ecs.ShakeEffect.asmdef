@@ -27,7 +27,8 @@
         "Game.Ecs.Camera",
         "unigame.leoecs.bootstrap.runtime",
         "unigame.leoecs.converter.runtime",
-        "unigame.laeoecs.shared.runtime"
+        "unigame.laeoecs.shared.runtime",
+        "UniGame.LeoEcs.Shared.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -35,7 +36,16 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
+    "defineConstraints": [
+        "LEO_ECS_ENABLED",
+        "ENABLE_DOTWEEN"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.leopotam.ecslite",
+            "expression": "2023.0.0",
+            "define": "LEO_ECS_ENABLED"
+        }
+    ],
     "noEngineReferences": false
 }

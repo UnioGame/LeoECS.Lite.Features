@@ -2,6 +2,7 @@
 {
     using System;
     using AbilityInventory.Components;
+    using Animations.Components.Requests;
     using Characteristics.Attack.Components;
     using Characteristics.Cooldown.Components;
     using Characteristics.Duration.Components;
@@ -12,6 +13,7 @@
     using Core.Components;
     using GameLayers.Category.Components;
     using GameLayers.Relationship.Components;
+    using global::Ability.Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Timer.Components;
     using UniGame.LeoEcs.Shared.Components;
@@ -68,5 +70,8 @@
         public EcsPool<AbilityCompleteSelfEvent> CompleteEvent;
         
         public EcsPool<EquipAbilityIdSelfRequest> EquipAbilityIdRequest;
+        //animation
+        public EcsPool<AbilityAwaitAnimationTriggerComponent> AwaitAnimationTrigger;
+        public EcsPool<AnimationTriggerRequest> AnimationTrigger;
     }
 }
