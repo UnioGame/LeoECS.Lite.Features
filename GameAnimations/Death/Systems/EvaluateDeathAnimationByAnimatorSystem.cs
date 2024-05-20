@@ -2,12 +2,12 @@ namespace Game.Ecs.Gameplay.Death.Systems
 {
     using System;
     using System.Linq;
-    using Animation;
-    using Animation.Components;
-    using Animation.Data;
     using Aspects;
     using Characteristics.Health.Components;
     using Core.Components;
+    using global::Animations.Animator.Data;
+    using global::Animations.Animatror;
+    using global::Animations.Animatror.Components;
     using Leopotam.EcsLite;
     using UniGame.Core.Runtime.Extension;
     using UniGame.LeoEcs.Bootstrap.Runtime.Abstract;

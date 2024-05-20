@@ -3,17 +3,14 @@
     using System.Collections.Generic;
     using Animations;
     using Description;
-    using Ecs.Animation.Data;
+    using global::Animations.Animator.Data;
     // using Ecs.Animation.Data;
     using Sirenix.OdinInspector;
     using UniGame.AddressableTools.Runtime.AssetReferencies;
     using UnityEngine;
-    using UnityEngine.AddressableAssets;
     using UnityEngine.Serialization;
 
 #if UNITY_EDITOR
-    using UnityEditor;
-    using UniModules.Editor;
 #endif
     
     public enum AnimationType

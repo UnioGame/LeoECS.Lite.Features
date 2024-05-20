@@ -1,11 +1,9 @@
 ﻿namespace Movement.Systems.NavMesh.Animation
 {
     using System;
-    using Game.Ecs.Animation.Aspects;
-    using Game.Ecs.Animation.Components;
-    using Game.Ecs.Animation.Data;
+    using Animations.Animator.Data;
+    using Animations.Animatror.Aspects;
     using Game.Ecs.Characteristics.Speed.Components;
-    using Game.Ecs.Core.Components;
     using Game.Ecs.Movement.Components;
     using Leopotam.EcsLite;
     using UniCore.Runtime.ProfilerTools;
@@ -85,7 +83,7 @@
                     : 1.0f;
                 if(controller == null) continue;
                 
-                //todo что будет если такие стейтов не существует?
+                //todo что будет если таких стейтов не существует?
                 if (!_animatorsMap.data.TryGetValue(_idleClipId, out var idleStateData)
                     || !_animatorsMap.data.TryGetValue(_walkClipId, out var movementStateData))
                 {
@@ -95,16 +93,16 @@
                 
                 if (speedValue != 0)
                 {
-                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName(movementStateData.stateName))
+                    if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash !=  movementStateData.stateNameHash)
                     {
-                        animator.Play(movementStateData.stateName);
+                        animator.Play(movementStateData.stateNameHash);
                     }
                 }
                 else
                 {
-                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName(idleStateData.stateName))
+                    if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash !=  idleStateData.stateNameHash)
                     {
-                        animator.Play(idleStateData.stateName);
+                        animator.Play(idleStateData.stateNameHash);
                     }
                 }
             }

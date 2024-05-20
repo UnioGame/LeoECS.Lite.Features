@@ -1,8 +1,8 @@
 ﻿namespace Game.Ecs.Movement
 {
-    using Animation.Data;
     using Systems.NavMesh.Animation;
     using Cysharp.Threading.Tasks;
+    using global::Animations.Animator.Data;
     using global::Movement.Systems.NavMesh.Animation;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Bootstrap.Runtime;

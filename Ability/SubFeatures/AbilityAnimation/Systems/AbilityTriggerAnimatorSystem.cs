@@ -1,12 +1,12 @@
 namespace Game.Ecs.Ability.SubFeatures.AbilityAnimation.Systems
 {
     using System;
-    using Animation.Components;
-    using Animation.Data;
     using Aspects;
     using Common.Components;
     using Core.Components;
     using global::Ability.Components;
+    using global::Animations.Animator.Data;
+    using global::Animations.Animatror.Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
 

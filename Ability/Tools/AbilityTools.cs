@@ -3,7 +3,6 @@ namespace Game.Ecs.Ability.Tools
     using System;
     using System.Runtime.CompilerServices;
     using AbilityInventory.Components;
-    using Animation.Data;
     using Animations.Components;
     using Animations.Components.Requests;
     using Aspects;
@@ -23,6 +22,7 @@ namespace Game.Ecs.Ability.Tools
     using GameLayers.Category.Components;
     using GameLayers.Relationship.Components;
     using global::Ability.Components;
+    using global::Animations.Animator.Data;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Timer.Components;
     using SubFeatures.AbilityAnimation.Components;

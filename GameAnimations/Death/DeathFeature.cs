@@ -1,7 +1,7 @@
 namespace Game.Ecs.Gameplay.Death
 {
-    using Animation.Data;
     using Cysharp.Threading.Tasks;
+    using global::Animations.Animator.Data;
     using Leopotam.EcsLite;
     using Systems;
     using UniGame.LeoEcs.Bootstrap.Runtime;

@@ -2,6 +2,8 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
 {
     using System;
     using System.Collections.Generic;
+    using Animations.Animator.Data;
+    using Animations.Animatror.Components;
     using Game.Ecs.Ability.Aspects;
     using Game.Ecs.Ability.Common.Components;
     using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Aspects;
@@ -9,8 +11,6 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
     using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Data;
     using Game.Ecs.Ability.Tools;
     using Game.Ecs.AbilityInventory.Components;
-    using Game.Ecs.Animation.Components;
-    using Game.Ecs.Animation.Data;
     using Game.Ecs.Characteristics.AttackSpeed.Components;
     using Game.Ecs.Core.Components;
     using Leopotam.EcsLite;

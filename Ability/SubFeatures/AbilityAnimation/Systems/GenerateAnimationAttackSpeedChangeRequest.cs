@@ -1,9 +1,9 @@
 namespace Ability.SubFeatures.AbilityAnimation.Systems
 {
     using System;
+    using Animations.Animatror.Components;
     using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Aspects;
     using Game.Ecs.Ability.SubFeatures.AbilityAnimation.Components;
-    using Game.Ecs.Animation.Components;
     using Game.Ecs.Characteristics.AttackSpeed.Components;
     using Game.Ecs.Characteristics.Base.Components;
     using Game.Ecs.Characteristics.Base.Components.Requests;

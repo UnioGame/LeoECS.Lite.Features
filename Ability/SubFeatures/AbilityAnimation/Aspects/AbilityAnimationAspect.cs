@@ -1,13 +1,13 @@
 ﻿namespace Game.Ecs.Ability.SubFeatures.AbilityAnimation.Aspects
 {
     using System;
-    using Animation.Components;
     using Animations.Components;
     using Characteristics.Cooldown.Components;
     using Characteristics.Duration.Components;
     using Components;
     using Core.Components;
     using global::Ability.Components;
+    using global::Animations.Animatror.Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Timer.Components;
     using UniGame.LeoEcs.Bootstrap.Runtime.Abstract;
