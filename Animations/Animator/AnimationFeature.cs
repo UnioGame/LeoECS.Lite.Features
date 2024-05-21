@@ -1,5 +1,6 @@
 namespace Animations.Animatror
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Animator.Data;
@@ -7,11 +8,13 @@ namespace Animations.Animatror
     using Leopotam.EcsLite;
     using Sirenix.OdinInspector;
     using Systems;
+    using UniCore.Runtime.ProfilerTools;
     using UniGame.LeoEcs.Bootstrap.Runtime;
     using UniGame.LeoEcs.Shared.Extensions;
     using UnityEditor;
     using UnityEditor.Animations;
     using UnityEngine;
+    using Object = UnityEngine.Object;
 
     /// <summary>
     /// Animation feature for 2d game and animator controller
@@ -20,8 +23,20 @@ namespace Animations.Animatror
     public class AnimationFeature : BaseLeoEcsFeature
     {
 #if UNITY_EDITOR
+        
         [TitleGroup("Animator Setup")]
-        public AnimatorController baseUnitAnimator;
+        [NonSerialized]
+        [OnValueChanged("@GetGUID($value)")]
+        [OnInspectorGUI]
+        private Object _baseUnitAnimator;
+        private void GetGUID(Object asset)
+        {
+            var path = AssetDatabase.GetAssetPath(asset);
+            var guid = AssetDatabase.AssetPathToGUID(path);
+            _animatorGuid = guid;
+            GameLog.Log($"GUID form _baseUnityAnimator: {guid}");
+        }
+        private string _animatorGuid;
 #endif
         [TitleGroup("Animator Setup")]
         public AnimationsIdsMap animationsIdsMap;
@@ -45,8 +60,9 @@ namespace Animations.Animatror
         public void UpdateAnimatorStates()
         {
 #if UNITY_EDITOR
-            
             animationsIdsMap.animations.Clear();
+            var baseUnitAnimator =
+                AssetDatabase.LoadAssetAtPath<AnimatorController>(AssetDatabase.GUIDToAssetPath(_animatorGuid));
             var animatorRuntimeAnimatorController = baseUnitAnimator;
             for (int i = 0; i < baseUnitAnimator.layers.Length; i++)
             {

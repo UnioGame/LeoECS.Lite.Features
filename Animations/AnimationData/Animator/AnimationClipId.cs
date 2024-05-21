@@ -17,7 +17,7 @@ namespace Animations.Animator.Data
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     [Serializable]
-    [ValueDropdown("@Game.Ecs.Animation.Data.AnimationClipId.GetIds()")]
+    [ValueDropdown("@Animations.Animator.Data.AnimationClipId.GetIds()")]
     public struct AnimationClipId
     {
         [SerializeField]
