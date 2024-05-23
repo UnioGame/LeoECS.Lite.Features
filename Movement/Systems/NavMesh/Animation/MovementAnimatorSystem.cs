@@ -71,12 +71,9 @@
                 if(agent.isOnNavMesh == false) continue;
                 
                 if (animator == null || !animator.isActiveAndEnabled) continue;
-                var velocity = navMeshAgent.Value.velocity.normalized;
-                velocity = transform.Value.InverseTransformDirection(velocity);
+                var sqrVelocity = agent.velocity.sqrMagnitude;
                 
-                var agentVelocityMagnitude = agent.velocity.magnitude;
-                var speedValue = (velocity.z * speed) / animationInfo.RunSpeed;
-                var forwardAmount = agentVelocityMagnitude / speed;
+                var speedValue = (sqrVelocity * speed) / animationInfo.RunSpeed;
             
                 animator.speed = speedValue > animationInfo.MaxRunSpeed
                     ? speedValue / animationInfo.MaxRunSpeed
@@ -91,7 +88,7 @@
                     continue;
                 }
                 
-                if (speedValue != 0)
+                if (sqrVelocity != 0)
                 {
                     if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash !=  movementStateData.stateNameHash)
                     {
