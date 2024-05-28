@@ -34,6 +34,7 @@
                 .Inc<CooldownStateComponent>()
                 .Inc<ActiveAbilityComponent>()
                 .Exc<AbilityUsingComponent>()
+                .Exc<AbilityBlockedComponent>()
                 .End();
         }
         

@@ -67,15 +67,14 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
             _abilityTool = _world.GetGlobal<AbilityTools>();
             _animatorGlobalMap = _world.GetGlobal<AnimationsIdsMap>();
         }
-
         public void Run(IEcsSystems systems)
         {
-            if(_abilityFilter.GetEntitiesCount() == 0) return; //нужно для того чтобы дождаться заполнения AbilityMap 
-            
             foreach (var ownerEntity in _filter)
             {
                 ref var attackAbilityIdComponent = ref _world.GetComponent<AttackAbilityIdComponent>(ownerEntity);
                 var abilityEntity = _abilityTool.GetAbilityBySlot(ownerEntity, attackAbilityIdComponent.Value);
+                
+                if(abilityEntity == -1) continue;
                 
                 ref var cooldownComponent = ref _abilityAspect.Cooldown.Get(abilityEntity);
                 ref var abilityAnimationIDComponent = ref _animationAspect.ClipId.Get(abilityEntity);

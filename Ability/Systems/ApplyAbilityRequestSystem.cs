@@ -32,6 +32,7 @@
             _filter = _world
                 .Filter<ApplyAbilitySelfRequest>()
                 .Inc<AbilityInHandLinkComponent>()
+                .Exc<AbilityBlockedComponent>()
                 .End();
         }
         

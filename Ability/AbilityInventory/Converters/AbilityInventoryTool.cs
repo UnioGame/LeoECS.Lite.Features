@@ -33,7 +33,6 @@
 			ref var nameComponent = ref _metaAspect.Name.GetOrAddComponent(entity);
 			ref var abilitySlotTypeComponent = ref _metaAspect.Slot.GetOrAddComponent(entity);
 			
-			
 			abilityConfigurationComponent.AbilityConfiguration = itemData.configurationReference;
 
 			var visualDescription = itemData.visualDescription;
@@ -46,7 +45,7 @@
 			abilityMetaComponent.AbilityId = itemData.id;
 			abilityMetaComponent.SlotType = data.slotType;
 			abilityMetaComponent.Hide = data.isHidden;
-			abilityMetaComponent.IsBlocked = data.isBlock;
+			abilityMetaComponent.IsBlocked = abilityConfigurationComponent.AbilityConfiguration.editorAsset.isBlocked;
 			
 			if (data.isHidden)
 				_world.AddComponent<AbilityInventoryHideComponent>(entity);
