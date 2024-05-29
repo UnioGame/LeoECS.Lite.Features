@@ -1,10 +1,10 @@
 {
   "name": "com.unigame.ecs.game.features",
   "author": "UniGame",
-  "displayName": "UniGame Ecs Game Features",
-  "description": "Collection game related ecs features",
+  "displayName": "Leo Ecs Features",
+  "description": "Leo Ecs Game Features Collection",
   "unity": "2022.1",
-  "version": "2023.0.0",
+  "version": "2023.0.1",
   "keywords": [
     "UniGame",
     "Modules",
