@@ -3,10 +3,11 @@ namespace Animations.Animator.Data
     using System;
     using System.Collections.Generic;
     using Sirenix.OdinInspector;
-    using UniModules.Editor;
     using Unity.IL2CPP.CompilerServices;
     using UnityEngine;
+    
 #if UNITY_EDITOR
+    using UniModules.Editor;
 #endif
 
 
