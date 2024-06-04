@@ -50,7 +50,7 @@
 			    abilityEquipRequest.Target = requestComponent.Owner;
 			    abilityEquipRequest.IsDefault = requestComponent.IsDefault;
 			    abilityEquipRequest.Hide = false;
-			    abilityEquipRequest.IsBlocked = configurationComponent.Value.isBlocked;
+			    abilityEquipRequest.IsBlocked = false;
 
 			    configurationComponent.Value = requestComponent.Reference;
 			    

@@ -81,9 +81,5 @@
         [FormerlySerializedAs("_abilityBehaviours")] 
         [SerializeReference]
         public List<IAbilityBehaviour> abilityBehaviours = new List<IAbilityBehaviour>();
-        
-        [SerializeField]
-        public bool isBlocked;
-        
     }
 }

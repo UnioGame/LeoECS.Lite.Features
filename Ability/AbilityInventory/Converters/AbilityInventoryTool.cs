@@ -45,11 +45,11 @@
 			abilityMetaComponent.AbilityId = itemData.id;
 			abilityMetaComponent.SlotType = data.slotType;
 			abilityMetaComponent.Hide = data.isHidden;
-			abilityMetaComponent.IsBlocked = abilityConfigurationComponent.AbilityConfiguration.editorAsset.isBlocked;
+			abilityMetaComponent.IsBlocked = data.isBlock;
 			
 			if (data.isHidden)
 				_world.AddComponent<AbilityInventoryHideComponent>(entity);
-			
+
 			if (data.isBlock)
 				_metaAspect.Blocked.Add(entity);
 			

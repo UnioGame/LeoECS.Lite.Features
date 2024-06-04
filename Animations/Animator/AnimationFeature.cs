@@ -11,8 +11,12 @@ namespace Animations.Animatror
     using UniCore.Runtime.ProfilerTools;
     using UniGame.LeoEcs.Bootstrap.Runtime;
     using UniGame.LeoEcs.Shared.Extensions;
+
+#if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.Animations;
+    
+#endif
     using UnityEngine;
     using Object = UnityEngine.Object;
 
