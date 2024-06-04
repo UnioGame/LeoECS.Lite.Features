@@ -11,14 +11,15 @@ namespace Animations.Animatror
     using UniCore.Runtime.ProfilerTools;
     using UniGame.LeoEcs.Bootstrap.Runtime;
     using UniGame.LeoEcs.Shared.Extensions;
-    using UnityEngine;
-    using Object = UnityEngine.Object;
 
 #if UNITY_EDITOR
     using UnityEditor;
     using UnityEditor.Animations;
-#endif
     
+#endif
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+
     /// <summary>
     /// Animation feature for 2d game and animator controller
     /// </summary>
