@@ -6,6 +6,7 @@
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Extensions;
+    using UnityEngine;
 
     /// <summary>
     /// if ability with same id already exists in inventory - remove it
