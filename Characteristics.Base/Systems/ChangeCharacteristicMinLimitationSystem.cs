@@ -24,7 +24,7 @@
         private EcsWorld _world;
         private EcsFilter _changeRequestFilter;
         
-        private EcsPool<ChangeMaxLimitRequest> _requestPool;
+        private EcsPool<ChangeMinLimitRequest> _requestPool;
         
         private EcsPool<MinValueComponent> _minPool;
         private EcsPool<MaxValueComponent> _maxPool;
@@ -39,7 +39,7 @@
                 .Filter<ChangeMinLimitRequest>()
                 .End();
 
-            _requestPool = _world.GetPool<ChangeMaxLimitRequest>();
+            _requestPool = _world.GetPool<ChangeMinLimitRequest>();
             _basePool = _world.GetPool<CharacteristicBaseValueComponent>();
             _minPool = _world.GetPool<MinValueComponent>();
             _maxPool = _world.GetPool<MaxValueComponent>();

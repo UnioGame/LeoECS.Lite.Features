@@ -5,7 +5,7 @@
     using Leopotam.EcsLite;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "Game/Feature/Effects/Damage Effect Feature")]
+    [CreateAssetMenu(menuName = "Game/Feature/Effects/Block Effect Feature")]
     public sealed class BlockEffectFeature : EffectFeatureAsset
     {
         protected override UniTask OnInitializeFeatureAsync(IEcsSystems ecsSystems)
