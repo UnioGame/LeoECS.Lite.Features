@@ -1,5 +1,6 @@
 namespace Ability.Tools
 {
+    using System;
     using Cysharp.Threading.Tasks;
     using Game.Ecs.Ability.Common.Components;
     using Game.Ecs.Animations.Components.Requests;
@@ -22,6 +23,12 @@ namespace Ability.Tools
                 .ContinueWith(() => _world = LeoEcsGlobalData.World);
             _abilityInHandLinkPool ??= _world.GetPool<AbilityInHandLinkComponent>();
             _animationEventPool ??= _world.GetPool<AnimationTriggerRequest>(); 
+            _parentEntityId = gameObject.GetParentEntity();
+        }
+
+        private void OnEnable()
+        {
+            //in case of pooling
             _parentEntityId = gameObject.GetParentEntity();
         }
 
