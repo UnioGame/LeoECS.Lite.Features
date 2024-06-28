@@ -83,20 +83,14 @@ namespace Ability.SubFeatures.AbilityAnimation.Systems
                 ref var animationsLengthMap = ref _animationAspect.AnimationsLengthMap.Get(ownerEntity);
                 if (!animationsLengthMap.value.TryGetValue((AnimationClipId)animationId, out var animationLength))
                 {
-                    GameLog.LogError("UpdateAttackAnimationSystem: Animation length not found in map");
                     continue;
                 }
                 if(animationLength < cooldownComponent.Value)
                 {
-                    GameLog.Log($"Animation length {animationLength} is less than cooldown {cooldownComponent.Value}. Skip recalculation.", Color.cyan);
                     _animationAspect.RecalculateAttackSpeed.Del(ownerEntity);
                     continue;
                 }
                 ref var animatorComponent = ref _animationAspect.Animator.Get(ownerEntity);
-                GameLog.Log(
-                    $"Cooldown component value is {cooldownComponent.Value}", Color.green);
-                GameLog.Log(
-                    $"New attack speed animator parameter was set from {animatorComponent.Value.GetFloat(_parametersMap.attackSpeed)} to {animationLength / cooldownComponent.Value}", Color.green);
                 var ratio = Math.Clamp(animationLength / cooldownComponent.Value,0,100) ;
                 
                 animatorComponent.Value.SetFloat(_parametersMap.attackSpeed, ratio);

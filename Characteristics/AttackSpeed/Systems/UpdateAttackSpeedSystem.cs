@@ -49,7 +49,6 @@
                 ref var characteristicComponent = ref _characteristicPool.Get(entity);
                 ref var attackSpeedComponent = ref _attackSpeed.Get(entity);
                 attackSpeedComponent.Value = characteristicComponent.Value;
-                Debug.Log("Attack speed characteristic was updated. New value: " + attackSpeedComponent.Value);
             }
         }
     }

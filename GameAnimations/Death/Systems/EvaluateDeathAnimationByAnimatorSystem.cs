@@ -5,6 +5,7 @@ namespace Game.Ecs.Gameplay.Death.Systems
     using Aspects;
     using Characteristics.Health.Components;
     using Core.Components;
+    using Core.Death.Components;
     using global::Animations.Animator.Data;
     using global::Animations.Animatror;
     using global::Animations.Animatror.Components;
@@ -50,6 +51,7 @@ namespace Game.Ecs.Gameplay.Death.Systems
                 .Inc<AnimatorComponent>()
                 .Inc<AwaitDeathCompleteComponent>()
                 .Inc<AnimationIsLiveComponent>()
+                .Exc<DeathCompletedComponent>()
                 .End();
         }
 
