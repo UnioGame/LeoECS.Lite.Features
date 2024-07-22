@@ -6,6 +6,7 @@
     using System.Threading;
     using Abstract;
     using Components;
+    using Cysharp.Threading.Tasks;
     using Leopotam.EcsLite;
     using Sirenix.OdinInspector;
     using UniGame.AddressableTools.Runtime;
@@ -41,17 +42,30 @@
             ref var sourceComponent = ref world.GetOrAddComponent<MaterialPresetSourceComponent>(entity);
             ref var presetComponent = ref world.GetOrAddComponent<PresetComponent>(entity);
             ref var presetSourceComponent = ref world.GetOrAddComponent<PresetSourceComponent>(entity);
-            ref var dataComponent = ref world.GetOrAddComponent<MaterialPresetComponent>(entity);
+            
             ref var idComponent = ref world.GetOrAddComponent<PresetIdComponent>(entity);
             ref var durationComponent = ref world.GetOrAddComponent<PresetDurationComponent>(entity);
             ref var activePresetSource = ref world.GetOrAddComponent<ActivePresetSourceComponent>(entity);
 
-            var worldLifeTime = world.GetWorldLifeTime();
-            var material = materialReference.LoadAssetInstanceForCompletion(worldLifeTime);
-            dataComponent.Value = material;
             idComponent.Value = targetId.GetHashCode();
             durationComponent.Value = duration;
+            
+            ApplyToTarget(world,entity).Forget();
         }
+
+        public void ApplyMaterial(EcsWorld world, int entity,Material material)
+        {
+            ref var dataComponent = ref world.GetOrAddComponent<MaterialPresetComponent>(entity);
+            dataComponent.Value = material;
+        }
+        
+        public async UniTask ApplyToTarget(EcsWorld world, int entity)
+        {
+            var worldLifeTime = world.GetWorldLifeTime();
+            var material = await materialReference.LoadAssetTaskAsync(worldLifeTime);
+            ApplyMaterial(world,entity,material);
+        }
+        
 
         [ButtonGroup()]
         [ShowIf(nameof(ButtonsEnabled))]

@@ -1,12 +1,15 @@
 ﻿namespace Game.Ecs.Ability.SubFeatures.AbilitySequence.Systems
 {
     using System;
+    using System.Collections.Generic;
     using Ability.Tools;
     using Aspects;
     using Code.Configuration.Runtime.Ability.Description;
     using Code.Services.AbilityLoadout.Data;
     using Components;
     using AbilitySequence;
+    using Code.Services.Ability;
+    using Cysharp.Threading.Tasks;
     using Leopotam.EcsLite;
     using UniGame.AddressableTools.Runtime;
     using UniGame.Core.Runtime;
@@ -62,22 +65,38 @@
 
                 createSequenceRequest.Owner = requestComponent.Owner;
                 createSequenceRequest.Name = reference.name;
+                var abilities = createSequenceRequest.Abilities;
+                var owner = requestComponent.Owner;
+
+                var tasks = sequence
+                    .Select(x => AddAbilityToSequence(x, abilities, owner));
                 
-                foreach (var configurationValue in sequence)
-                {
-                    //load configuration sync
-                    var configuration = configurationValue
-                        .reference
-                        .LoadAssetInstanceForCompletion(_worldLifeTime, true);
-                    
-                    var abilityEntity = _abilityTools
-                        .EquipAbilityByReference(ref requestComponent.Owner, configuration, AbilitySlotId.EmptyAbilitySlot);
-                    
-                    createSequenceRequest.Abilities.Add(abilityEntity);
-                }
-                
-                _aspect.CreateById.Del(requestEntity);
+                ExecuteInOrder(tasks,requestEntity).Forget();
             }
         }
+
+        private async UniTask ExecuteInOrder(IEnumerable<UniTask> tasks,int entity)
+        {
+            foreach (var task in tasks)
+                await task;
+            _aspect.CreateById.Del(entity);
+        }
+        
+        private async UniTask AddAbilityToSequence(
+            AbilityConfigurationValue value,
+            List<int> abilities,
+            EcsPackedEntity owner)
+        {
+            //load configuration sync
+            var configuration = await value
+                .reference
+                .LoadAssetInstanceTaskAsync(_worldLifeTime, true);
+                    
+            var abilityEntity = _abilityTools
+                .EquipAbilityByReference(owner, configuration, AbilitySlotId.EmptyAbilitySlot);
+                    
+            abilities.Add(abilityEntity);
+        }
     }
+    
 }

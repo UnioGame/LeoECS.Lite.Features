@@ -435,7 +435,7 @@ namespace Game.Ecs.Ability.Tools
         [Il2CppSetOption(Option.DivideByZeroChecks, false)]
 #endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int EquipAbilityByReference(ref EcsPackedEntity owner, 
+        public int EquipAbilityByReference(EcsPackedEntity owner, 
             AbilityConfiguration configuration,
             AbilitySlotId slot, bool isDefault = false)
         {

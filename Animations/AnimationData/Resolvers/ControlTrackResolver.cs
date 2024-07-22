@@ -2,11 +2,14 @@
 {
     using System;
     using System.Linq;
+    using Cysharp.Threading.Tasks;
     using PlayableBindings;
     using Resolvers;
     using UniGame.AddressableTools.Runtime;
+    using UniGame.Core.Runtime;
     using UniModules.UniGame.Core.Runtime.DataFlow.Extensions;
     using UnityEngine;
+    using UnityEngine.AddressableAssets;
     using UnityEngine.Playables;
     using UnityEngine.Timeline;
     
@@ -31,12 +34,19 @@
                     continue;
                 }
 #endif
-                        
-                var lifeTime = director.gameObject.GetAssetLifeTime();
-                clipAsset.prefabGameObject = prefabReference
-                    .LoadAssetForCompletion(lifeTime);
+                ResolvePrefabAsync(clipAsset, prefabReference, director.gameObject.GetLifeTime())
+                    .Forget();
             }
             
+        }
+
+        private async UniTask ResolvePrefabAsync(
+            ControlPlayableAsset clipAsset,
+            AssetReferenceGameObject assetReferenceGameObject,
+            ILifeTime directorLifeTime)
+        {
+            clipAsset.prefabGameObject = await assetReferenceGameObject
+                .LoadAssetTaskAsync(directorLifeTime);
         }
     }
 }
