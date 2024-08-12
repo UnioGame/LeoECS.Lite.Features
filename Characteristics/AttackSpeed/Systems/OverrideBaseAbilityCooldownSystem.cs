@@ -47,14 +47,12 @@ namespace Game.Ecs.Characteristics.AttackSpeed.Systems
         {
             foreach (var attackCharacteristic in _filter)
             {
-                Debug.Log("Attack characteristic was created and stored");
                 ref var request = ref _createPool.Get(attackCharacteristic);
                 if(!request.Owner.Unpack(_world, out var ownerEntity)) continue;
                 
                 ref var attackAbilityIdComponent = ref _world.GetOrAddComponent<AttackAbilityIdComponent>(ownerEntity);
                 var slotId = attackAbilityIdComponent.Value;
                 
-                //todo найти нужную абилку, поменять у нее кулдаун
                 ref var abilityBaseCooldownSelfRequest = ref _world.AddComponent<SetAbilityBaseCooldownSelfRequest>(ownerEntity);
                 abilityBaseCooldownSelfRequest.AbilitySlot = slotId;
                 abilityBaseCooldownSelfRequest.Cooldown = request.Value;
