@@ -1,13 +1,10 @@
 ﻿namespace Game.Code.DataBase.Runtime
 {
     using System;
-    using System.Threading;
     using Cysharp.Threading.Tasks;
     using UniGame.AddressableTools.Runtime;
     using UniGame.Core.Runtime;
     using UnityEngine;
-    using UnityEngine.AddressableAssets;
-    using Object = UnityEngine.Object;
 
     [CreateAssetMenu(menuName = "Game/GameDatabase/Locations/"+nameof(AddressablesResourceLocation),fileName = nameof(AddressablesResourceLocation))]
     public class AddressablesResourceLocation : GameResourceLocation

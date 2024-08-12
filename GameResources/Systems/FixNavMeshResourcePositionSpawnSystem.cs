@@ -6,7 +6,6 @@
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Components;
-    using UnityEngine;
     using UnityEngine.AI;
 
 #if ENABLE_IL2CPP

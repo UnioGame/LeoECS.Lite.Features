@@ -7,7 +7,6 @@
     using UniGame.LeoEcs.Shared.Components;
     using UniGame.LeoEcs.Bootstrap.Runtime.Abstract;
     using UniGame.LeoEcsLite.LeoEcs.Shared.Components;
-    using UnityEngine;
 
     [Serializable]
     public class GameResourceAspect : EcsAspect

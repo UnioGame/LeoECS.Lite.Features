@@ -10,6 +10,7 @@ namespace Game.Ecs.GameResources.Systems
     using Game.Code.DataBase.Runtime.Abstract;
     using Game.Ecs.Time.Service;
     using Leopotam.EcsLite;
+    using Leopotam.EcsLite.Di;
     using UniGame.Core.Runtime;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UnityEngine;
@@ -24,36 +25,21 @@ namespace Game.Ecs.GameResources.Systems
 #endif
     [Serializable]
     [ECSDI]
-    public class ProceedGameResourceRequestSystem : IEcsRunSystem, IEcsDestroySystem,IEcsInitSystem
+    public class ProceedGameResourceRequestSystem : IEcsRunSystem, IEcsDestroySystem
     {
-        private readonly IGameDatabase _gameDatabase;
-        private readonly ILifeTime _lifeTime;
-        private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private IGameDatabase _gameDatabase;
+        private ILifeTime _globalLifeTime;
+        private CancellationTokenSource _tokenSource = new();
         
-        private EcsFilter _filter;
         private EcsWorld _world;
         private GameResourceTaskAspect _taskAspect;
 
-        public ProceedGameResourceRequestSystem(IGameDatabase gameDatabase,ILifeTime lifeTime)
-        {
-            _gameDatabase = gameDatabase;
-            _lifeTime = lifeTime;
-        }
+        private EcsFilterInject<Inc<GameResourceHandleComponent>,
+            Exc<GameResourceResultComponent,GameResourceTaskComponent>> _filter;
 
-        public void Init(IEcsSystems systems)
-        {
-            _world = systems.GetWorld();
-            
-            _filter = _world
-                .Filter<GameResourceHandleComponent>()
-                .Exc<GameResourceResultComponent>()
-                .Exc<GameResourceTaskComponent>()
-                .End();
-        }
-        
         public void Run(IEcsSystems systems)
         {
-            foreach (var entity in _filter)
+            foreach (var entity in _filter.Value)
             {
                 ref var request = ref _taskAspect.Handle.Get(entity);
                 var resourceId = request.Resource;
@@ -63,8 +49,11 @@ namespace Game.Ecs.GameResources.Systems
                 taskComponent.LoadingStartTime = GameTime.Time;
                 taskComponent.RequestOwner = request.Source;
                 taskComponent.ResourceOwner = request.Owner;
+
+                var lifeTime = request.LifeTime;
+                lifeTime ??= _globalLifeTime;
                 
-                LoadGameResource(entity,resourceId).Forget();
+                LoadGameResource(entity,resourceId,lifeTime).Forget();
             }
         }
 
@@ -74,9 +63,9 @@ namespace Game.Ecs.GameResources.Systems
             _tokenSource.Dispose();
         }
         
-        private async UniTask LoadGameResource(int entity, string resourceId)
+        private async UniTask LoadGameResource(int entity, string resourceId,ILifeTime lifeTime)
         {
-            var result = await _gameDatabase.LoadAsync<Object>(resourceId,_lifeTime);
+            var result = await _gameDatabase.LoadAsync<Object>(resourceId,lifeTime);
             CreateResourceResult(entity,ref result,resourceId, _world);
         }
 

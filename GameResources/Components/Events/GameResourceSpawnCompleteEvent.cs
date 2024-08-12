@@ -2,7 +2,6 @@
 {
     using System;
     using Leopotam.EcsLite;
-    using UnityEngine.Serialization;
     using Object = UnityEngine.Object;
 
     [Serializable]

@@ -4,6 +4,7 @@
     using Aspects;
     using Components;
     using Leopotam.EcsLite;
+    using Leopotam.EcsLite.Di;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
 
 #if ENABLE_IL2CPP
@@ -15,25 +16,18 @@
 #endif
     [Serializable]
     [ECSDI]
-    public class ProcessSpawnRequestSystem : IEcsRunSystem,IEcsInitSystem
+    public class ProcessSpawnRequestSystem : IEcsRunSystem
     {
-        private EcsFilter _filter;
         private EcsWorld _world;
 
         private GameResourceTaskAspect _taskAspect;
-
-        public void Init(IEcsSystems systems)
-        {
-            _world = systems.GetWorld();
-            
-            _filter = _world
-                .Filter<GameResourceSpawnRequest>()
-                .End();
-        }
+    
+        private EcsFilterInject<Inc<GameResourceSpawnRequest>> _filter;
+        
         
         public void Run(IEcsSystems systems)
         {
-            foreach (var entity in _filter)
+            foreach (var entity in _filter.Value)
             {
                 ref var spawnRequest = ref _taskAspect.SpawnRequest.Get(entity);
                 var taskEntity = _world.NewEntity();
@@ -45,8 +39,11 @@
                 gameResourceComponent.Resource = spawnRequest.ResourceId;
                 gameResourceComponent.Source = spawnRequest.Source;
                 gameResourceComponent.Owner = spawnRequest.Owner;
+                gameResourceComponent.LifeTime = spawnRequest.LifeTime;
+                
                 parentEntity.Value = spawnRequest.ParentEntity;
-                targetComponent.Value = spawnRequest.Target;
+                targetComponent.Value = spawnRequest.Entity;
+                
                 
                 ref var positionComponent = ref _taskAspect.Position.Add(taskEntity);
                 ref var rotationComponent = ref _taskAspect.Rotation.Add(taskEntity);

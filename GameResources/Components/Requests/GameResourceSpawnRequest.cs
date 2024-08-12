@@ -4,9 +4,9 @@ namespace Game.Ecs.GameResources.Components
     using Data;
     using Game.Code.DataBase.Runtime;
     using Leopotam.EcsLite;
+    using UniGame.Core.Runtime;
     using UniGame.LeoEcs.Shared.Abstract;
     using UnityEngine;
-    using UnityEngine.Serialization;
 
     /// <summary>
     /// Spawn Request for some game world entity
@@ -23,22 +23,24 @@ namespace Game.Ecs.GameResources.Components
         public string ResourceId;
 
         /// <summary>
+        /// spawned resource lifetime
+        /// </summary>
+        public ILifeTime LifeTime;
+        
+        /// <summary>
         /// link to source entity
         /// </summary>
-        [FormerlySerializedAs("RequestOwner")] 
         public EcsPackedEntity Source;
 
         /// <summary>
         /// spawned entity Owner
         /// </summary>
-        [FormerlySerializedAs("OwnerEntity")] 
         public EcsPackedEntity Owner;
 
         /// <summary>
         /// entity target for spawn
         /// </summary>
-        [FormerlySerializedAs("TargetEntity")] 
-        public EcsPackedEntity Target;
+        public EcsPackedEntity Entity;
         
         /// <summary>
         /// parent entity for spawn
@@ -62,8 +64,9 @@ namespace Game.Ecs.GameResources.Components
             data.Owner = Owner;
             data.LocationData = LocationData;
             data.Parent = Parent;
-            data.Target = Target;
+            data.Entity = Entity;
             data.ParentEntity = ParentEntity;
+            data.LifeTime = LifeTime;
         }
 
         public void AutoReset(ref GameResourceSpawnRequest c)
@@ -73,8 +76,9 @@ namespace Game.Ecs.GameResources.Components
             c.LocationData = GamePoint.Zero;
             c.Owner = default;
             c.Source = default;
-            c.Target = default;
+            c.Entity = default;
             c.ParentEntity = default;
+            c.LifeTime = default;
         }
     }
 }

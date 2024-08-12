@@ -4,6 +4,7 @@
     using Aspects;
     using Components;
     using Leopotam.EcsLite;
+    using Leopotam.EcsLite.Di;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Extensions;
     using UniGame.Runtime.ObjectPool.Extensions;
@@ -18,33 +19,26 @@
 #endif
     [Serializable]
     [ECSDI]
-    public class CreateSpawnObjectSystem : IEcsRunSystem,IEcsInitSystem
+    public class CreateSpawnObjectSystem : IEcsRunSystem
     {
-        private EcsFilter _filter;
         private EcsWorld _world;
         
         private GameResourceTaskAspect _taskAspect;
         private GameResourceAspect _resourceAspect;
-        
-        public void Init(IEcsSystems systems)
-        {
-            _world = systems.GetWorld();
-            
-            _filter = _world
-                .Filter<GameResourceResultComponent>()
-                .Inc<GameResourceTaskComponent>()
-                .Exc<GameResourceTaskCompleteComponent>()
-                .End();
-        }
-        
+     
+        private EcsFilterInject<
+            Inc<GameResourceResultComponent,GameResourceTaskComponent>,
+            Exc<GameResourceTaskCompleteComponent>> _filter;
+
         public void Run(IEcsSystems systems)
         {
-            foreach (var entity in _filter)
+            foreach (var entity in _filter.Value)
             {
                 _taskAspect.Complete.Add(entity);
                 
                 ref var resourceComponent = ref _taskAspect.Result.Get(entity);
                 var resource = resourceComponent.Resource;
+                
                 if(resource == null) continue;
 
                 ref var handleComponent = ref _taskAspect.Handle.Get(entity);

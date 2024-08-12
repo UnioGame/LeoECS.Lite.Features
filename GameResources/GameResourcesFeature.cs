@@ -1,6 +1,5 @@
 ﻿namespace Game.Ecs.GameResources
 {
-    using Code.DataBase.Runtime;
     using Code.DataBase.Runtime.Abstract;
     using Components;
     using Cysharp.Threading.Tasks;
@@ -10,7 +9,6 @@
     using UniGame.Context.Runtime.Extension;
     using UniGame.Core.Runtime;
     using UniGame.LeoEcs.Bootstrap.Runtime;
-    using UniGame.LeoEcs.Converter.Runtime;
     using UniGame.LeoEcs.Shared.Extensions;
     using UnityEngine;
 
@@ -21,7 +19,9 @@
         {
             var context = ecsSystems.GetShared<IContext>();
             var dataBase = await context.ReceiveFirstAsync<IGameDatabase>();
+            
             var world = ecsSystems.GetWorld();
+            world.SetGlobal(dataBase);
 
             var spawnTools = new GameSpawnTools();
             world.SetGlobal(spawnTools);
@@ -38,7 +38,7 @@
             
             //load addressable resource by id add resource task component
             //when resource loaded add GameResourceResultComponent to entity
-            ecsSystems.Add(new ProceedGameResourceRequestSystem(dataBase,context.LifeTime));
+            ecsSystems.Add(new ProceedGameResourceRequestSystem());
             
             //if gameobject contains navmeshagent fix spawn position
             ecsSystems.Add(new FixNavMeshResourcePositionSpawnSystem());

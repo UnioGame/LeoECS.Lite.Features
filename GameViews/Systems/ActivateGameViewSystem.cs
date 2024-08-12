@@ -5,6 +5,7 @@
     using Components;
     using GameResources.Components;
     using Leopotam.EcsLite;
+    using Leopotam.EcsLite.Di;
     using UniGame.LeoEcs.Shared.Extensions;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
 
@@ -20,27 +21,19 @@
 #endif
     [Serializable]
     [ECSDI]
-    public class ActivateGameViewSystem : IEcsInitSystem, IEcsRunSystem
+    public class ActivateGameViewSystem : IEcsRunSystem
     {
         private EcsWorld _world;
-        private EcsFilter _activateFilter;
         
         private ParentGameViewAspect _parentViewAspect;
         private GameViewAspect _viewAspect;
         
         private EcsPool<GameResourceSpawnRequest> _gameResourcePool;
-
-        public void Init(IEcsSystems systems)
-        {
-            _world = systems.GetWorld();
-            _activateFilter = _world
-                .Filter<ActivateGameViewRequest>()
-                .End();
-        }
+        private EcsFilterInject<Inc<ActivateGameViewRequest>> _activateFilter;
 
         public void Run(IEcsSystems systems)
         {
-            foreach (var requestEntity in _activateFilter)
+            foreach (var requestEntity in _activateFilter.Value)
             {
                 ref var activateRequest = ref _parentViewAspect.Activate.Get(requestEntity);
  
@@ -60,7 +53,7 @@
                 gameResourceRequest.Owner = activateRequest.Source;
                 gameResourceRequest.ParentEntity = activateRequest.Source;
 
-                gameResourceRequest.Target = viewPacked;
+                gameResourceRequest.Entity = viewPacked;
                 
                 gameResourceRequest.ResourceId = activateRequest.View;
                 gameResourceRequest.Parent = viewParentComponent.Parent;

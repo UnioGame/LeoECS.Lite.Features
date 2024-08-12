@@ -9,7 +9,6 @@
 #if UNITY_EDITOR
     using UniModules.UniGame.AddressableExtensions.Editor;
     using UniModules.Editor;
-    using UnityEditor;
 #endif
 
     [CreateAssetMenu(menuName = "Game/Game Data/GameObject Category", fileName = "GameObject Category Asset")]

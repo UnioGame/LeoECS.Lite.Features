@@ -2,25 +2,23 @@ namespace Game.Ecs.GameResources.Components
 {
     using System;
     using Leopotam.EcsLite;
-    using UnityEngine.Serialization;
+    using UniGame.Core.Runtime;
 
     [Serializable]
-    public struct GameResourceHandleComponent
+    public struct GameResourceHandleComponent : IEcsAutoReset<GameResourceHandleComponent>
     {
-        /// <summary>
-        /// источник реквеста
-        /// </summary>
-        [FormerlySerializedAs("RequestOwner")] public EcsPackedEntity Source;
-        
-        /// <summary>
-        /// Владелец ресурса. Может быть пустым
-        /// </summary>
-        [FormerlySerializedAs("ResourceOwner")] public EcsPackedEntity Owner;
-
-        /// <summary>
-        /// адрес ресурса
-        /// </summary>
+        public EcsPackedEntity Source;
+        public EcsPackedEntity Owner;
         public string Resource;
+        public ILifeTime LifeTime;
+        
+        public void AutoReset(ref GameResourceHandleComponent c)
+        {
+            c.Resource = string.Empty;
+            c.LifeTime = null;
+            c.Owner = default;
+            c.Source = default;
+        }
     }
     
     

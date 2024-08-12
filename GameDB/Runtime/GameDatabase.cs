@@ -2,7 +2,6 @@ namespace Game.Code.DataBase.Runtime
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
     using Abstract;
     using Cysharp.Threading.Tasks;
     using Sirenix.OdinInspector;
@@ -24,7 +23,7 @@ namespace Game.Code.DataBase.Runtime
 
         #endregion
 
-        private List<GameDataCategory> _categories = new List<GameDataCategory>();
+        private List<GameDataCategory> _categories = new();
 
         public async UniTask<IGameDatabase> Initialize(ILifeTime lifeTime)
         {

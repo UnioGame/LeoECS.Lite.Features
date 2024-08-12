@@ -3,6 +3,7 @@
     using System;
     using Components;
     using Leopotam.EcsLite;
+    using Leopotam.EcsLite.Di;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
 
 #if ENABLE_IL2CPP
@@ -14,24 +15,16 @@
 #endif
     [Serializable]
     [ECSDI]
-    public class DestroyCompletedResourceTaskSystem : IEcsRunSystem,IEcsInitSystem
+    public class DestroyCompletedResourceTaskSystem : IEcsRunSystem
     {
-        private EcsFilter _filter;
         private EcsWorld _world;
 
-        public void Init(IEcsSystems systems)
-        {
-            _world = systems.GetWorld();
-            
-            _filter = _world
-                .Filter<GameResourceTaskCompleteSelfEvent>()
-                .Inc<GameResourceTaskCompleteComponent>()
-                .End();
-        }
+        private EcsFilterInject<
+            Inc<GameResourceTaskCompleteSelfEvent,GameResourceTaskCompleteComponent>> _filter;
         
         public void Run(IEcsSystems systems)
         {
-            foreach (var entity in _filter)
+            foreach (var entity in _filter.Value)
                 _world.DelEntity(entity);
         }
     }

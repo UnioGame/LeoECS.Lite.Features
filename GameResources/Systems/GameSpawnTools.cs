@@ -1,16 +1,12 @@
 ﻿namespace Game.Ecs.GameResources.Systems
 {
     using System;
-    using System.Linq;
     using System.Runtime.CompilerServices;
     using Aspects;
     using Data;
     using Leopotam.EcsLite;
-    using UniGame.Core.Runtime.Extension;
-    using UniGame.LeoEcs.Shared.Extensions;
-    using UniGame.Runtime.ObjectPool.Extensions;
+    using UniGame.Core.Runtime;
     using UnityEngine;
-    using UnityEngine.Pool;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using Unity.Mathematics;
 
@@ -26,28 +22,22 @@
 #endif
     [Serializable]
     [ECSDI]
-    public class GameSpawnTools : IEcsInitSystem
+    public class GameSpawnTools : IEcsSystem
     {
         public static readonly float3 One = new(1, 1, 1);
         public static EcsPackedEntity EmptyEntity = default;
-        
         private EcsWorld _world;
-        
         private GameResourceAspect _resourceAspect;
         private GameResourceTaskAspect _taskAspect;
-
-        public void Init(IEcsSystems systems)
-        {
-            _world = systems.GetWorld();
-        }
-
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int Spawn(
             string resourceId, 
             float3 pawnPosition,
-            Transform parent = null)
+            Transform parent = null,
+            ILifeTime lifeTime = null)
         {
-            return Spawn(ref EmptyEntity, resourceId, pawnPosition, parent);
+            return Spawn(ref EmptyEntity, resourceId, pawnPosition, parent,lifeTime);
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -55,10 +45,12 @@
             ref EcsPackedEntity owner,
             string resourceId, 
             float3 pawnPosition,
-            Transform parent = null)
+            Transform parent = null,
+            ILifeTime lifeTime = null)
         {
-            return Spawn(ref owner,ref EmptyEntity, resourceId, pawnPosition, parent);
+            return Spawn(ref owner,ref EmptyEntity, resourceId, pawnPosition, parent,lifeTime);
         }
+        
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int Spawn(
@@ -66,7 +58,8 @@
             ref EcsPackedEntity source,
             string resourceId, 
             float3 pawnPosition,
-            Transform parent = null)
+            Transform parent = null,
+            ILifeTime lifeTime = null)
         {
             var spawnEntity = _world.NewEntity();
             var spawnPacked = _world.PackEntity(spawnEntity);
@@ -77,7 +70,10 @@
                 ref spawnPacked,
                 ref EmptyEntity,
                 resourceId,pawnPosition,
-                quaternion.identity,One,parent);
+                quaternion.identity,
+                One,
+                parent,
+                lifeTime);
 
             return spawnEntity;
         }
@@ -91,17 +87,19 @@
             float3 pawnPosition,
             quaternion rotation,
             float3 scale,
-            Transform parentTransform = null)
+            Transform parentTransform = null,
+            ILifeTime lifeTime = null)
         {
             var spawnEntity = _world.NewEntity();
             ref var spawnRequest = ref _resourceAspect.Spawn.Add(spawnEntity);
             
             spawnRequest.Owner = owner;
             spawnRequest.Source = source;
-            spawnRequest.Target = target;
+            spawnRequest.Entity = target;
             spawnRequest.Parent = parentTransform;
             spawnRequest.ParentEntity = parent;
             spawnRequest.ResourceId = resourceId;
+            spawnRequest.LifeTime = lifeTime;
             spawnRequest.LocationData = new GamePoint()
             {
                 Position = pawnPosition,
