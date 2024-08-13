@@ -50,9 +50,7 @@ namespace Game.Ecs.GameResources.Systems
                 taskComponent.RequestOwner = request.Source;
                 taskComponent.ResourceOwner = request.Owner;
 
-                var lifeTime = request.LifeTime;
-                lifeTime ??= _globalLifeTime;
-                
+                var lifeTime = request.LifeTime ?? _globalLifeTime;
                 LoadGameResource(entity,resourceId,lifeTime).Forget();
             }
         }
