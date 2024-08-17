@@ -32,6 +32,8 @@
             ref var movementAgent = ref world.GetOrAddComponent<MovementAgentComponent>(entity);
             ref var tweenAgent = ref world.GetOrAddComponent<MovementTweenAgentComponent>(entity);
             
+            tweenData.Tween = default;
+            tweenData.Index = 0;
             tweenAgent.TrackId = trackId;
             tweenAgent.Track = default;
             

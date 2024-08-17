@@ -25,6 +25,8 @@
         public EcsPool<MovementPointRequest> MovementTargetPoint;
         public EcsPool<ComePointComponent> ComePoint;
         public EcsPool<InstantRotateComponent> InstantRotate;
+        public EcsPool<MovementTargetReachedComponent> MovementTargetReached;
+        public EcsPool<MovementTargetComponent> Target;
 
         //requests
         public EcsPool<RotateToPointSelfRequest> RotateTo;

@@ -7,6 +7,7 @@
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Components;
     using Unity.Mathematics;
+    using UnityEngine;
 
 #if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
@@ -47,10 +48,11 @@
                 if(transform == null) continue;
                 
                 var direction = math.normalize(pointRequest.Point - positionComponent.Position);
-                
-                if(transform == null) continue;
-                
-                transform.forward = direction;
+                var sign = math.sign(direction.x);
+                var z = sign <= 0 ? 0 : 180;
+                var rotation = transform.rotation;
+                rotation.z = z;
+                transform.rotation = rotation;
             }
         }
     }

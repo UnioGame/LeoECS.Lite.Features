@@ -1,6 +1,7 @@
 ﻿namespace Game.Ecs.Movement.Systems.Converters
 {
     using System;
+    using Aspect;
     using Aspects;
     using Characteristics.Speed.Components;
     using Components;
@@ -10,6 +11,7 @@
     using PrimeTween;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Components;
+    using UniGame.LeoEcs.Shared.Extensions;
 
     /// <summary>
     /// Система отвечающая за конвертацию вектора скорости в следующую позицию для перемещения через систему NavMesh.
@@ -26,6 +28,7 @@
     public sealed class ActivateMovementTweenSystem : IEcsRunSystem
     {
         private EcsWorld _world;
+        private MovementAspect _movementAspect;
         private MovementTweenAspect _tweenAspect;
         private MovementTweenTrackAspect _trackAspect;
 
@@ -43,41 +46,52 @@
                 ref var transformComponent = ref _tweenAspect.Transform.Get(entity);
                 ref var speedComponent = ref _tweenAspect.Speed.Get(entity);
                 
-                if(movementData.Sequence.isAlive) continue;
+                if(movementData.Tween.isAlive) continue;
                 
                 if(!movementAgent.Track.Unpack(_world,out var track)) continue;
                 
                 var trackDataComponent = _trackAspect.Track.Get(track);
-
-                ref var trackPoints = ref trackDataComponent.Points;
-                if(trackPoints.Length == 0) continue;
+                var pointIndex = movementData.Index;
                 
-                var sequence = Sequence.Create();
+                ref var trackPoints = ref trackDataComponent.Points;
+                var pointsCount = trackPoints.Length;
+                
+                if(pointsCount == 0 || pointIndex>=pointsCount) continue;
+                
                 var speed = speedComponent.Value;
                 var transform = transformComponent.Value;
-                transform.position = trackPoints[0].position;
-                var previousPoint = trackPoints[0].position;
                 
-                for (var i = 1; i < trackPoints.Length; i++)
-                {
-                    var point = trackPoints[i];
-                    var tween = Tween.PositionAtSpeed(transform,
-                        previousPoint,
-                        point.position, speed,ease: Ease.Linear);
-                    
-                    previousPoint = point.position;
-                    sequence = sequence.Chain(tween);
-                }
+                transform.position = trackPoints[pointIndex].position;
+                var previousPoint = trackPoints[pointIndex].position;
+                var nextPointIndex = pointIndex + 1;
+                var isComplete = nextPointIndex >= pointsCount;
                 
-                movementData.Sequence = sequence;
+                nextPointIndex = isComplete ? pointIndex : nextPointIndex;
                 
-                PlaySequence(sequence).Forget();
+                var point = trackPoints[nextPointIndex];
+                var lastPoint = trackPoints[pointsCount - 1];
+                var nextPoint = point.position;
+                var tween = Tween.PositionAtSpeed(transform,
+                    previousPoint,
+                    nextPoint, speed,ease: Ease.Linear);
+                
+                movementData.Tween = tween;
+                movementData.Index = nextPointIndex;
+                movementData.IsCompleted = isComplete;
+                
+                ref var rotateRequest = ref _tweenAspect.RotateTo.GetOrAddComponent(entity);
+                rotateRequest.Point = nextPoint;
+                
+                ref var movementTarget = ref _movementAspect.Target.GetOrAddComponent(entity);
+                movementTarget.Value = lastPoint.position;
+                
+                PlaySequence(tween).Forget();
             }
         }
         
-        private async UniTask PlaySequence(Sequence sequence)
+        private async UniTask PlaySequence(Tween tween)
         {
-            await sequence;
+            await tween;
         }
     }
 }

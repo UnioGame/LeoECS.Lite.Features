@@ -1,6 +1,7 @@
 ﻿namespace Game.Ecs.Movement.Components
 {
     using System;
+    using Leopotam.EcsLite;
     using PrimeTween;
 
 #if ENABLE_IL2CPP
@@ -11,8 +12,17 @@
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
 #endif
     [Serializable]
-    public struct MovementTweenDataComponent
+    public struct MovementTweenDataComponent : IEcsAutoReset<MovementTweenDataComponent>
     {
-        public Sequence Sequence;
+        public Tween Tween;
+        public int Index;
+        public bool IsCompleted;
+        
+        public void AutoReset(ref MovementTweenDataComponent c)
+        {
+            c.Tween = default;
+            c.Index = 0;
+            c.IsCompleted = false;
+        }
     }
 }
