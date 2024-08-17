@@ -1,7 +1,7 @@
 ﻿namespace Game.Ecs.Movement.Systems.Transform
 {
     using System;
-    using Aspect;
+    using Aspects;
     using Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
@@ -19,10 +19,9 @@
     [ECSDI]
     public sealed class RotationToPointTweenSystem : IEcsRunSystem,IEcsInitSystem
     {
+        private MovementTweenAspect _navigationAspect;
         private EcsFilter _filter;
         private EcsWorld _world;
-
-        private MovementAspect _navigationAspect;
         
         public void Init(IEcsSystems systems)
         {

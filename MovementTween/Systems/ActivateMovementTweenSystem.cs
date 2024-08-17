@@ -1,7 +1,6 @@
 ﻿namespace Game.Ecs.Movement.Systems.Converters
 {
     using System;
-    using Aspect;
     using Aspects;
     using Characteristics.Speed.Components;
     using Components;
@@ -11,7 +10,6 @@
     using PrimeTween;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Components;
-    using UnityEngine;
 
     /// <summary>
     /// Система отвечающая за конвертацию вектора скорости в следующую позицию для перемещения через систему NavMesh.
@@ -28,7 +26,6 @@
     public sealed class ActivateMovementTweenSystem : IEcsRunSystem
     {
         private EcsWorld _world;
-        private MovementAspect _navigationAspect;
         private MovementTweenAspect _tweenAspect;
         private MovementTweenTrackAspect _trackAspect;
 

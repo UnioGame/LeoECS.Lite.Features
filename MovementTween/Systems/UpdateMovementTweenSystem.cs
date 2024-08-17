@@ -1,13 +1,11 @@
 ﻿namespace Game.Ecs.Movement.Systems.Converters
 {
     using System;
-    using Aspect;
     using Aspects;
     using Components;
     using Leopotam.EcsLite;
     using Leopotam.EcsLite.Di;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
-    using UnityEngine;
 
     /// <summary>
     /// Система отвечающая за конвертацию вектора скорости в следующую позицию для перемещения через систему NavMesh.
@@ -25,7 +23,6 @@
     {
         
         private EcsWorld _world;
-        private MovementAspect _navigationAspect;
         private MovementTweenAspect _tweenAspect;
         private MovementTweenTrackAspect _trackAspect;
 
