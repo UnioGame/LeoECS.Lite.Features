@@ -34,6 +34,7 @@
             ref var directionComponent = ref world.GetOrAddComponent<TransformDirectionComponent>(entity);
             ref var scaleComponent = ref world.GetOrAddComponent<TransformScaleComponent>(entity);
             ref var rotationComponent = ref world.GetOrAddComponent<TransformRotationComponent>(entity);
+            ref var movementAgent = ref world.GetOrAddComponent<MovementAgentComponent>(entity);
 
             ref var agentComponent = ref world.GetOrAddComponent<NavMeshAgentComponent>(entity);
             

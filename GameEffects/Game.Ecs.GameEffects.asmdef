@@ -14,7 +14,6 @@
         "UniTask.Addressables",
         "Game.Ecs.GameLayers",
         "Game.Ecs.Characteristics",
-        "Game.Ecs.Movement",
         "Game.Ecs.Ability",
         "Game.ECS.Effects.Modifitaions",
         "Game.Service.Ability.Runtime",
@@ -34,7 +33,7 @@
         "unigame.leoecs.bootstrap.runtime",
         "unigame.leoecs.converter.runtime",
         "unigame.laeoecs.shared.runtime",
-        "UniGame.LeoEcs.Shared.Runtime"
+        "game.ecs.movement"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

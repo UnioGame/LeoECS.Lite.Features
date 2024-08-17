@@ -1,6 +1,6 @@
 ﻿namespace Game.Ecs.Movement.Components
 {
-    using UnityEngine;
+    using Unity.Mathematics;
 
     /// <summary>
     /// Целевая позиция для перемещения.
@@ -8,6 +8,6 @@
     /// </summary>
     public struct MovementPointRequest
     {
-        public Vector3 DestinationPosition;
+        public float3 DestinationPosition;
     }
 }

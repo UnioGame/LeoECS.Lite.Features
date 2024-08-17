@@ -3,6 +3,7 @@
 	/// <summary>
 	/// Convert ability meta data to entity
 	/// </summary>
+	using System;
 	using AbilityUnlock.Components;
 	using Aspects;
 	using Code.Configuration.Runtime.Ability.Description;
@@ -11,6 +12,8 @@
 	using Leopotam.EcsLite;
 	using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
 	using UniGame.LeoEcs.Shared.Extensions;
+	
+	[Serializable]
 	[ECSDI]
 	public class AbilityInventoryTool : IEcsSystem, IEcsInitSystem
 	{
