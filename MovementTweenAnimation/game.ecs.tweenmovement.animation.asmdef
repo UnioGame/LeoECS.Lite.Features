@@ -1,0 +1,48 @@
+{
+    "name": "game.ecs.tweenmovement.animation",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b10aac27e5bc3d74f9892b100a74487f",
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:4185675af2c91ce438157b41079cd107",
+        "GUID:c1d53fc1b1b71c647b00626be502b7b1",
+        "GUID:8e4577c9194c10845984cf27eb974fd1",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:e06a58708b83247ca9dc984644f5b40b",
+        "GUID:2796129a6c23eb84a8181f62bf7332f1",
+        "GUID:01e60100cc223354398b5d665bfefefb",
+        "GUID:ff047fac08a044c59cd3e8a716583a5e",
+        "GUID:069f260d730447a39a1afd811a2be520",
+        "GUID:4de5df4bccc4b524ca52a4caf8116fec",
+        "GUID:966f01aff3301cb449a4595679577a3a",
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:80ecb87cae9c44d19824e70ea7229748",
+        "GUID:f5f01a091e0d746659b4380253d52f4e",
+        "GUID:49581b8faa7164ea9b686cab95a9406e",
+        "GUID:e39f87cbc46743bf944e5396a4a148a3",
+        "GUID:5a6c2170ae714be28a9d40711e112b6c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "LEO_ECS_ENABLED",
+        "PRIMETWEEN_ENABLED"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.leopotam.ecslite",
+            "expression": "2023.0.0",
+            "define": "LEO_ECS_ENABLED"
+        },
+        {
+            "name": "com.kyrylokuzyk.primetween",
+            "expression": "",
+            "define": "PRIMETWEEN_ENABLED"
+        }
+    ],
+    "noEngineReferences": false
+}
