@@ -5,6 +5,7 @@
     using Aspects;
     using Characteristics.Speed.Components;
     using Components;
+    using Core.Components;
     using Cysharp.Threading.Tasks;
     using Leopotam.EcsLite;
     using Leopotam.EcsLite.Di;
@@ -35,7 +36,8 @@
         private EcsFilterInject<Inc<MovementTweenAgentComponent,
             MovementTweenDataComponent,
             TransformComponent,
-            SpeedComponent>> _agentFilter;
+            SpeedComponent>,
+            Exc<ImmobilityComponent,PrepareToDeathComponent>> _agentFilter;
         
         public void Run(IEcsSystems systems)
         {
@@ -71,6 +73,7 @@
                 var point = trackPoints[nextPointIndex];
                 var lastPoint = trackPoints[pointsCount - 1];
                 var nextPoint = point.position;
+                
                 var tween = Tween.PositionAtSpeed(transform,
                     previousPoint,
                     nextPoint, speed,ease: Ease.Linear);

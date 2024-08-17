@@ -53,6 +53,8 @@
                 .Inc<MovementAgentComponent>()
                 .Inc<SpeedComponent>()
                 .Inc<MovementAnimationInfoComponent>()
+                .Exc<ImmobilityComponent>()
+                .Exc<PrepareToDeathComponent>()
                 .End();
             
             _animatorsMap = _world.GetGlobal<AnimatorsMap>();

@@ -4,15 +4,15 @@
     using Aspect;
     using Aspects;
     using Components;
+    using Core.Components;
+    using Cysharp.Threading.Tasks;
     using Leopotam.EcsLite;
     using Leopotam.EcsLite.Di;
+    using PrimeTween;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Extensions;
 
-    /// <summary>
-    /// Система отвечающая за конвертацию вектора скорости в следующую позицию для перемещения через систему NavMesh.
-    /// </summary>
-    #if ENABLE_IL2CPP
+#if ENABLE_IL2CPP
     using Unity.IL2CPP.CompilerServices;
 
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -21,7 +21,7 @@
 #endif
     [Serializable]
     [ECSDI]
-    public sealed class CheckTargetMovementTweenSystem : IEcsRunSystem
+    public sealed class StopMovementTweenSystem : IEcsRunSystem
     {
         private EcsWorld _world;
         private MovementAspect _movementAspect;
@@ -29,23 +29,24 @@
         private MovementTweenTrackAspect _trackAspect;
 
         private EcsFilterInject<Inc<MovementTweenAgentComponent,
-            MovementTweenDataComponent>> _agentFilter;
+            MovementTweenDataComponent,
+            ImmobilityComponent>> _agentFilter;
+        
+        private EcsFilterInject<Inc<MovementTweenAgentComponent,
+            PrepareToDeathComponent>> _readyToDeathFilter;
         
         public void Run(IEcsSystems systems)
         {
+            foreach (var entity in _readyToDeathFilter.Value)
+            {
+                _movementAspect.Immobility.GetOrAddComponent(entity);
+            }
+            
             foreach (var entity in _agentFilter.Value)
             {
                 ref var movementData = ref _tweenAspect.Tween.Get(entity);
-                
-                var isComplete = movementData.IsCompleted;
-                if (isComplete)
-                {
-                    _movementAspect.MovementTargetReached.TryRemove(entity);
-                }
-                else
-                {
-                    _movementAspect.MovementTargetReached.GetOrAddComponent(entity);
-                }
+                if(movementData.Tween.isAlive) 
+                    movementData.Tween.Stop();
             }
         }
     }

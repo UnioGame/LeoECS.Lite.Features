@@ -1,7 +1,6 @@
 namespace Game.Ecs.Gameplay.Death.Systems
 {
     using System;
-    using System.Linq;
     using Aspects;
     using Characteristics.Health.Components;
     using Core.Components;
@@ -10,12 +9,7 @@ namespace Game.Ecs.Gameplay.Death.Systems
     using global::Animations.Animatror;
     using global::Animations.Animatror.Components;
     using Leopotam.EcsLite;
-    using UniGame.Core.Runtime.Extension;
-    using UniGame.LeoEcs.Bootstrap.Runtime.Abstract;
     using UniGame.LeoEcs.Shared.Extensions;
-    using UniGame.Runtime.ObjectPool.Extensions;
-    using UnityEngine;
-    using UnityEngine.Pool;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Components;
 

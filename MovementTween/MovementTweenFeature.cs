@@ -13,6 +13,7 @@
         public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
         {
             ecsSystems.Add(new UpdateMovementTweenSystem());
+            ecsSystems.Add(new StopMovementTweenSystem());
             ecsSystems.Add(new ActivateMovementTweenSystem());
             ecsSystems.Add(new RotationToPointTweenSystem());
             ecsSystems.Add(new CheckTargetMovementTweenSystem());

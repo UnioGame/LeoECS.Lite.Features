@@ -12,8 +12,8 @@
     using UniGame.LeoEcs.Bootstrap.Runtime;
     using UnityEngine;
     
-    [CreateAssetMenu(menuName = "Game/Feature/Movement/Movement Feature", fileName = "Movement Feature")]
-    public sealed class MovementFeature : BaseLeoEcsFeature
+    [CreateAssetMenu(menuName = "Game/Feature/Movement/NavMesh Movement Feature", fileName = "NavMesh Movement Feature")]
+    public sealed class NavMeshMovementFeature : BaseLeoEcsFeature
     {
         public override UniTask InitializeFeatureAsync(IEcsSystems ecsSystems)
         {

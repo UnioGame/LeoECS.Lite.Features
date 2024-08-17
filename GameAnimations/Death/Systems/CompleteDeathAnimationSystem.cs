@@ -3,8 +3,6 @@
     using System;
     using Animations.Aspects;
     using Aspects;
-    using Characteristics.Health.Components;
-    using Core.Components;
     using Core.Death.Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;

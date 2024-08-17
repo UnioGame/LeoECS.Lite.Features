@@ -1,6 +1,5 @@
 ﻿namespace Game.Ecs.Core.Death.Converters
 {
-    using System.Threading;
     using Components;
     using Leopotam.EcsLite;
     using UniGame.LeoEcs.Converter.Runtime;
