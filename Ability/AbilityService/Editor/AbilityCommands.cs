@@ -6,6 +6,7 @@
     using Configuration.Runtime.Ability;
     using Cysharp.Text;
     using UniGame.AddressableTools.Runtime.AssetReferencies;
+    using UniModules;
     using UniModules.Editor;
     using UniModules.UniGame.AddressableExtensions.Editor;
     using UnityEditor;
