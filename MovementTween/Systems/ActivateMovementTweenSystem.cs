@@ -6,6 +6,7 @@
     using Characteristics.Speed.Components;
     using Components;
     using Core.Components;
+    using Core.Death.Components;
     using Cysharp.Threading.Tasks;
     using Leopotam.EcsLite;
     using Leopotam.EcsLite.Di;
@@ -13,6 +14,7 @@
     using UniGame.LeoEcs.Bootstrap.Runtime.Attributes;
     using UniGame.LeoEcs.Shared.Components;
     using UniGame.LeoEcs.Shared.Extensions;
+    using UnityEngine;
 
     /// <summary>
     /// Система отвечающая за конвертацию вектора скорости в следующую позицию для перемещения через систему NavMesh.
@@ -37,7 +39,7 @@
             MovementTweenDataComponent,
             TransformComponent,
             SpeedComponent>,
-            Exc<ImmobilityComponent,PrepareToDeathComponent>> _agentFilter;
+            Exc<ImmobilityComponent,PrepareToDeathComponent, KillRequest>> _agentFilter;
         
         public void Run(IEcsSystems systems)
         {
@@ -74,9 +76,9 @@
                 var lastPoint = trackPoints[pointsCount - 1];
                 var nextPoint = point.position;
                 
-                var tween = Tween.PositionAtSpeed(transform,
+                var tween = Tween.PositionAtSpeed(transform, 
                     previousPoint,
-                    nextPoint, speed,ease: Ease.Linear);
+                    nextPoint, speed, ease: Ease.Linear);
                 
                 movementData.Tween = tween;
                 movementData.Index = nextPointIndex;
@@ -87,14 +89,7 @@
                 
                 ref var movementTarget = ref _movementAspect.Target.GetOrAddComponent(entity);
                 movementTarget.Value = lastPoint.position;
-                
-                PlaySequence(tween).Forget();
             }
-        }
-        
-        private async UniTask PlaySequence(Tween tween)
-        {
-            await tween;
         }
     }
 }
