@@ -7,13 +7,11 @@
 	using Sirenix.OdinInspector;
 	using UniGame.Core.Runtime;
 	using UniModules.UniCore.Runtime.Utils;
-	using UniModules.UniGame.GoogleSpreadsheets.Runtime.Attributes;
 	using UnityEngine;
 	using UnityEngine.AddressableAssets;
 	using UnityEngine.Serialization;
 
 	[Serializable]
-	[SpreadsheetTarget("Ability Items","Id")]
 	public class AbilityItemData : IUnique, ISearchFilterable
 	{
 		public static readonly AbilityItemData EmptyItem = new AbilityItemData();
