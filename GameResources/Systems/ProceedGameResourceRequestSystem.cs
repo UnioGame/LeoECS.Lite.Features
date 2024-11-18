@@ -82,7 +82,7 @@ namespace Game.Ecs.GameResources.Systems
             }
             
             ref var component = ref _taskAspect.Result.Add(entity);
-            component.Resource = result.Result;
+            component.Resource = result.Result as Object;
             component.ResourceId = resourceId;
             
 #if UNITY_EDITOR

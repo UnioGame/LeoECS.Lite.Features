@@ -40,7 +40,7 @@
 			_abilityRarityData = abilityLoadoutData.abilityRarityData;
 			
 			var records = _abilityDataBase.abilities;
-			var length = records.Count;
+			var length = records.Length;
 			_allAbilities = new int[length];
 
 			for (var i = 0; i < length; i++)

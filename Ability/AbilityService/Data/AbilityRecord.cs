@@ -7,7 +7,7 @@
 	using UniModules.UniCore.Runtime.Utils;
 
 	[Serializable]
-	public class AbilityRecord : IGameDatabaseRecord
+	public class AbilityRecord : IGameResourceRecord
 	{
 		public static AbilityRecord Empty = new AbilityRecord()
 		{
@@ -34,6 +34,11 @@
 
 		public string Id => name;
 		
+		public bool CheckRecord(string filter)
+		{
+			return name.Equals(filter, StringComparison.OrdinalIgnoreCase);
+		}
+
 		public string Label => ZString.Format("{0} | ({1})",name,id);
 
 		public bool IsMatch(string searchString)
