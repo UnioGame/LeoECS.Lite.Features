@@ -23,14 +23,13 @@
 		{
 			var data = new AbilityLoadoutData();
 			
-			var abilityDataBase = abilityDatabase
-				.LoadAssetInstanceTaskAsync(context.LifeTime, true,x => data.abilityDataBase =x);
-			var slotMap = abilitySlotMap
-				.LoadAssetInstanceTaskAsync(context.LifeTime, true,x => data.abilitySlotMap = x);
-			var rarityMap = abilityRarityData
-				.LoadAssetInstanceTaskAsync(context.LifeTime, true,x => data.abilityRarityData = x);
+			var abilityDataBase = await abilityDatabase.LoadAssetInstanceTaskAsync(context.LifeTime, true);
+			var slotMap = await abilitySlotMap.LoadAssetInstanceTaskAsync(context.LifeTime, true);
+			var rarityMap = await abilityRarityData.LoadAssetInstanceTaskAsync(context.LifeTime, true);
 			
-			await UniTask.WhenAll(abilityDataBase, slotMap, rarityMap);
+			data.abilityDataBase = abilityDataBase;
+			data.abilitySlotMap = slotMap;
+			data.abilityRarityData = rarityMap;
 
 			var profileData = new AbilityProfileData();
 			context.Publish(profileData);
